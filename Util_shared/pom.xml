@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+    <groupId>com.blockwithme</groupId>
+    <artifactId>Util_shared</artifactId>
+  	<inceptionYear>2014</inceptionYear>
+	<name>Util_shared</name>
+	<description>The common/shared part of the Util project.</description>
+	<organization>
+		<name>Sebastien Diot</name>
+	</organization>
+	<url>https://github.com/skunkiferous/Util</url>
+
+	<scm>
+		<connection>scm:git:git@github.com:skunkiferous/Util.git</connection>
+		<developerConnection>scm:git:git@github.com:skunkiferous/Util.git</developerConnection>
+		<url>git@github.com:skunkiferous/Util.git</url>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>skunkiferous</id>
+			<name>Sebastien Diot</name>
+			<email>s.diot@eurodata.de</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>A business-friendly OSS license</comments>
+		</license>
+	</licenses>
+
+  <parent>
+    <groupId>com.blockwithme</groupId>
+    <artifactId>Util</artifactId>
+    <version>0.0.1</version>
+  </parent>
+
+  <dependencies>
+<!--
+    <dependency>
+      <groupId>com.google.gwt</groupId>
+      <artifactId>gwt-servlet</artifactId>
+      <scope>provided</scope>
+    </dependency>
+-->
+		<dependency>
+			<groupId>org.junit</groupId>
+			<artifactId>com.springsource.org.junit</artifactId>
+		</dependency>
+  </dependencies>
+
+  <build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
+
+      <plugins>
+ 			<plugin>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+			</plugin>
+	      <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>gwt-maven-plugin</artifactId>
+	        <executions>
+	          <execution>
+	            <goals>
+	              <goal>compile</goal>
+	              <goal>resources</goal>
+	            </goals>
+	          </execution>
+	        </executions>
+	        <configuration>
+	          <module>com.blockwithme.util.Util_shared</module>
+	          <draftCompile>true</draftCompile>
+	          <optimizationLevel>0</optimizationLevel>
+<!--
+	          <validateOnly>true</validateOnly>
+ -->
+	          <force>true</force>
+	          <failOnError>true</failOnError>
+	        </configuration>
+        </plugin>
+    </plugins>
+
+		<resources>
+			<resource>
+				<directory>${basedir}</directory>
+				<filtering>false</filtering>
+				<includes>
+					<include>LICENSE</include>
+					<include>README.md</include>
+					<include>META-INF/services/*</include>
+				</includes>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											gwt-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.6.0,)
+										</versionRange>
+										<goals>
+											<goal>resources</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+  </build>
+
+<!--
+  <profiles>
+    <profile>
+      <id>m2e</id>
+      <activation>
+        <property>
+          <name>m2e.version</name>
+        </property>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>com.google.gwt</groupId>
+          <artifactId>gwt-user</artifactId>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>gwt-maven-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+-->
+</project>
