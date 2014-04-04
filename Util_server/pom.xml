@@ -75,12 +75,12 @@
 		</resources>
 	</build>
 
-  <dependencies>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>Util_shared</artifactId>
-      <version>${project.version}</version>
-    </dependency>
+	  <dependencies>
+	    <dependency>
+	      <groupId>${project.groupId}</groupId>
+	      <artifactId>Util_shared</artifactId>
+	      <version>${project.version}</version>
+	    </dependency>
 		<dependency>
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
@@ -90,4 +90,23 @@
 			<artifactId>groovy-all</artifactId>
 		</dependency>
 	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>blockwithme-mvn-repo</id>
+			<url>https://raw.github.com/skunkiferous/Maven/master</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.release</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle
+			Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/release</url>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external</url>
+		</repository>
+	</repositories>
+
 </project>
