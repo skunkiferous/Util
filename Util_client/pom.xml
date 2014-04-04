@@ -63,12 +63,35 @@
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx</artifactId>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx-backend-gwt</artifactId>
-			<version>0.9.9</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.badlogicgames.gdx</groupId>
+			<artifactId>gdx-backend-gwt</artifactId>
 			<classifier>sources</classifier>
+			<scope>provided</scope>
 		</dependency>
  	</dependencies>
 
