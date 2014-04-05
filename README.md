@@ -18,14 +18,16 @@ It is divided in 4 parts, to make it GWT-compatible.
 3) UtilServer: The non-GWT-client part. It is not in any way "server code",
    but just normal Java code, which is not GWT compatible. It is only called
    "server", because it is the GWT terminology for "non-client-code". In other
-   words, it contains mostly a JRE-based implementation of SystemUtils, but
-   also some "prototypes", which were too small to justify independent projects.
-
+   words, it contains mostly a JRE-based implementation of SystemUtils.
+ 
 4) UtilClient: The GWT client part. It contains mostly the platform-specific
    implementation of SystemUtils, and possibly some GWT-specific helper code.
    I currently plan to create all my GWT applications on top of libGDX, so this
    part will depend on libGDX directly, as it saves me re-implementing
    functionality that already exists in there (like fake Reflection).
+
+5) UtilPrototypes: Some "prototypes", which were too small to justify
+   independent projects.
 
 Go in UtilParent, to build everything.
 

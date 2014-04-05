@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1396724466583
+Bnd-LastModified: 1396726803541
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The non-GWT-client part. It is not in any way "serve
@@ -14,5 +14,5 @@ Created-By: Apache Maven Bundle Plugin
 Export-Package: com.blockwithme.util.server;uses:="com.blockwithme.util.
  shared";version="0.0.1"
 FuncGenerated012-dependency-version: 1.2.0
-Import-Package: com.blockwithme.util.shared
+Import-Package: com.blockwithme.util.shared;version="[0.0,1)"
 Tool: Bnd-2.1.0.20130426-122213

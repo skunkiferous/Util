@@ -15,9 +15,12 @@
  */
 package com.blockwithme.util.client;
 
+import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Date;
 import java.util.HashMap;
 
+import com.badlogic.gwtref.client.ReflectionCache;
+import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -25,12 +28,9 @@ import com.google.gwt.i18n.client.TimeZone;
 /**
  * GWT implementation of SystemUtils.
  *
- * This class is missing all the methods related to Reflection. Those  will
- * be provided by libGDX's own Reflection API emulation.
- *
  * @author monster
  */
-public abstract class GWTSystemUtilsImpl extends SystemUtils {
+public class GWTSystemUtilsImpl extends SystemUtils {
 
     /** DateTimeFormat used by utcImpl(). */
     private static final DateTimeFormat UTC = DateTimeFormat
@@ -66,6 +66,46 @@ public abstract class GWTSystemUtilsImpl extends SystemUtils {
     @Override
     protected Class<?> forNameImpl(final String name, final Class<?> otherClass) {
         return forNameImpl(name);
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.SystemUtils#forNameImpl(java.lang.String)
+     */
+    @Override
+    protected Class<?> forNameImpl(final String name) {
+        try {
+            return ReflectionCache.forName(name).getClassOfType();
+        } catch (final ClassNotFoundException e) {
+            throw new UndeclaredThrowableException(e);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.SystemUtils#isAssignableFromImpl(java.lang.Class, java.lang.Class)
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @Override
+    protected boolean isAssignableFromImpl(final Class c1, final Class c2) {
+        Type c1Type = ReflectionCache.getType(c1);
+        Type c2Type = ReflectionCache.getType(c2);
+        return c2Type.isAssignableFrom(c1Type);
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.SystemUtils#isInstanceImpl(java.lang.Class, java.lang.Object)
+     */
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected boolean isInstanceImpl(final Class c, final Object obj) {
+        return (obj == null) ? false : isAssignableFromImpl(c, obj.getClass());
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.SystemUtils#newInstanceImpl(java.lang.Class)
+     */
+    @Override
+    protected <T> T newInstanceImpl(final Class<T> c) {
+        return (T)ReflectionCache.getType(c).newInstance();
     }
 
     /* (non-Javadoc)
