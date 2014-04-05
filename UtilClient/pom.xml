@@ -101,6 +101,15 @@
 
 		<plugins>
 			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/client/**/*.java</exclude>
+						<exclude>**/emu/**/*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
 				<executions>
@@ -113,11 +122,9 @@
 				</executions>
 				<configuration>
 					<module>com.blockwithme.util.UtilClient</module>
+					<strict>true</strict>
 					<draftCompile>true</draftCompile>
 					<optimizationLevel>0</optimizationLevel>
-<!--
-	          <validateOnly>true</validateOnly>
- -->
 					<force>true</force>
 					<failOnError>true</failOnError>
 				</configuration>
@@ -134,26 +141,20 @@
 					<runTarget>${runTarget}</runTarget>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<packagingExcludes>WEB-INF/**</packagingExcludes>
-				</configuration>
-			</plugin>
  -->
 		</plugins>
 		<resources>
 			<resource>
-				<directory>${basedir}</directory>
-				<filtering>false</filtering>
+				<directory>src/main/java</directory>
 				<includes>
-					<include>LICENSE</include>
-					<include>README.md</include>
-					<include>META-INF/services/*</include>
+					<include>**/emu/**/*.java</include>
+					<include>**/client/**/*.java</include>
+					<include>**/*.gwt.xml</include>
+					<include>**/*.properties</include>
 				</includes>
 			</resource>
 		</resources>
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->

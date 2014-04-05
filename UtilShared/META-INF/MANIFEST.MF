@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1396693061543
+Bnd-LastModified: 1396724466379
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The common/shared part of the Util project.

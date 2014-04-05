@@ -31,8 +31,8 @@ package com.blockwithme.util.shared;
 public class Footprint {
 
     /** Are we in 64 bits? */
-    public static final boolean JVM_64_BITS = SystemUtils
-            .getProperty("os.arch").contains("64");
+    public static final boolean JVM_64_BITS = System.getProperty("os.arch")
+            .contains("64");
 
     /** The architecture "word" size. */
     private static final int WORD = JVM_64_BITS ? 8 : 4;

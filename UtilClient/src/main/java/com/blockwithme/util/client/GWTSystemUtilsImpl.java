@@ -18,7 +18,6 @@ package com.blockwithme.util.client;
 import java.util.Date;
 import java.util.HashMap;
 
-import com.blockwithme.util.shared.ConcurrentMap;
 import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -33,69 +32,6 @@ import com.google.gwt.i18n.client.TimeZone;
  */
 public abstract class GWTSystemUtilsImpl extends SystemUtils {
 
-    /** Implements com.blockwithme.util.ConcurrentMap */
-    private static final class FakeConcurrentMap<K, V> extends HashMap<K, V>
-            implements ConcurrentMap<K, V> {
-        /**  */
-        private static final long serialVersionUID = 1L;
-
-        /** Creates and returns a ConcurrentMap. */
-        public FakeConcurrentMap() {
-            // NOP
-        }
-
-        /** Creates and returns a ConcurrentMap, with an initialCapacity. */
-        public FakeConcurrentMap(final int initialCapacity) {
-            super(initialCapacity);
-        }
-
-        /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.ConcurrentMap#putIfAbsent(java.lang.Object, java.lang.Object)
-         */
-        @Override
-        public V putIfAbsent(final K key, final V value) {
-            if (!containsKey(key))
-                return put(key, value);
-            else
-                return get(key);
-        }
-
-        /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.ConcurrentMap#remove(java.lang.Object, java.lang.Object)
-         */
-        @Override
-        public boolean remove(final Object key, final Object value) {
-            if (containsKey(key) && get(key).equals(value)) {
-                remove(key);
-                return true;
-            } else
-                return false;
-        }
-
-        /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.ConcurrentMap#replace(java.lang.Object, java.lang.Object, java.lang.Object)
-         */
-        @Override
-        public boolean replace(final K key, final V oldValue, final V newValue) {
-            if (containsKey(key) && get(key).equals(oldValue)) {
-                put(key, newValue);
-                return true;
-            } else
-                return false;
-        }
-
-        /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.ConcurrentMap#replace(java.lang.Object, java.lang.Object)
-         */
-        @Override
-        public V replace(final K key, final V value) {
-            if (containsKey(key)) {
-                return put(key, value);
-            } else
-                return null;
-        }
-    }
-
     /** DateTimeFormat used by utcImpl(). */
     private static final DateTimeFormat UTC = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
@@ -106,42 +42,6 @@ public abstract class GWTSystemUtilsImpl extends SystemUtils {
     /** DateTimeFormat used by localImpl(). */
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
-
-    /** The System Properties :D */
-    private final HashMap<String, String> systemProperties = new HashMap<String, String>();
-
-    /** Constructor */
-    public GWTSystemUtilsImpl() {
-        // TODO Setup default values for System Properties
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl()
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl() {
-        return new FakeConcurrentMap();
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl(int)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl(final int initialCapacity) {
-        return new FakeConcurrentMap(initialCapacity);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl(int, int)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl(final int initialCapacity,
-            final int concurrencyLevel) {
-        return new FakeConcurrentMap(initialCapacity);
-    }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#currentTimeMillisImpl()
@@ -161,47 +61,11 @@ public abstract class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#getSimpleNameImpl(java.lang.Class)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected String getSimpleNameImpl(final Class c) {
-        final String name = c.getName();
-        final int dot = name.lastIndexOf('.');
-        return (dot < 0) ? name : name.substring(dot + 1);
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.shared.SystemUtils#forNameImpl(java.lang.String, java.lang.Class)
      */
     @Override
     protected Class<?> forNameImpl(final String name, final Class<?> otherClass) {
         return forNameImpl(name);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#getPropertyImpl(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String getPropertyImpl(final String key, final String def) {
-        final String result = systemProperties.get(key);
-        return (result == null) ? def : result;
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#setPropertyImpl(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String setPropertyImpl(final String key, final String value) {
-        return systemProperties.put(key, value);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#clearPropertyImpl(java.lang.String)
-     */
-    @Override
-    protected String clearPropertyImpl(final String key) {
-        return systemProperties.remove(key);
     }
 
     /* (non-Javadoc)
@@ -221,19 +85,13 @@ public abstract class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#currentThreadNameImpl()
-     */
-    @Override
-    protected String currentThreadNameImpl() {
-        return "js-main";
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.shared.SystemUtils#floatToRawIntBitsImpl(float)
      */
     @Override
     protected int floatToRawIntBitsImpl(final float value) {
-        return Float.floatToIntBits(value);
+        // TODO This messes up the data, if the value is a NaN :(
+//      return Float.floatToIntBits(value);
+        throw new UnsupportedOperationException();
     }
 
     /* (non-Javadoc)
@@ -241,6 +99,8 @@ public abstract class GWTSystemUtilsImpl extends SystemUtils {
      */
     @Override
     protected long doubleToRawLongBitsImpl(final double value) {
-        return Double.doubleToLongBits(value);
+        // TODO This messes up the data, if the value is a NaN :(
+//        return Double.doubleToLongBits(value);
+        throw new UnsupportedOperationException();
     }
 }

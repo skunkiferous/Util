@@ -46,10 +46,6 @@ public abstract class SystemUtils {
      */
     protected abstract Class<?> forNameImpl(String name, Class<?> otherClass);
 
-    /** Returns the simple name of the underlying class as supplied in the source code. */
-    @SuppressWarnings("rawtypes")
-    protected abstract String getSimpleNameImpl(Class c);
-
     /** Determines if the class or interface represented by first Class parameter is either the same as, or is a superclass or superinterface of, the class or interface represented by the second Class parameter. */
     @SuppressWarnings("rawtypes")
     protected abstract boolean isAssignableFromImpl(Class c1, Class c2);
@@ -60,42 +56,6 @@ public abstract class SystemUtils {
 
     /** Creates a new instance of the class represented by the supplied Class. */
     protected abstract <T> T newInstanceImpl(Class<T> c);
-
-    /** Returns the value of the indexed component in the supplied array. */
-    protected abstract Object getArrayElementImpl(Object array, int index);
-
-    /** Returns the length of the supplied array. */
-    protected abstract int getArrayLengthImpl(Object array);
-
-    /** Creates and returns a ConcurrentMap. */
-    @SuppressWarnings("rawtypes")
-    protected abstract ConcurrentMap newConcurrentMapImpl();
-
-    /** Creates and returns a ConcurrentMap, with an initialCapacity. */
-    @SuppressWarnings("rawtypes")
-    protected abstract ConcurrentMap newConcurrentMapImpl(int initialCapacity);
-
-    /** Creates and returns a ConcurrentMap, with an initialCapacity and concurrencyLevel. */
-    @SuppressWarnings("rawtypes")
-    protected abstract ConcurrentMap newConcurrentMapImpl(int initialCapacity,
-            int concurrencyLevel);
-
-    /** Creates a new array with the specified component type and length. */
-    @SuppressWarnings("rawtypes")
-    protected abstract Object newArrayInstanceImpl(Class c, int size);
-
-    /** Sets the value of the indexed component in the supplied array to the supplied value. */
-    protected abstract void setArrayElementImpl(Object array, int index,
-            Object value);
-
-    /** Returns the value of the System property, or the given default value, if not found. */
-    protected abstract String getPropertyImpl(String key, String def);
-
-    /** Sets the value of the System property. */
-    protected abstract String setPropertyImpl(String key, String value);
-
-    /** Clears the System Property. */
-    protected abstract String clearPropertyImpl(String key);
 
     /**
      * Returns the current time, in milliseconds.
@@ -114,9 +74,6 @@ public abstract class SystemUtils {
 
     /** Returns true if we are in the GWT client. */
     protected abstract boolean isGWTClientImpl();
-
-    /** Returns the current Thread Name. */
-    protected abstract String currentThreadNameImpl();
 
     /** Returns an int representation of the specified floating-point value */
     protected abstract int floatToRawIntBitsImpl(float value);
@@ -178,15 +135,6 @@ public abstract class SystemUtils {
         return getImplementation().forNameImpl(name, otherClass);
     }
 
-    /** Returns the simple name of the underlying class as supplied in the source code. */
-    @SuppressWarnings("rawtypes")
-    public static String getSimpleName(final Class clazz) {
-        if (clazz == null) {
-            throw new NullPointerException("clazz");
-        }
-        return getImplementation().getSimpleNameImpl(clazz);
-    }
-
     /** Determines if the class or interface represented by first Class parameter is either the same as, or is a superclass or superinterface of, the class or interface represented by the second Class parameter. */
     @SuppressWarnings("rawtypes")
     public static boolean isAssignableFrom(final Class c1, final Class c2) {
@@ -217,81 +165,6 @@ public abstract class SystemUtils {
             throw new NullPointerException("clazz");
         }
         return getImplementation().newInstanceImpl(clazz);
-    }
-
-    /** Returns the value of the indexed component in the supplied array. */
-    public static Object getArrayElement(final Object array, final int index) {
-        if (array == null) {
-            throw new NullPointerException("array");
-        }
-        return getImplementation().getArrayElementImpl(array, index);
-    }
-
-    /** Sets the value of the indexed component in the supplied array to the supplied value. */
-    public static void setArrayElement(final Object array, final int index,
-            final Object value) {
-        if (array == null) {
-            throw new NullPointerException("array");
-        }
-        getImplementation().setArrayElementImpl(array, index, value);
-    }
-
-    /** Returns the length of the supplied array. */
-    public static int getArrayLength(final Object array) {
-        if (array == null) {
-            throw new NullPointerException("array");
-        }
-        return getImplementation().getArrayLengthImpl(array);
-    }
-
-    /** Creates a new array with the specified component type and length. */
-    @SuppressWarnings("rawtypes")
-    public static Object newArrayInstance(final Class clazz, final int size) {
-        if (clazz == null) {
-            throw new NullPointerException("clazz");
-        }
-        return getImplementation().newArrayInstanceImpl(clazz, size);
-    }
-
-    /** Creates and returns a ConcurrentMap. */
-    @SuppressWarnings("unchecked")
-    public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
-        return getImplementation().newConcurrentMapImpl();
-    }
-
-    /** Creates and returns a ConcurrentMap, with an initialCapacity. */
-    @SuppressWarnings("unchecked")
-    public static <K, V> ConcurrentMap<K, V> newConcurrentMap(
-            final int initialCapacity) {
-        return getImplementation().newConcurrentMapImpl(initialCapacity);
-    }
-
-    /** Creates and returns a ConcurrentMap, with an initialCapacity and concurrencyLevel. */
-    @SuppressWarnings("unchecked")
-    public static <K, V> ConcurrentMap<K, V> newConcurrentMap(
-            final int initialCapacity, final int concurrencyLevel) {
-        return getImplementation().newConcurrentMapImpl(initialCapacity,
-                concurrencyLevel);
-    }
-
-    /** Returns the value of the System property, or null, if not found. */
-    public static String getProperty(final String key) {
-        return getImplementation().getPropertyImpl(key, null);
-    }
-
-    /** Returns the value of the System property, or the given default value, if not found. */
-    public static String getProperty(final String key, final String def) {
-        return getImplementation().getPropertyImpl(key, def);
-    }
-
-    /** Sets the value of the System property. */
-    public static String setProperty(final String key, final String value) {
-        return getImplementation().setPropertyImpl(key, value);
-    }
-
-    /** Clears the System Property. */
-    public static String clearProperty(final String key) {
-        return getImplementation().clearPropertyImpl(key);
     }
 
     /**
@@ -371,11 +244,6 @@ public abstract class SystemUtils {
     /** Returns true if we are in the GWT client. */
     public static boolean isGWTClient() {
         return getImplementation().isGWTClientImpl();
-    }
-
-    /** Returns the current Thread Name. */
-    public static String currentThreadName() {
-        return getImplementation().currentThreadNameImpl();
     }
 
     /** Returns an int representation of the specified floating-point value */

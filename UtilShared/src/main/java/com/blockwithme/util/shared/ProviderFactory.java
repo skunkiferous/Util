@@ -16,12 +16,6 @@
 
 package com.blockwithme.util.shared;
 
-import com.blockwithme.util.shared.Provider;
-import com.blockwithme.util.shared.Registry;
-import com.blockwithme.util.shared.RegistryImpl;
-import com.blockwithme.util.shared.Statics;
-import com.blockwithme.util.shared.SystemUtils;
-
 /**
  * Simple class allowing the use of singleton,
  * while still being compatible with DI frameworks.
@@ -82,8 +76,8 @@ public class ProviderFactory {
         }
         final String typeName = type.getName();
         final String implProviderProp = typeName + ".provider";
-        final String implProviderName = SystemUtils.getProperty(
-                implProviderProp, "").trim();
+        final String tmp = System.getProperty(implProviderProp);
+        final String implProviderName = (tmp == null) ? "" : tmp.trim();
         if (!implProviderName.isEmpty()) {
             final Class<?> implProviderCls = SystemUtils.forName(
                     implProviderName, type);

@@ -15,6 +15,8 @@
  */
 package com.blockwithme.util.client;
 
+import java.text.SimpleDateFormat;
+
 import com.google.gwt.core.client.EntryPoint;
 
 /**
@@ -25,5 +27,7 @@ import com.google.gwt.core.client.EntryPoint;
 public class DummyEntryPoint implements EntryPoint {
     @Override
     public void onModuleLoad() {
+        // Should produce a GWT compile error, if we got something wrong with super-source
+        System.out.println(SimpleDateFormat.class.getSimpleName());
     }
 }

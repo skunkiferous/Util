@@ -16,6 +16,8 @@
 
 package com.blockwithme.util.shared;
 
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * This class should be used to eliminate all non-primitive static members.
@@ -32,8 +34,7 @@ public class Statics {
      *
      * I *think* GWT provides an implementation of ConcurrentHashMap now.
      */
-    private static final ConcurrentMap<String, Object> cache = SystemUtils
-            .newConcurrentMap();
+    private static final ConcurrentMap<String, Object> cache = new ConcurrentHashMap<>();
 
     /** Returns the current value of this key. */
     public static Object get(final String key) {

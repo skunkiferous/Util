@@ -17,10 +17,8 @@
 package com.blockwithme.util.shared;
 
 import java.util.Iterator;
-
-import com.blockwithme.util.shared.ConcurrentMap;
-import com.blockwithme.util.shared.Internalizer;
-import com.blockwithme.util.shared.SystemUtils;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /** Perform internalization of some type. */
 public class InternalizerImpl<E> implements Internalizer<E> {
@@ -33,14 +31,14 @@ public class InternalizerImpl<E> implements Internalizer<E> {
     /** Constructor, with optional parent. */
     @SuppressWarnings("unchecked")
     public InternalizerImpl() {
-        map = SystemUtils.newConcurrentMap();
+        map = new ConcurrentHashMap<>();
         parent = null;
     }
 
     /** Constructor, with optional parent. */
     @SuppressWarnings("unchecked")
     public InternalizerImpl(final Internalizer<E> theParent) {
-        map = SystemUtils.newConcurrentMap();
+        map = new ConcurrentHashMap<>();
         parent = theParent;
     }
 

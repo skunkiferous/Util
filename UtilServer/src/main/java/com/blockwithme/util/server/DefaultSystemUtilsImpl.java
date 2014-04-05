@@ -15,14 +15,11 @@
  */
 package com.blockwithme.util.server;
 
-import java.lang.reflect.Array;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
-import java.util.concurrent.ConcurrentHashMap;
 
-import com.blockwithme.util.shared.ConcurrentMap;
 import com.blockwithme.util.shared.SystemUtils;
 
 /**
@@ -31,29 +28,6 @@ import com.blockwithme.util.shared.SystemUtils;
  * @author monster
  */
 public class DefaultSystemUtilsImpl extends SystemUtils {
-
-    /** Implements com.blockwithme.util.ConcurrentMap */
-    private static final class DefaultConcurrentMap<K, V> extends
-            ConcurrentHashMap<K, V> implements ConcurrentMap<K, V> {
-        /**  */
-        private static final long serialVersionUID = 1L;
-
-        /** Creates and returns a ConcurrentMap. */
-        public DefaultConcurrentMap() {
-            // NOP
-        }
-
-        /** Creates and returns a ConcurrentMap, with an initialCapacity. */
-        public DefaultConcurrentMap(final int initialCapacity) {
-            super(initialCapacity);
-        }
-
-        /** Creates and returns a ConcurrentMap, with an initialCapacity and concurrencyLevel. */
-        public DefaultConcurrentMap(final int initialCapacity,
-                final int concurrencyLevel) {
-            super(initialCapacity, 0.75f, concurrencyLevel);
-        }
-    }
 
     /** Used by localImpl(). */
     private static final SimpleDateFormat LOCAL = new SimpleDateFormat(
@@ -92,15 +66,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#getSimpleNameImpl(java.lang.Class)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected String getSimpleNameImpl(final Class c) {
-        return c.getSimpleName();
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#isAssignableFromImpl(java.lang.Class, java.lang.Class)
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -128,93 +93,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
         } catch (InstantiationException | IllegalAccessException e) {
             throw new UndeclaredThrowableException(e);
         }
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#getArrayElementImpl(java.lang.Object, int)
-     */
-    @Override
-    protected Object getArrayElementImpl(final Object array, final int index) {
-        return Array.get(array, index);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#getArrayLengthImpl(java.lang.Object)
-     */
-    @Override
-    protected int getArrayLengthImpl(final Object array) {
-        return Array.getLength(array);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newArrayInstanceImpl(java.lang.Class, int)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected Object newArrayInstanceImpl(final Class componentType,
-            final int length) {
-        return Array.newInstance(componentType, length);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#setArrayElementImpl(java.lang.Object, int, java.lang.Object)
-     */
-    @Override
-    protected void setArrayElementImpl(final Object array, final int index,
-            final Object value) {
-        Array.set(array, index, value);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl()
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl() {
-        return new DefaultConcurrentMap();
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl(int)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl(final int initialCapacity) {
-        return new DefaultConcurrentMap(initialCapacity);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newConcurrentMapImpl(int, int)
-     */
-    @SuppressWarnings("rawtypes")
-    @Override
-    protected ConcurrentMap newConcurrentMapImpl(final int initialCapacity,
-            final int concurrencyLevel) {
-        return new DefaultConcurrentMap(initialCapacity, concurrencyLevel);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#getPropertyImpl(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String getPropertyImpl(final String key, final String def) {
-        return System.getProperty(key, def);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#setPropertyImpl(java.lang.String, java.lang.String)
-     */
-    @Override
-    protected String setPropertyImpl(final String key, final String value) {
-        return System.setProperty(key, value);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#clearPropertyImpl(java.lang.String)
-     */
-    @Override
-    protected String clearPropertyImpl(final String key) {
-        return System.clearProperty(key);
     }
 
     /* (non-Javadoc)
@@ -252,14 +130,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     @Override
     protected boolean isGWTClientImpl() {
         return false;
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#currentThreadNameImpl()
-     */
-    @Override
-    protected String currentThreadNameImpl() {
-        return Thread.currentThread().getName();
     }
 
     /* (non-Javadoc)
