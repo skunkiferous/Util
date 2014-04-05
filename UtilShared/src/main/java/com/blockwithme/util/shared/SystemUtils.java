@@ -387,4 +387,19 @@ public abstract class SystemUtils {
     public static long doubleToRawLongBits(final double value) {
         return getImplementation().doubleToRawLongBitsImpl(value);
     }
+
+    /** Returns the lower 32 bits of a long. */
+    public static int getLow(final long value) {
+        return (int) value;
+    }
+
+    /** Returns the higher 32 bits of a long. */
+    public static int getHigh(final long value) {
+        return (int) (value >> 32);
+    }
+
+    /** Returns a long, from the lower and higher 32 bit parts. */
+    public static long getLong(final int low, final int high) {
+        return (long) high << 32 | low & 0xFFFFFFFFL;
+    }
 }

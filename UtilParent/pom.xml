@@ -69,6 +69,7 @@
 	<modules>
 		<module>../UtilShared</module>
 		<module>../UtilServer</module>
+		<module>../UtilPrototypes</module>
 		<module>../UtilClient</module>
 	</modules>
 
