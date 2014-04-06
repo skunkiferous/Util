@@ -12,6 +12,7 @@ GWTX: http://code.google.com/p/gwtx/
 reactive4java: https://code.google.com/p/reactive4java/
 totsp-emu: http://gc.codehum.com/p/totsp-emu/
 libGDX: https://github.com/libgdx/libgdx/
+Apache Harmony: http://harmony.apache.org/
 
 And then some original code too.
 

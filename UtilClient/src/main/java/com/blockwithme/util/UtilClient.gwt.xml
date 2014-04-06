@@ -6,11 +6,16 @@
     <inherits name="com.badlogic.gdx" />
     <inherits name="com.badlogic.gwtref.GwtReflect"/>
     <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+    <inherits name="com.google.gwt.logging.Logging"/>
 
 	<super-source path="client/emu" />
 	<source path="client">
 		<exclude name="**/emu/**" />
 	</source>
 
-    <entry-point class="com.blockwithme.util.client.DummyEntryPoint"/>
+    <entry-point class="com.blockwithme.util.client.UtilEntryPoint"/>
+
+	<set-property name="gwt.logging.logLevel" value="INFO"/>
+	<set-property name="gwt.logging.enabled" value="TRUE"/>
+	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
 </module>

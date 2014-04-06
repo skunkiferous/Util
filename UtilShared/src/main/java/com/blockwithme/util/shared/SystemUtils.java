@@ -16,6 +16,7 @@
 package com.blockwithme.util.shared;
 
 import java.util.Date;
+import java.util.Timer;
 
 /**
  * <code>SystemUtils</code> is a gateway abstracting System/platform functionality
@@ -28,14 +29,15 @@ import java.util.Date;
  * The odd cross-platform helper method might also be put here, but defined directly
  * in the base class.
  *
- * TODO Wrap java.util.Timer
- *
  * @author monster
  */
 public abstract class SystemUtils {
 
     /** The SystemUtils instance; must be initialized through setImplementation(). */
     private static volatile SystemUtils implementation;
+
+    /** The system Timer, if any. */
+    private static Timer timer;
 
     /** Returns the Class object associated with the class or interface with the supplied string name. */
     protected abstract Class<?> forNameImpl(String name);
@@ -269,5 +271,15 @@ public abstract class SystemUtils {
     /** Returns a long, from the lower and higher 32 bit parts. */
     public static long getLong(final int low, final int high) {
         return (long) high << 32 | low & 0xFFFFFFFFL;
+    }
+
+    /** Returns the System Timer. */
+    public static Timer getTimer() {
+        synchronized (SystemUtils.class) {
+            if (timer == null) {
+                timer = new Timer("System-Timer");
+            }
+        }
+        return timer;
     }
 }
