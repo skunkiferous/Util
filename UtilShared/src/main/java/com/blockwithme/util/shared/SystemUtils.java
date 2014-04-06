@@ -22,9 +22,10 @@ import java.util.Timer;
  * <code>SystemUtils</code> is a gateway abstracting System/platform functionality
  * that is not available on all System/platforms; for example, reflection in GWT.
  *
- * The application is in charge of initializing this class; this cannot be done
- * automatically, as any such code would require using functionality that is not
- * fully cross-platform (GWT, again).
+ * The *Java* application is in charge of initializing this class; this cannot
+ * be done automatically, as any such code would require using functionality
+ * that is not fully cross-platform. GWT, OTOH, has a concept of "module" which
+ * allows the auto-initialization.
  *
  * The odd cross-platform helper method might also be put here, but defined directly
  * in the base class.

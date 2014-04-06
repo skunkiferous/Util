@@ -18,4 +18,21 @@
 	<set-property name="gwt.logging.logLevel" value="INFO"/>
 	<set-property name="gwt.logging.enabled" value="TRUE"/>
 	<set-property name="gwt.logging.popupHandler" value="DISABLED" />
+    <set-property name="gwt.logging.developmentModeHandler" value="DISABLED" />
+    <set-property name="gwt.logging.firebugHandler" value="DISABLED" />
+    <set-property name="gwt.logging.systemHandler" value="DISABLED" />
+    <set-property name="gwt.logging.simpleRemoteHandler" value="DISABLED" />
+    <!-- Should it be set here, in entry-point, or both? -->
+    <set-property name="gwt.logging.consoleHandler" value="ENABLED" />
+
+  <!-- Try uncommenting some of the following to configure logging further
+  <set-property name="gwt.logging.simpleRemoteHandler" value="ENABLED" />
+  <set-property name="gwt.logging.firebugHandler" value="DISABLED" />
+  <set-property name="gwt.logging.enabled" value="FALSE"/>
+  <set-property name="gwt.logging.logLevel" value="FINE"/>
+  <set-property name="gwt.logging.consoleHandler" value="DISABLED" />
+  <set-property name="gwt.logging.developmentModeHandler" value="DISABLED" />
+  <set-property name="gwt.logging.popupHandler" value="DISABLED" />
+  <set-property name="gwt.logging.systemHandler" value="DISABLED" />
+   -->
 </module>

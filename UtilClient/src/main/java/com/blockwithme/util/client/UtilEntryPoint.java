@@ -90,7 +90,9 @@ public class UtilEntryPoint implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
+        // Should it be set here, in entry-point, or both?
         ROOT.addHandler(new ConsoleLogHandler());
+
         System.setOut(new LoggingPrintStream(false));
         System.setErr(new LoggingPrintStream(true));
         SystemUtils.setImplementation(new GWTSystemUtilsImpl());
