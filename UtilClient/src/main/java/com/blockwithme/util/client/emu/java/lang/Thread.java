@@ -73,7 +73,7 @@ public class Thread implements Runnable {
     }
 
     public String getName() {
-        return "main";
+        return "jsmain";
     }
 
     public int getPriority() {
@@ -105,10 +105,12 @@ public class Thread implements Runnable {
     }
 
     public static void sleep(long millis) throws InterruptedException {
-        // We really should not sleep in JavaScript.
-        // I would have removed it, but it was in libGDX,
-        // so I left it to see who calls it, if anyone.
-        throw new UnsupportedOperationException();
+        if (millis > 1) {
+            // We really should not sleep in JavaScript.
+            // I would have removed it, but it was in libGDX,
+            // so I left it to see who calls it, if anyone.
+            throw new UnsupportedOperationException();
+        } // else we assume they just wanted to yield(), which is fine.
     }
 
     public static void setDefaultUncaughtExceptionHandler(

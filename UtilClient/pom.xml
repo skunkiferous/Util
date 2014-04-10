@@ -93,6 +93,61 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+	        <groupId>com.google.gwt</groupId>
+	        <artifactId>gwt-dev</artifactId>
+	        <version>${gwt-dependency-version}</version>
+	        <scope>test</scope>
+        </dependency>
+		<dependency>
+	        <groupId>com.google.gwt</groupId>
+	        <artifactId>gwt-dev</artifactId>
+	        <version>${gwt-dependency-version}</version>
+	        <classifier>sources</classifier>
+	        <scope>test</scope>
+        </dependency>
+		<dependency>
+			<groupId>org.junit</groupId>
+			<artifactId>com.springsource.org.junit</artifactId>
+		</dependency>
+<!--
+		<dependency>
+			<groupId>com.googlecode.gwt-test-utils</groupId>
+			<artifactId>gwt-test-utils</artifactId>
+			<version>0.47</version>
+	        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+	        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+	        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+	        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-assert-core</artifactId>
+			<version>2.0M10</version>
+	        <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.easytesting</groupId>
+			<artifactId>fest-util</artifactId>
+			<version>1.2.5</version>
+	        <scope>test</scope>
+		</dependency>
+ -->
 	</dependencies>
 
 	<build>
@@ -103,8 +158,13 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
+				    <systemProperties>
+				      <java.awt.headless>true</java.awt.headless>
+				    </systemProperties>
 					<excludes>
+<!--
 						<exclude>**/client/**/*.java</exclude>
+ -->
 						<exclude>**/emu/**/*.java</exclude>
 					</excludes>
 				</configuration>
@@ -117,6 +177,7 @@
 						<goals>
 							<goal>compile</goal>
 							<goal>resources</goal>
+							<goal>test</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -127,8 +188,47 @@
 					<optimizationLevel>0</optimizationLevel>
 					<force>true</force>
 					<failOnError>true</failOnError>
+					<mode>htmlunit</mode>
+					<productionMode>true</productionMode>
+				    <systemProperties>
+				      <java.awt.headless>true</java.awt.headless>
+				    </systemProperties>
 				</configuration>
 			</plugin>
+
+<plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+
+            <configuration>
+                <excludes>
+                    <exclude>**/*GwtTest*.java</exclude>
+                    <exclude>**/*Gwt*Suite*.java</exclude>
+                </excludes>
+            </configuration>
+</plugin>
+<!--
+			<plugin>
+			    <artifactId>maven-surefire-plugin</artifactId>
+			    <version>2.17</version>
+			    <configuration>
+			      <additionalClasspathElements>
+			        <additionalClasspathElement>${project.build.sourceDirectory}</additionalClasspathElement>
+			        <additionalClasspathElement>${project.build.testSourceDirectory}</additionalClasspathElement>
+			      </additionalClasspathElements>
+			      <useManifestOnlyJar>false</useManifestOnlyJar>
+			      <useSystemClassLoader>false</useSystemClassLoader>
+			    </configuration>
+			  <executions>
+			    <execution>
+			      <phase>integration-test</phase>
+			      <goals>
+			        <goal>test</goal>
+			      </goals>
+			    </execution>
+			   </executions>
+			  </plugin>
+ -->
 <!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>

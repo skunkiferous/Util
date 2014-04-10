@@ -36,6 +36,9 @@ public class ThreadLocal<T> {
     /** The value */
     private T value;
 
+    /** Already initialized? */
+    private boolean initialized;
+
     /**
      * Creates a new thread-local variable.
      */
@@ -53,6 +56,10 @@ public class ThreadLocal<T> {
      */
     @SuppressWarnings("unchecked")
     public T get() {
+        if (!initialized) {
+            initialized = true;
+            value = initialValue();
+        }
         return value;
     }
 

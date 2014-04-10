@@ -15,10 +15,9 @@
  */
 package com.blockwithme.util.client;
 
+import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.IOException;
 import java.util.logging.Logger;
-import java.text.SimpleDateFormat;
 
 import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.core.client.EntryPoint;
@@ -46,8 +45,8 @@ public class UtilEntryPoint implements EntryPoint {
         private byte[] buffer = new byte[1024];
         private int pos;
 
-        public LoggingPrintStream(boolean error) {
-            super(null);
+        public LoggingPrintStream(final boolean error) {
+            super((OutputStream) null);
             this.error = error;
         }
 
@@ -57,16 +56,14 @@ public class UtilEntryPoint implements EntryPoint {
          *
          * @param oneByte
          *            the byte to be written.
-         * @throws IOException
-         *             if an I/O error occurs while writing to this stream.
          */
         @Override
-        public void write(int oneByte) throws IOException {
+        public void write(final int oneByte) {
             if (oneByte == '\n') {
                 flush();
             } else {
                 if (pos == buffer.length) {
-                    final byte[] newBuffer = new byte[buffer.length*2];
+                    final byte[] newBuffer = new byte[buffer.length * 2];
                     System.arraycopy(buffer, 0, newBuffer, 0, pos);
                     buffer = newBuffer;
                 }

@@ -116,23 +116,23 @@ public final class System {
     }
 
     public static native void setErr(PrintStream err) /*-{
-                                                      @java.lang.System::err = err;
-                                                      }-*/;
+		@java.lang.System::err = err;
+    }-*/;
 
     public static native void setOut(PrintStream out) /*-{
-                                                      @java.lang.System::out = out;
-                                                      }-*/;
+		@java.lang.System::out = out;
+    }-*/;
 
     private static native double currentTimeMillis0() /*-{
-                                                      return (new Date()).getTime();
-                                                      }-*/;
+		return (new Date()).getTime();
+    }-*/;
 
     /**
      * Returns the length of an array via Javascript.
      */
     private static native int getArrayLength(Object array) /*-{
-                                                           return array.length;
-                                                           }-*/;
+		return array.length;
+    }-*/;
 
     /**
      * Copy an array using native Javascript. The destination array must be a real
@@ -147,20 +147,20 @@ public final class System {
      */
     private static native void nativeArraycopy(Object src, int srcOfs,
             Object dest, int destOfs, int len) /*-{
-                                               // TODO(jgw): using Function.apply() blows up for large arrays (around 8k items at least).
-                                               if (src == dest && srcOfs < destOfs) {
-                                               srcOfs += len;
-                                               for (var destEnd = destOfs + len; destEnd-- > destOfs;) {
-                                               dest[destEnd] = src[--srcOfs];
-                                               }
-                                               } else {
-                                               for (var destEnd = destOfs + len; destOfs < destEnd;) {
-                                               dest[destOfs++] = src[srcOfs++];
-                                               }
-                                               }
+		// TODO(jgw): using Function.apply() blows up for large arrays (around 8k items at least).
+		if (src == dest && srcOfs < destOfs) {
+			srcOfs += len;
+			for (var destEnd = destOfs + len; destEnd-- > destOfs;) {
+				dest[destEnd] = src[--srcOfs];
+			}
+		} else {
+			for (var destEnd = destOfs + len; destOfs < destEnd;) {
+				dest[destOfs++] = src[srcOfs++];
+			}
+		}
 
-                                               //    Array.prototype.splice.apply(dest, [destOfs, len].concat(src.slice(srcOfs, srcOfs + len)));
-                                               }-*/;
+		//    Array.prototype.splice.apply(dest, [destOfs, len].concat(src.slice(srcOfs, srcOfs + len)));
+    }-*/;
 
     // TODO(jgw)
     public static native void exit(int code) /*-{ }-*/;
