@@ -30,16 +30,27 @@ public abstract class TimerTask implements Runnable {
     int repeatCount = Timer.CANCELLED;
 
     /** If this is the last time the task will be ran or the task is first cancelled, it may be scheduled again in this method. */
-    abstract public void run ();
+    abstract public void run();
 
     /** Cancels the task. It will not be executed until it is scheduled again. This method can be called at any time. */
-    public void cancel () {
-            delaySeconds = 0;
-            repeatCount = Timer.CANCELLED;
+    public boolean cancel() {
+        delaySeconds = 0;
+        boolean result = isScheduled();
+        repeatCount = Timer.CANCELLED;
+        return result;
     }
 
     /** Returns true if this task is scheduled to be executed in the future by a timer. */
-    public boolean isScheduled () {
-            return repeatCount != Timer.CANCELLED;
+    public boolean isScheduled() {
+        return repeatCount != Timer.CANCELLED;
+    }
+
+    public long scheduledExecutionTime() {
+        // Very approximate impl! Used only for copmateTo().
+        long now = System.currentTimeMillis();
+        if (repeatCount == Timer.FOREVER) {
+            return now + (long) (intervalSeconds / 1000L) / 2;
+        }
+        return now + (long) (delaySeconds / 1000L) / 2;
     }
 }
