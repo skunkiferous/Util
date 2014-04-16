@@ -19,6 +19,8 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.blockwithme.util.shared.SystemUtils;
 
@@ -28,6 +30,10 @@ import com.blockwithme.util.shared.SystemUtils;
  * @author monster
  */
 public class DefaultSystemUtilsImpl extends SystemUtils {
+
+    /** Logger */
+    private static final Logger LOG = Logger
+            .getLogger(DefaultSystemUtilsImpl.class.getName());
 
     /** Used by localImpl(). */
     private static final SimpleDateFormat LOCAL = new SimpleDateFormat(
@@ -96,15 +102,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#currentTimeMillisImpl()
-     */
-    @Override
-    protected long currentTimeMillisImpl() {
-        // TODO Make sure we return the *correct* time.
-        return System.currentTimeMillis();
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#utcImpl(java.util.Date)
      */
     @Override
@@ -146,5 +143,46 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     @Override
     protected long doubleToRawLongBitsImpl(final double value) {
         return Double.doubleToRawLongBits(value);
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.shared.SystemUtils#reportUncaughtExceptionImpl(java.lang.Throwable)
+     */
+    @Override
+    protected void reportUncaughtExceptionImpl(final Throwable e) {
+        LOG.log(Level.SEVERE, "Uncaught Exception", e);
+    }
+
+    /** The constructor */
+    public DefaultSystemUtilsImpl() {
+        // We need to make sure the current time gets updated.
+        // And we do not use Timer or similar, because the "other tasks"
+        // would cause large fluctuations in the update rate.
+        final Thread timeUpdater = new Thread("Time Updater") {
+            @Override
+            public void run() {
+                long nextTime = updateCurrentTimeMillis()
+                        + CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
+                while (true) {
+                    final long now = updateCurrentTimeMillis();
+                    final long sleep = nextTime - now;
+                    nextTime += CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
+                    if (sleep > 0) {
+                        try {
+                            sleep(sleep);
+                        } catch (final InterruptedException e) {
+                            // NOP
+                        }
+                    } else {
+                        // In case of overload or "too long" sleep ...
+                        while (nextTime <= now) {
+                            nextTime += CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
+                        }
+                    }
+                }
+            }
+        };
+        timeUpdater.setDaemon(true);
+        timeUpdater.start();
     }
 }

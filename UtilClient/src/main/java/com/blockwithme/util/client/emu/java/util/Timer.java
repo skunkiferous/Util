@@ -90,11 +90,7 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void schedule(TimerTask task, Date when) {
-        if (when.getTime() < 0) {
-            throw new IllegalArgumentException();
-        }
-        long delay = when.getTime() - System.currentTimeMillis();
-        sched(task, delay/1000.0f, 0, 0);
+        schedule(task, when.getTime() - System.currentTimeMillis());
     }
 
     /**
@@ -156,11 +152,7 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void schedule(TimerTask task, Date when, long period) {
-        if (period <= 0 || when.getTime() < 0) {
-            throw new IllegalArgumentException();
-        }
-        long delay = when.getTime() - System.currentTimeMillis();
-        sched(task, (delay < 0 ? 0 : delay)/1000.0f, period/1000.0f, FOREVER);
+        schedule(task, when.getTime() - System.currentTimeMillis(), period);
     }
 
     /**
@@ -203,11 +195,7 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void scheduleAtFixedRate(TimerTask task, Date when, long period) {
-        if (period <= 0 || when.getTime() < 0) {
-            throw new IllegalArgumentException();
-        }
-        long delay = when.getTime() - System.currentTimeMillis();
-        sched(task, (delay < 0 ? 0 : delay)/1000.0f, period/1000.0f, FOREVER);
+        scheduleAtFixedRate(task, when.getTime() - System.currentTimeMillis(), period);
     }
 
     /** Stops the timer, tasks will not be executed and time that passes will not be applied to the task delays. */

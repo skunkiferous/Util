@@ -17,10 +17,13 @@ package com.blockwithme.util.client;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.logging.client.ConsoleLogHandler;
 
 /**
@@ -85,6 +88,15 @@ public class UtilEntryPoint implements EntryPoint {
         }
     }
 
+    /** Make sure error are always logged. */
+    private static final class MyUncaughtExceptionHandler implements
+            UncaughtExceptionHandler {
+        @Override
+        public void onUncaughtException(final Throwable e) {
+            ROOT.log(Level.SEVERE, "Uncaught exception escaped", e);
+        }
+    }
+
     @Override
     public void onModuleLoad() {
         // Should it be set here, in entry-point, or both?
@@ -93,6 +105,9 @@ public class UtilEntryPoint implements EntryPoint {
         System.setOut(new LoggingPrintStream(false));
         System.setErr(new LoggingPrintStream(true));
         SystemUtils.setImplementation(new GWTSystemUtilsImpl());
+        GWT.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+
+        // This should come out as an "info" log message.
         System.out.println("Util Module loaded");
     }
 }

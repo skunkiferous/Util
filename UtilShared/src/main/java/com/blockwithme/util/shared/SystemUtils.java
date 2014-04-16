@@ -30,12 +30,39 @@ import java.util.Timer;
  * The odd cross-platform helper method might also be put here, but defined directly
  * in the base class.
  *
+ * The concrete implementation is responsible to call updateCurrentTimeMillis()
+ * regularly, every few milliseconds.
+ *
  * @author monster
  */
 public abstract class SystemUtils {
 
+    /**
+     * Default currentTimeMillis() update interval, based on the JavaScript
+     * minimum standard "timeout". With added overhead, this probably results
+     * in an update rate of about 5ms, at least in the JVM
+     */
+    public static final long CURRENT_TIME_MILLIS_UPDATE_INTERVAL = 4;
+
     /** The SystemUtils instance; must be initialized through setImplementation(). */
     private static volatile SystemUtils implementation;
+
+    /** The source of time. */
+    private static volatile TimeSource timeSource = new TimeSource() {
+        @Override
+        public long currentTimeMillis() {
+            return System.currentTimeMillis();
+        }
+    };
+
+    /**
+     * The approximate current time, in milliseconds.
+     *
+     * The reason to use a Long wrapper is that *volatile* long fields are
+     * unsafe in 32 bits. You might read junk, if you read it at the same time
+     * as it is written, because it takes two memory accesses.
+     */
+    private static volatile Long currentTimeMillis = System.currentTimeMillis();
 
     /** The system Timer, if any. */
     private static Timer timer;
@@ -60,15 +87,6 @@ public abstract class SystemUtils {
     /** Creates a new instance of the class represented by the supplied Class. */
     protected abstract <T> T newInstanceImpl(Class<T> c);
 
-    /**
-     * Returns the current time, in milliseconds.
-     *
-     * The reason to define this here is, that many "clients" have a totally wrong
-     * system time, and using this method allows the application to "correct"
-     * the bad host system time.
-     */
-    protected abstract long currentTimeMillisImpl();
-
     /** Returns the UTC/GMT time of the Date, in the format yyyy-MM-dd HH:mm:ss.SSS. */
     protected abstract String utcImpl(Date date);
 
@@ -83,6 +101,13 @@ public abstract class SystemUtils {
 
     /** Returns a long representation of the specified floating-point value */
     protected abstract long doubleToRawLongBitsImpl(double value);
+
+    /**
+     * Reports an exception caught at the "top level". This is
+     * used in places where the browser calls into user code such as event
+     * callbacks, timers, and RPC.
+     */
+    protected abstract void reportUncaughtExceptionImpl(Throwable e);
 
     /** Checks if the implementation is initialized, and returns it. */
     private static SystemUtils getImplementation() {
@@ -171,6 +196,37 @@ public abstract class SystemUtils {
     }
 
     /**
+     * Returns the "source of time" instance.
+     */
+    public static TimeSource getTimeSource() {
+        return timeSource;
+    }
+
+    /**
+     * Sets the new time source.
+     *
+     * @param timeSource the timeSource to set
+     *
+     * @throws java.lang.NullPointerException if timeSource is null
+     */
+    public static void setTimeSource(final TimeSource timeSource) {
+        if (timeSource == null) {
+            throw new NullPointerException("timeSource");
+        }
+        SystemUtils.timeSource = timeSource;
+    }
+
+    /**
+     * Updates the current time, using the time source.
+     *
+     * The concrete implementation is expected to call this method regularly,
+     * every few milliseconds.
+     */
+    public static long updateCurrentTimeMillis() {
+        return currentTimeMillis = timeSource.currentTimeMillis();
+    }
+
+    /**
      * Returns the current time, in milliseconds.
      *
      * The reason to define this here is, that many "clients" have a totally wrong
@@ -178,7 +234,7 @@ public abstract class SystemUtils {
      * the bad host system time.
      */
     public static long currentTimeMillis() {
-        return getImplementation().currentTimeMillisImpl();
+        return currentTimeMillis;
     }
 
     /** Creates a new Date, using *our* currentTimeMillis() method. */
@@ -280,7 +336,16 @@ public abstract class SystemUtils {
             if (timer == null) {
                 timer = new Timer("System-Timer");
             }
+            return timer;
         }
-        return timer;
+    }
+
+    /**
+     * Reports an exception caught at the "top level". This is
+     * used in places where the browser calls into user code such as event
+     * callbacks, timers, and RPC.
+     */
+    public static void reportUncaughtException(final Throwable e) {
+        getImplementation().reportUncaughtExceptionImpl(e);
     }
 }

@@ -5,7 +5,7 @@
 
 	<groupId>com.blockwithme</groupId>
 	<artifactId>Util</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2014</inceptionYear>
 	<name>Util</name>

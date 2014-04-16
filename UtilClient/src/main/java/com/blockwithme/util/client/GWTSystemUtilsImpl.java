@@ -17,11 +17,11 @@ package com.blockwithme.util.client;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Date;
-import java.util.HashMap;
 
 import com.badlogic.gwtref.client.ReflectionCache;
 import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.shared.SystemUtils;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 
@@ -43,14 +43,22 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#currentTimeMillisImpl()
+    /**
+     * I cannot call a method that takes or returns "long" from JavaScript.
      */
-    @Override
-    protected long currentTimeMillisImpl() {
-        // TODO Make sure we return the *correct* time.
-        return System.currentTimeMillis();
+    @SuppressWarnings("unused")
+    private static void updateCurrentTimeMillis2() {
+        updateCurrentTimeMillis();
     }
+
+    /** Causes updateCurrentTimeMillis() to be called repeatedly. */
+    private static native void scheduleTimeUpdater() /*-{
+		window
+				.setInterval(
+						function() {
+							@com.blockwithme.util.client.GWTSystemUtilsImpl::updateCurrentTimeMillis2()();
+						}, 4);
+    }-*/;
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#isGWTClientImpl()
@@ -86,8 +94,8 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Override
     protected boolean isAssignableFromImpl(final Class c1, final Class c2) {
-        Type c1Type = ReflectionCache.getType(c1);
-        Type c2Type = ReflectionCache.getType(c2);
+        final Type c1Type = ReflectionCache.getType(c1);
+        final Type c2Type = ReflectionCache.getType(c2);
         return c2Type.isAssignableFrom(c1Type);
     }
 
@@ -105,7 +113,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
      */
     @Override
     protected <T> T newInstanceImpl(final Class<T> c) {
-        return (T)ReflectionCache.getType(c).newInstance();
+        return (T) ReflectionCache.getType(c).newInstance();
     }
 
     /* (non-Javadoc)
@@ -142,5 +150,18 @@ public class GWTSystemUtilsImpl extends SystemUtils {
         // TODO This messes up the data, if the value is a NaN :(
 //        return Double.doubleToLongBits(value);
         throw new UnsupportedOperationException();
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.shared.SystemUtils#reportUncaughtExceptionImpl(java.util.Throwable)
+     */
+    @Override
+    protected void reportUncaughtExceptionImpl(final Throwable e) {
+        GWT.reportUncaughtException(e);
+    }
+
+    /** Constructor */
+    public GWTSystemUtilsImpl() {
+        scheduleTimeUpdater();
     }
 }

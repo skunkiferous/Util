@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1397318506824
+Bnd-LastModified: 1397682730430
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: Contains some non-GWT-client "prototypes", which wer
@@ -9,15 +9,15 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UtilPrototypes
 Bundle-SymbolicName: com.blockwithme.UtilPrototypes
 Bundle-Vendor: Sebastien Diot
-Bundle-Version: 0.0.1
+Bundle-Version: 0.0.2
 Created-By: Apache Maven Bundle Plugin
 Export-Package: com.blockwithme.util.proto.base40;uses:="com.blockwithme
- .util.shared,com.blockwithme.util.shared.prim";version="0.0.1",com.bloc
+ .util.shared,com.blockwithme.util.shared.prim";version="0.0.2",com.bloc
  kwithme.util.proto;uses:="com.blockwithme.util.shared.annotations";vers
- ion="0.0.1",com.blockwithme.util.proto.properties;uses:="com.blockwithm
- e.util.proto.properties.meta";version="0.0.1",com.blockwithme.util.prot
+ ion="0.0.2",com.blockwithme.util.proto.properties;uses:="com.blockwithm
+ e.util.proto.properties.meta";version="0.0.2",com.blockwithme.util.prot
  o.properties.meta;uses:="com.blockwithme.util.proto.properties";version
- ="0.0.1",com.blockwithme.util.proto.stringnum;version="0.0.1"
+ ="0.0.2",com.blockwithme.util.proto.stringnum;version="0.0.2"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.blockwithme.util.proto.properties,com.blockwithme.ut
  il.proto.properties.meta,com.blockwithme.util.shared;version="[0.0,1)",
