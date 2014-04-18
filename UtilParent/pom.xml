@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.blockwithme</groupId>
-	<artifactId>Util</artifactId>
-	<version>0.0.2</version>
+	<artifactId>UtilParent</artifactId>
+	<version>0.0.3</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2014</inceptionYear>
-	<name>Util</name>
+	<name>UtilParent</name>
 	<description>This project contains "utility" code; common functionality, shared by most BlockWithMe projects.</description>
 	<organization>
 		<name>Sebastien Diot</name>

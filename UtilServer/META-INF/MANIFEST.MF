@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1397682726406
+Bnd-LastModified: 1397817037434
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The non-GWT-client part. It is not in any way "serve
@@ -9,10 +9,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UtilServer
 Bundle-SymbolicName: com.blockwithme.UtilServer
 Bundle-Vendor: Sebastien Diot
-Bundle-Version: 0.0.2
+Bundle-Version: 0.0.3
 Created-By: Apache Maven Bundle Plugin
 Export-Package: com.blockwithme.util.server;uses:="com.blockwithme.util.
- shared";version="0.0.2"
+ shared";version="0.0.3"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.blockwithme.util.shared;version="[0.0,1)"
 Tool: Bnd-2.1.0.20130426-122213
