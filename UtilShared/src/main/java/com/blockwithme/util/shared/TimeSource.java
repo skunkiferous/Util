@@ -27,11 +27,15 @@ package com.blockwithme.util.shared;
  * a while, because it is a native call. So we replace this call with a field
  * which only represent the approximate time, but which is cheap to read.
  *
+ * The reason why we use double instead of long is that long "causes issues"
+ * within GWT. OTOH, converting long to double and back is cheap in the JVM,
+ * so it should not cause any significant issues in Java.
+ *
  * @author monster
  */
 public interface TimeSource {
     /**
      * Returns the current time, in milliseconds.
      */
-    long currentTimeMillis();
+    double currentTimeMillis();
 }

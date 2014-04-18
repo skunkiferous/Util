@@ -16,6 +16,7 @@
 package com.blockwithme.util.shared;
 
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 
 /**
@@ -42,7 +43,10 @@ public abstract class SystemUtils {
      * minimum standard "timeout". With added overhead, this probably results
      * in an update rate of about 5ms, at least in the JVM
      */
-    public static final long CURRENT_TIME_MILLIS_UPDATE_INTERVAL = 4;
+    public static final double CURRENT_TIME_MILLIS_UPDATE_INTERVAL = 4;
+
+    /** Random instance. */
+    public static final Random RND = new Random();
 
     /** The SystemUtils instance; must be initialized through setImplementation(). */
     private static volatile SystemUtils implementation;
@@ -50,19 +54,16 @@ public abstract class SystemUtils {
     /** The source of time. */
     private static volatile TimeSource timeSource = new TimeSource() {
         @Override
-        public long currentTimeMillis() {
+        public double currentTimeMillis() {
             return System.currentTimeMillis();
         }
     };
 
     /**
      * The approximate current time, in milliseconds.
-     *
-     * The reason to use a Long wrapper is that *volatile* long fields are
-     * unsafe in 32 bits. You might read junk, if you read it at the same time
-     * as it is written, because it takes two memory accesses.
      */
-    private static volatile Long currentTimeMillis = System.currentTimeMillis();
+    private static volatile double currentTimeMillis = System
+            .currentTimeMillis();
 
     /** The system Timer, if any. */
     private static Timer timer;
@@ -222,7 +223,7 @@ public abstract class SystemUtils {
      * The concrete implementation is expected to call this method regularly,
      * every few milliseconds.
      */
-    public static long updateCurrentTimeMillis() {
+    public static double updateCurrentTimeMillis() {
         return currentTimeMillis = timeSource.currentTimeMillis();
     }
 
@@ -233,13 +234,13 @@ public abstract class SystemUtils {
      * system time, and using this method allows the application to "correct"
      * the bad host system time.
      */
-    public static long currentTimeMillis() {
+    public static double currentTimeMillis() {
         return currentTimeMillis;
     }
 
     /** Creates a new Date, using *our* currentTimeMillis() method. */
     public static Date newDate() {
-        return new Date(currentTimeMillis());
+        return new Date((long) currentTimeMillis());
     }
 
     /** Returns the UTC/GMT time of the Date, in the format yyyy-MM-dd HH:mm:ss.SSS. */
@@ -317,17 +318,17 @@ public abstract class SystemUtils {
 
     /** Returns the lower 32 bits of a long. */
     public static int getLow(final long value) {
-        return (int) value;
+        return (int) (value & 0xFFFFFFFFL);
     }
 
     /** Returns the higher 32 bits of a long. */
     public static int getHigh(final long value) {
-        return (int) (value >> 32);
+        return (int) ((value >> 32) & 0xFFFFFFFFL);
     }
 
     /** Returns a long, from the lower and higher 32 bit parts. */
     public static long getLong(final int low, final int high) {
-        return (long) high << 32 | low & 0xFFFFFFFFL;
+        return (((long) high) << 32) | (low & 0xFFFFFFFFL);
     }
 
     /** Returns the System Timer. */

@@ -40,13 +40,6 @@ public class ThreadLocal<T> {
     private boolean initialized;
 
     /**
-     * Creates a new thread-local variable.
-     */
-    public ThreadLocal() {
-        super();
-    }
-
-    /**
      * Returns the value of this variable for the current thread. If an entry
      * doesn't yet exist for this variable on this thread, this method will
      * create an entry, populating the value with the result of
@@ -81,7 +74,8 @@ public class ThreadLocal<T> {
      * @param value the new value of the variable for the caller thread.
      */
     public void set(T value) {
-        this.value= value;
+        initialized = true;
+        this.value = value;
     }
 
     /**
@@ -93,6 +87,7 @@ public class ThreadLocal<T> {
      * @since 1.5
      */
     public void remove() {
-        set(initialValue());
+        value = null;
+        initialized = false;
     }
 }

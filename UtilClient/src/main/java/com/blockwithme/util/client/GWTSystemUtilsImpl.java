@@ -21,6 +21,7 @@ import java.util.Date;
 import com.badlogic.gwtref.client.ReflectionCache;
 import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.shared.TimeSource;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -31,6 +32,17 @@ import com.google.gwt.i18n.client.TimeZone;
  * @author monster
  */
 public class GWTSystemUtilsImpl extends SystemUtils {
+
+    /** GWTTimeSource skips the double-to-long-to-double conversion. */
+    private static final class GWTTimeSource implements TimeSource {
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.shared.TimeSource#currentTimeMillis()
+         */
+        @Override
+        public native double currentTimeMillis() /*-{
+			return (new Date()).getTime();
+        }-*/;
+    }
 
     /** DateTimeFormat used by utcImpl(). */
     private static final DateTimeFormat UTC = DateTimeFormat
@@ -43,20 +55,12 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    /**
-     * I cannot call a method that takes or returns "long" from JavaScript.
-     */
-    @SuppressWarnings("unused")
-    private static void updateCurrentTimeMillis2() {
-        updateCurrentTimeMillis();
-    }
-
     /** Causes updateCurrentTimeMillis() to be called repeatedly. */
     private static native void scheduleTimeUpdater() /*-{
 		window
 				.setInterval(
 						function() {
-							@com.blockwithme.util.client.GWTSystemUtilsImpl::updateCurrentTimeMillis2()();
+							@com.blockwithme.util.client.GWTSystemUtilsImpl::updateCurrentTimeMillis()();
 						}, 4);
     }-*/;
 
@@ -162,6 +166,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
 
     /** Constructor */
     public GWTSystemUtilsImpl() {
+        setTimeSource(new GWTTimeSource());
         scheduleTimeUpdater();
     }
 }

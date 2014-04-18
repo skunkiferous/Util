@@ -161,15 +161,15 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
         final Thread timeUpdater = new Thread("Time Updater") {
             @Override
             public void run() {
-                long nextTime = updateCurrentTimeMillis()
+                double nextTime = updateCurrentTimeMillis()
                         + CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
                 while (true) {
-                    final long now = updateCurrentTimeMillis();
-                    final long sleep = nextTime - now;
+                    final double now = updateCurrentTimeMillis();
+                    final double sleep = nextTime - now;
                     nextTime += CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
-                    if (sleep > 0) {
+                    if (sleep >= 1) {
                         try {
-                            sleep(sleep);
+                            sleep((long) sleep);
                         } catch (final InterruptedException e) {
                             // NOP
                         }

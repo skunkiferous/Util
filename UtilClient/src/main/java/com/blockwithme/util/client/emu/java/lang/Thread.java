@@ -45,8 +45,13 @@ public class Thread implements Runnable {
     /** Is the thread interrupted? */
     boolean interruptedFlag;
 
+    /** You cannot create a Thread on the client. */
+    private Thread() {
+        // NOP
+    }
+
     @Override
-    public void run() {
+    public final void run() {
         throw new UnsupportedOperationException();
     }
 
