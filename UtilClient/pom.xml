@@ -99,14 +99,29 @@
 		        <artifactId>gwt-dev</artifactId>
 	        	<version>${gwt-dependency-version}</version>
 		        <scope>test</scope>
-        	</dependency>
+        </dependency>
 		<dependency>
 		        <groupId>com.google.gwt</groupId>
 		        <artifactId>gwt-dev</artifactId>
 	        	<version>${gwt-dependency-version}</version>
 		        <classifier>sources</classifier>
 		        <scope>test</scope>
-	        </dependency>
+	    </dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject.extensions</groupId>
+			<artifactId>guice-assistedinject</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt.inject</groupId>
+			<artifactId>gin</artifactId>
+			<version>2.1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
@@ -173,32 +188,33 @@
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>gwt-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>compile</goal>
-							<goal>resources</goal>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<module>com.blockwithme.util.UtilClient</module>
-					<strict>true</strict>
-					<draftCompile>true</draftCompile>
-					<optimizationLevel>0</optimizationLevel>
-					<force>true</force>
-					<failOnError>true</failOnError>
-					<mode>htmlunit</mode>
-					<productionMode>true</productionMode>
-				    <systemProperties>
-				      <java.awt.headless>true</java.awt.headless>
-				    </systemProperties>
-				</configuration>
-			</plugin>
+<plugin>
+	<groupId>org.codehaus.mojo</groupId>
+	<artifactId>gwt-maven-plugin</artifactId>
+	<executions>
+		<execution>
+			<goals>
+				<goal>compile</goal>
+				<goal>resources</goal>
+				<goal>test</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<module>com.blockwithme.util.UtilClient</module>
+		<strict>true</strict>
+		<draftCompile>true</draftCompile>
+		<optimizationLevel>0</optimizationLevel>
+		<force>true</force>
+		<failOnError>true</failOnError>
+		<mode>htmlunit</mode>
+		<productionMode>true</productionMode>
+		<enableClosureCompiler>false</enableClosureCompiler>
+	    <systemProperties>
+	      <java.awt.headless>true</java.awt.headless>
+	    </systemProperties>
+	</configuration>
+</plugin>
 
 <plugin>
        <groupId>org.apache.maven.plugins</groupId>

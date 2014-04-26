@@ -16,6 +16,8 @@
 
 package com.blockwithme.util.shared;
 
+import javax.inject.Provider;
+
 /**
  * Simple class allowing the use of singleton,
  * while still being compatible with DI frameworks.

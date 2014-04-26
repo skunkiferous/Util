@@ -152,37 +152,4 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     protected void reportUncaughtExceptionImpl(final Throwable e) {
         LOG.log(Level.SEVERE, "Uncaught Exception", e);
     }
-
-    /** The constructor */
-    public DefaultSystemUtilsImpl() {
-        // We need to make sure the current time gets updated.
-        // And we do not use Timer or similar, because the "other tasks"
-        // would cause large fluctuations in the update rate.
-        final Thread timeUpdater = new Thread("Time Updater") {
-            @Override
-            public void run() {
-                double nextTime = updateCurrentTimeMillis()
-                        + CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
-                while (true) {
-                    final double now = updateCurrentTimeMillis();
-                    final double sleep = nextTime - now;
-                    nextTime += CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
-                    if (sleep >= 1) {
-                        try {
-                            sleep((long) sleep);
-                        } catch (final InterruptedException e) {
-                            // NOP
-                        }
-                    } else {
-                        // In case of overload or "too long" sleep ...
-                        while (nextTime <= now) {
-                            nextTime += CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
-                        }
-                    }
-                }
-            }
-        };
-        timeUpdater.setDaemon(true);
-        timeUpdater.start();
-    }
 }

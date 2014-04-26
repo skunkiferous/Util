@@ -30,40 +30,6 @@ import java.lang.annotation.Target;
  * Since only the name of the annotation matters, Java libraries may use their own copy of this
  * annotation class to avoid adding a compile-time dependency on GWT.
  *
- * For example:
- *
- * {@code
- * class A {
- *
- *   int field;
- *
- *   @GwtIncompatible("incompatible class")
- *   class Inner {
- *     ....
- *   }
- *
- *   @GwtIncompatible("incompatible field")
- *   int field2 = methodThatisNotSupportedbyGwt();
- *
- *   void method1() { }
- *
- *   @GwtIncompatible("incompatbile method")
- *   void method2() {}
- * }
- * }
- *
- * is seen by the Gwt compiler as
- *
- * {@code
- * class A {
- *
- *   int field;
- *
- *   void method1() { }
- *
- * }
- * }
- *
  * Warning: this may have surprising effects when combined with method overloading or inheritance.
  */
 @Retention(RetentionPolicy.CLASS)

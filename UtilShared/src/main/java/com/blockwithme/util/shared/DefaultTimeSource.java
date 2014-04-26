@@ -13,11 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.blockwithme.util.shared;
 
-/** Returns some instance. Used by ProviderFactory. */
-public interface Provider<E> {
-    /** Returns some instance. Used by MiniDI. */
-    E get();
+/**
+ * Default implementation of TimeSource.
+ *
+ * @author monster
+ */
+public class DefaultTimeSource implements TimeSource {
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.shared.TimeSource#currentTimeMillis()
+     */
+    @Override
+    public double currentTimeMillis() {
+        return System.currentTimeMillis();
+    }
 }

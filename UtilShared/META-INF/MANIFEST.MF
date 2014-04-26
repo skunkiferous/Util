@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1397830426823
+Bnd-LastModified: 1398272848680
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The common/shared part of the Util project.
@@ -11,7 +11,9 @@ Bundle-Vendor: Sebastien Diot
 Bundle-Version: 0.0.3
 Created-By: Apache Maven Bundle Plugin
 Export-Package: com.blockwithme.util.shared.annotations;version="0.0.3",
- com.blockwithme.util.shared;uses:="com.blockwithme.util.shared.prim";ve
- rsion="0.0.3",com.blockwithme.util.shared.prim;version="0.0.3"
+ com.blockwithme.util.shared;uses:="com.blockwithme.util.shared.prim,jav
+ ax.inject";version="0.0.3",com.blockwithme.util.shared.prim;version="0.
+ 0.3"
 FuncGenerated012-dependency-version: 1.2.0
+Import-Package: javax.inject
 Tool: Bnd-2.1.0.20130426-122213

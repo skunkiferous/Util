@@ -15,99 +15,67 @@
  */
 package com.blockwithme.util.client;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.logging.client.ConsoleLogHandler;
 
 /**
- * Util EntryPoint.
- *
- * Sets up Logging and Console output.
- *
  * @author monster
+ *
  */
 public class UtilEntryPoint implements EntryPoint {
-    private static final Logger ROOT = Logger.getLogger("");
 
-    /**
-     * Used to output Console text to the root logger, so that the
-     * logging system takes charge of forwarding the output to the
-     * right place.
-     *
-     * @author monster
+    /** Loaded? */
+    private static boolean loaded;
+
+    /* (non-Javadoc)
+     * @see com.google.gwt.core.client.EntryPoint#onModuleLoad()
      */
-    private static class LoggingPrintStream extends PrintStream {
-        private final boolean error;
-        private byte[] buffer = new byte[1024];
-        private int pos;
-
-        public LoggingPrintStream(final boolean error) {
-            super((OutputStream) null);
-            this.error = error;
-        }
-
-        /**
-         * Writes one byte to the target stream. Only the low order byte of the
-         * integer {@code oneByte} is written.
-         *
-         * @param oneByte
-         *            the byte to be written.
-         */
-        @Override
-        public void write(final int oneByte) {
-            if (oneByte == '\n') {
-                flush();
-            } else {
-                if (pos == buffer.length) {
-                    final byte[] newBuffer = new byte[buffer.length * 2];
-                    System.arraycopy(buffer, 0, newBuffer, 0, pos);
-                    buffer = newBuffer;
-                }
-                buffer[pos++] = (byte) oneByte;
-            }
-        }
-
-        @Override
-        public void flush() {
-            if (pos > 0) {
-                final String msg = new String(buffer, 0, pos);
-                pos = 0;
-                if (error) {
-                    ROOT.severe(msg);
-                } else {
-                    ROOT.info(msg);
-                }
-            }
-        }
-    }
-
-    /** Make sure error are always logged. */
-    private static final class MyUncaughtExceptionHandler implements
-            UncaughtExceptionHandler {
-        @Override
-        public void onUncaughtException(final Throwable e) {
-            ROOT.log(Level.SEVERE, "Uncaught exception escaped", e);
-        }
-    }
-
     @Override
     public void onModuleLoad() {
-        // Should it be set here, in entry-point, or both?
-        ROOT.addHandler(new ConsoleLogHandler());
+        if (!loaded) {
+            loaded = true;
+            setupSystemErrOut();
+            setupRootLogger();
+            setupUncaughtExceptionHandler();
+            startCurrentTimeMillisUpdate();
 
+            // This should come out as an "info" log message.
+            System.out.println("Util Module initialized");
+        }
+    }
+
+    /** Specifies our custom "Logging" Streams for System.err/System.out */
+    private void setupSystemErrOut() {
         System.setOut(new LoggingPrintStream(false));
         System.setErr(new LoggingPrintStream(true));
-        SystemUtils.setImplementation(new GWTSystemUtilsImpl());
-        GWT.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+    }
 
-        // This should come out as an "info" log message.
-        System.out.println("Util Module loaded");
+    /** Setup Handler of "root logger" */
+    private void setupRootLogger() {
+        Logger.getLogger("").addHandler(new ConsoleLogHandler());
+    }
+
+    /** Setups the GWT UncaughtExceptionHandler. */
+    private void setupUncaughtExceptionHandler() {
+        GWT.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
+    }
+
+    /**
+     * We use a "native" GWT Timer, because we want updates independent
+     * of the application (game) cycle speed. We do this, because if some
+     * processing *within* the application cycle takes long, it will still
+     * see the time changing (hopefully; not sure of that anymore).
+     */
+    private void startCurrentTimeMillisUpdate() {
+        new com.google.gwt.user.client.Timer() {
+            @Override
+            public void run() {
+                SystemUtils.updateCurrentTimeMillis();
+            }
+        }.scheduleRepeating(SystemUtils.CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
     }
 }

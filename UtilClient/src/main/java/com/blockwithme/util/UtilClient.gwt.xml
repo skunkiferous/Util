@@ -2,10 +2,13 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
 <module>
     <inherits name="com.google.gwt.user.User"/>
+    <!-- This one is not really needed; tries to fix warnings in unit tests -->
+    <inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
     <inherits name="com.badlogic.gdx" />
     <inherits name="com.badlogic.gwtref.GwtReflect"/>
     <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
     <inherits name="com.google.gwt.logging.Logging"/>
+    <inherits name="com.google.gwt.inject.Inject"/>
     <inherits name="com.blockwithme.util.UtilShared"/>
 
 	<super-source path="client/emu" />

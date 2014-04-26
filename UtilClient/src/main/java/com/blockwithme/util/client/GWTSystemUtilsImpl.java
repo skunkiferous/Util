@@ -55,15 +55,6 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    /** Causes updateCurrentTimeMillis() to be called repeatedly. */
-    private static native void scheduleTimeUpdater() /*-{
-		window
-				.setInterval(
-						function() {
-							@com.blockwithme.util.client.GWTSystemUtilsImpl::updateCurrentTimeMillis()();
-						}, 4);
-    }-*/;
-
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#isGWTClientImpl()
      */
@@ -167,6 +158,15 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     /** Constructor */
     public GWTSystemUtilsImpl() {
         setTimeSource(new GWTTimeSource());
-        scheduleTimeUpdater();
+        // We use a "native" GWT Timer, because we want updates independent
+        // of the application (game) cycle speed. We do this, because if some
+        // processing *within* the application cycle takes long, it will still
+        // see the time changing.
+        new com.google.gwt.user.client.Timer() {
+            @Override
+            public void run() {
+                updateCurrentTimeMillis();
+            }
+        }.scheduleRepeating((int) CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
     }
 }

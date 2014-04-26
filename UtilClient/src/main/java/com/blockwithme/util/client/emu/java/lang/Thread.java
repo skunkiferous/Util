@@ -109,12 +109,43 @@ public class Thread implements Runnable {
         // This is fine.
     }
 
+    /** REAL sleep impl! Don't try this at home! */
+    private static native void realSleep(double millis) /*-{
+		var startDate = new Date();
+		var remaining = millis - (new Date() - startDate);
+		while (remaining > 0) {
+			var xmlHttpReq;
+			try {
+				// for IE/ActiveX
+				if (window.ActiveXObject) {
+					try {
+						xmlHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+					} catch (e) {
+						xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+					}
+				}
+				// Native XMLHttp
+				else if (window.XMLHttpRequest) {
+					xmlHttpReq = new XMLHttpRequest();
+				}
+				tempurl = "http://fake-response.appspot.com/?sleep="
+						+ Math.ceil(remaining / 1000);
+				xmlHttpReq.open("GET", tempurl, false); // synchron mode
+				xmlHttpReq.timeout = remaining;
+				xmlHttpReq.send(null);
+			} catch (e) {
+			}
+			remaining = millis - (new Date() - startDate);
+		}
+    }-*/;
+
     public static void sleep(long millis) throws InterruptedException {
         if (millis > 1) {
             // We really should not sleep in JavaScript.
             // I would have removed it, but it was in libGDX,
             // so I left it to see who calls it, if anyone.
             throw new UnsupportedOperationException();
+//            realSleep(millis);
         } // else we assume they just wanted to yield(), which is fine.
     }
 

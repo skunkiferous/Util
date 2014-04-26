@@ -2,6 +2,9 @@
 <!DOCTYPE module PUBLIC "-//Google Inc.//DTD Google Web Toolkit trunk//EN" "http://google-web-toolkit.googlecode.com/svn/trunk/distro-source/core/src/gwt-module.dtd">
 <module>
     <inherits name="com.google.gwt.user.User"/>
+    <!-- This one is not really needed; tries to fix warnings in unit tests -->
+    <inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+    <inherits name="com.google.gwt.inject.Inject"/>
 	<super-source path="shared/emu" />
 	<source path="shared">
 		<exclude name="**/emu/**" />

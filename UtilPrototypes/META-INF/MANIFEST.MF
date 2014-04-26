@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1397830435341
+Bnd-LastModified: 1398072474675
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: Contains some non-GWT-client "prototypes", which wer
@@ -20,7 +20,7 @@ Export-Package: com.blockwithme.util.proto.base40;uses:="com.blockwithme
  ="0.0.3",com.blockwithme.util.proto.stringnum;version="0.0.3"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.blockwithme.util.proto.properties,com.blockwithme.ut
- il.proto.properties.meta,com.blockwithme.util.shared;version="[0.0,1)",
- com.blockwithme.util.shared.annotations;version="[0.0,1)",com.blockwith
- me.util.shared.prim;version="[0.0,1)",groovy.lang;version="[2.1,3)"
+ il.proto.properties.meta,com.blockwithme.util.shared,com.blockwithme.ut
+ il.shared.annotations,com.blockwithme.util.shared.prim,groovy.lang;vers
+ ion="[2.1,3)"
 Tool: Bnd-2.1.0.20130426-122213

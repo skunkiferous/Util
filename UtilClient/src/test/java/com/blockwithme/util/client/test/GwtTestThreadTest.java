@@ -15,8 +15,6 @@
  */
 package com.blockwithme.util.client.test;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
 /**
  * Tests java.lang.Thread emulation.
  *
@@ -24,16 +22,7 @@ import com.google.gwt.junit.client.GWTTestCase;
  *
  * TODO Test UncaughtExceptionHandler somehow
  */
-public class GwtTestThreadTest extends GWTTestCase {
-
-    /* (non-Javadoc)
-     * @see com.google.gwt.junit.client.GWTTestCase#getModuleName()
-     */
-    @Override
-    public String getModuleName() {
-        return "com.blockwithme.util.UtilClient";
-    }
-
+public class GwtTestThreadTest extends BaseGWTTestCase {
     /**
      * Tests Thread.currentThread().run()
      */
@@ -150,5 +139,17 @@ public class GwtTestThreadTest extends GWTTestCase {
             // NOP
         }
         assertTrue("Failed sleep(2)", failed);
+//
+//        failed = true;
+//        final long before = System.currentTimeMillis();
+//        try {
+//            Thread.sleep(1000);
+//            failed = false;
+//        } catch (final Exception e) {
+//            // NOP
+//        }
+//        final long after = System.currentTimeMillis();
+//        assertFalse("Failed sleep(1000)", failed);
+//        assertEquals("sleep(1000)", 1L, Math.round((after - before) / 1000.0));
     }
 }

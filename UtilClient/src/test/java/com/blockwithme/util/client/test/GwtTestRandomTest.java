@@ -18,25 +18,15 @@ package com.blockwithme.util.client.test;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
 /**
  * Tests java.util.Random emulation.
  *
  * @author monster
  */
-public class GwtTestRandomTest extends GWTTestCase {
+public class GwtTestRandomTest extends BaseGWTTestCase {
     private static final long SEED = -7795286066369484091L;
     private static final byte[] BYTES = new byte[] { -57, -58, -125, -87, 79,
             37, 90, 76 };
-
-    /* (non-Javadoc)
-     * @see com.google.gwt.junit.client.GWTTestCase#getModuleName()
-     */
-    @Override
-    public String getModuleName() {
-        return "com.blockwithme.util.UtilClient";
-    }
 
     public void testRandom() {
         final Random rnd = new Random(SEED);

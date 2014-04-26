@@ -15,8 +15,10 @@
  ******************************************************************************/
 package java.util;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.utils.Array;
+import com.blockwithme.util.shared.SystemUtils;
 
 /** Executes tasks in the future on the main loop thread.
  * @author Nathan Sweet */
@@ -26,7 +28,7 @@ public class Timer {
 
     private static int nextID = 0;
 
-    private final Array<TimerTask> tasks = new Array(false, 8);
+    private final ArrayList<TimerTask> tasks = new ArrayList();
     private boolean stopped, posted;
     private String name;
 
@@ -206,8 +208,8 @@ public class Timer {
 
     /** Cancels all tasks. */
     public int purge() {
-        int result = tasks.size;
-        for (int i = 0, n = tasks.size; i < n; i++)
+        int result = tasks.size();
+        for (int i = 0, n = result; i < n; i++)
             tasks.get(i).cancel();
         tasks.clear();
         return result;
@@ -217,7 +219,7 @@ public class Timer {
         if (stopped || posted)
             return;
         posted = true;
-        Gdx.app.postRunnable(timerRunnable);
+        postRunnable(timerRunnable);
     }
 
     void update() {
@@ -226,8 +228,8 @@ public class Timer {
             return;
         }
 
-        float delta = Gdx.graphics.getDeltaTime();
-        for (int i = 0, n = tasks.size; i < n; i++) {
+        float delta = SystemUtils.getDeltaTime();
+        for (int i = 0, n = tasks.size(); i < n; i++) {
             TimerTask task = tasks.get(i);
             task.delaySeconds -= delta;
             if (task.delaySeconds > 0)
@@ -238,7 +240,7 @@ public class Timer {
                 task.run();
             }
             if (task.repeatCount == CANCELLED) {
-                tasks.removeIndex(i);
+                tasks.remove(i);
                 i--;
                 n--;
             } else {
@@ -248,9 +250,14 @@ public class Timer {
             }
         }
 
-        if (tasks.size == 0)
+        if (tasks.isEmpty())
             posted = false;
         else
-            Gdx.app.postRunnable(timerRunnable);
+            postRunnable(timerRunnable);
+    }
+
+    /** Adds a Runnable to be executed at the *next application cycle(loop)*. */
+    private void postRunnable(final Runnable runnable) {
+        SystemUtils.postRunnable(runnable);
     }
 }

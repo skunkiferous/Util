@@ -31,6 +31,9 @@ package com.blockwithme.util.shared;
  * within GWT. OTOH, converting long to double and back is cheap in the JVM,
  * so it should not cause any significant issues in Java.
  *
+ * Beware that in some case, multiple concurrent calls to this method are
+ * possible.
+ *
  * @author monster
  */
 public interface TimeSource {

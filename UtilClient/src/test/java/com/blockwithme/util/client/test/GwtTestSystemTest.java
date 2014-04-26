@@ -18,14 +18,12 @@ package com.blockwithme.util.client.test;
 import java.util.Date;
 import java.util.Properties;
 
-import com.google.gwt.junit.client.GWTTestCase;
-
 /**
  * Tests java.lang.System emulation.
  *
  * @author monster
  */
-public class GwtTestSystemTest extends GWTTestCase {
+public class GwtTestSystemTest extends BaseGWTTestCase {
 
     /** Time that must be before the test real execution time. */
     @SuppressWarnings("deprecation")
@@ -36,14 +34,6 @@ public class GwtTestSystemTest extends GWTTestCase {
     @SuppressWarnings("deprecation")
     private static final long FUTURE_TIME = new Date(1100/*3000*/, 0/*JAN*/,
             1).getTime();
-
-    /* (non-Javadoc)
-     * @see com.google.gwt.junit.client.GWTTestCase#getModuleName()
-     */
-    @Override
-    public String getModuleName() {
-        return "com.blockwithme.util.UtilClient";
-    }
 
     /**
      * Tests System.out
