@@ -16,6 +16,7 @@
 package com.blockwithme.util.client.test;
 
 import com.blockwithme.util.client.UtilEntryPoint;
+import com.blockwithme.util.shared.SystemUtils;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -36,6 +37,13 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
             injector = GWT.create(TestInjector.class);
             assertNotNull("TestInjector", injector);
         }
+    }
+
+    @Override
+    protected void gwtTearDown() throws Exception {
+        // Just in case, we don't get back to the event loop between
+        // test methods
+        SystemUtils.updateCurrentTimeMillis();
     }
 
     /* (non-Javadoc)

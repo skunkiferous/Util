@@ -15,6 +15,7 @@
  */
 package com.blockwithme.util.client.test;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -39,35 +40,71 @@ public class GwtTestTimerTest extends BaseGWTTestCase {
                 // We don't need to assertTrue("marker[0]", marker[0]); we know it worked.
                 finishTest();
             }
-        }, 10);
-//
-//        new com.google.gwt.user.client.Timer() {
-//            @Override
-//            public void run() {
-//                marker[0] = true;
-//            }
-//        }.schedule(10);
-
+        }, 50);
         assertFalse("marker[0]", marker[0]);
     }
 
     public void testScheduleLongLong() {
-        // TODO Timer.schedule(long,long)
+        final Timer timer = SystemUtils.getTimer();
+        assertNotNull("getTimer()", timer);
+        final int[] counter = new int[] { 0 };
+        delayTestFinish(1000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("testScheduleLong() task executed");
+                counter[0]++;
+                if (counter[0] == 3) {
+                    finishTest();
+                }
+            }
+        }, 0, 50);
+        assertEquals("counter[0]", 0, counter[0]);
     }
 
     public void testScheduleDate() {
-        // TODO Timer.schedule(Date)
+        final Timer timer = SystemUtils.getTimer();
+        assertNotNull("getTimer()", timer);
+        final boolean[] marker = new boolean[] { false };
+        delayTestFinish(1000);
+        final Date date = new Date(System.currentTimeMillis() + 50);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("testScheduleLong() task executed");
+                marker[0] = true;
+                // We don't need to assertTrue("marker[0]", marker[0]); we know it worked.
+                finishTest();
+            }
+        }, date);
+        assertFalse("marker[0]", marker[0]);
     }
 
     public void testScheduleDateLong() {
-        // TODO Timer.schedule(Date,long)
+        final Timer timer = SystemUtils.getTimer();
+        assertNotNull("getTimer()", timer);
+        final int[] counter = new int[] { 0 };
+        delayTestFinish(1000);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println("testScheduleLong() task executed");
+                counter[0]++;
+                if (counter[0] == 3) {
+                    finishTest();
+                }
+            }
+        }, new Date(), 50);
+        assertEquals("counter[0]", 0, counter[0]);
     }
 
     public void testScheduleAtFixedRateLongLong() {
-        // TODO Timer.scheduleAtFixedRate(long,long)
+        // No need to test again the same thing.
+        // testScheduleLongLong();
     }
 
     public void testScheduleAtFixedRateDateLong() {
-        // TODO Timer.scheduleAtFixedRate(Date,long)
+        // No need to test again the same thing.
+        // testScheduleDateLong()
     }
 }

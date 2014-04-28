@@ -16,6 +16,7 @@
 package javax.script;
 
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
@@ -31,6 +32,9 @@ import javax.script.SimpleBindings;
  * TODO Test!
  */
 public class ScriptEngineManager {
+
+    /** Logger */
+    private static final Logger LOG = Logger.getLogger(ScriptEngineManager.class.getName());
 
     /** Empty bindings. */
     private static final Bindings EMPTY = new SimpleBindings();
@@ -143,7 +147,7 @@ public class ScriptEngineManager {
          */
         native void prepareOnWindow(int index)
         /*-{
-        $wnd["reactive4java_bindings_" + index] = new Array();
+			$wnd["blockwithme_util_bindings_" + index] = new Array();
         }-*/;
 
         /**
@@ -152,9 +156,42 @@ public class ScriptEngineManager {
          * @param name the variable name
          * @param value the value
          */
-        native void setOnWindow(int index, String name, Object value)
+        native void setOnWindow(int index, String name, boolean value)
         /*-{
-        $wnd["reactive4java_bindings_" + index][name] = value;
+			$wnd["blockwithme_util_bindings_" + index][name] = value;
+        }-*/;
+
+        /**
+         * Set a binding variable name and value on the given sequence.
+         * @param index the sequence number
+         * @param name the variable name
+         * @param value the value
+         */
+        native void setOnWindow(int index, String name, double value)
+        /*-{
+			$wnd["blockwithme_util_bindings_" + index][name] = value;
+        }-*/;
+
+        /**
+         * Set a binding variable name and value on the given sequence.
+         * @param index the sequence number
+         * @param name the variable name
+         * @param value the value
+         */
+        native void setOnWindow(int index, String name, String value)
+        /*-{
+			$wnd["blockwithme_util_bindings_" + index][name] = value;
+        }-*/;
+
+        /**
+         * Set a binding variable name and value on the given sequence.
+         * @param index the sequence number
+         * @param name the variable name
+         * @param value the value
+         */
+        native void setUnknownOnWindow(int index, String name, Object value)
+        /*-{
+			$wnd["blockwithme_util_bindings_" + index][name] = value;
         }-*/;
 
         /**
@@ -163,7 +200,7 @@ public class ScriptEngineManager {
          */
         native void clearOnWindow(int index)
         /*-{
-        $wnd["reactive4java_bindings_" + index] = null;
+			$wnd["blockwithme_util_bindings_" + index] = null;
         }-*/;
 
         /**
@@ -175,15 +212,35 @@ public class ScriptEngineManager {
          */
         native Object invoke(String script)
         /*-{
-        var result = $wnd.eval(script);
-        if (typeof(result) == "boolean") {
-        return result ? @java.lang.Boolean::TRUE : @java.lang.Boolean::FALSE;
-        } else
-        if (typeof(result) == "number") {
-        return @java.lang.Double::valueOf(D)(result);
-        }
-        return result;
+			var result = $wnd.eval(script);
+			if (typeof (result) == "boolean") {
+				return result ? @java.lang.Boolean::TRUE
+						: @java.lang.Boolean::FALSE;
+			} else if (typeof (result) == "number") {
+				return @java.lang.Double::valueOf(D)(result);
+			}
+			return result;
         }-*/;
+
+        /**
+         * Set a binding variable name and value on the given sequence.
+         * @param index the sequence number
+         * @param name the variable name
+         * @param value the value
+         */
+        private void setOnWindow(int index, String name, Object value) {
+            if (value != null) {
+                if (value instanceof Boolean) {
+                    setOnWindow(index, name, ((Boolean) value).booleanValue());
+                } else if (value instanceof Number) {
+                    setOnWindow(index, name, ((Number) value).doubleValue());
+                } else if (value instanceof String) {
+                    setOnWindow(index, name, (String) value);
+                } else {
+                    setUnknownOnWindow(index, name, value);
+                }
+            }
+        }
 
         /**
          * Invoke the script with the given mappings of variables.
@@ -197,17 +254,29 @@ public class ScriptEngineManager {
                 StringBuilder script2 = new StringBuilder();
                 prepareOnWindow(seq);
                 for (Map.Entry<String, Object> e : bindings.entrySet()) {
-                    setOnWindow(seq, e.getKey(), e.getValue());
+                    final Object value = e.getValue();
+                    setOnWindow(seq, e.getKey(), value);
                     script2.append("var ").append(e.getKey()).append(" = ")
-                            .append("window[\"reactive4java_bindings_\" + ")
+                            .append("window[\"blockwithme_util_bindings_\" + ")
                             .append(seq).append("][\"").append(e.getKey())
-                            .append("\"];\r\n");
+                            .append("\"]; // ").append(value).append("\r\n");
                 }
                 script2.append("\r\n").append(script);
-                return invoke(script);
+                LOG.info("RUNNING SCRIPT: "+script2);
+                return invoke(script2.toString());
             } finally {
                 clearOnWindow(seq);
             }
+//            StringBuilder script2 = new StringBuilder();
+//            for (Map.Entry<String, Object> e : bindings.entrySet()) {
+//                final Object value = e.getValue();
+//                final Object value2 = (value instanceof String) ? "\""+value+"\"" : value;
+//                script2.append("var ").append(e.getKey()).append(" = ")
+//                        .append(value2).append(";\r\n");
+//            }
+//            script2.append("\r\n").append(script);
+//            LOG.warning("EFFECTIVE SCRIPT: "+script2);
+//            return invoke(script2.toString());
         }
     }
 

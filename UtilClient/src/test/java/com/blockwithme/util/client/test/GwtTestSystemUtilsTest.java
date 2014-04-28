@@ -42,12 +42,12 @@ public class GwtTestSystemUtilsTest extends BaseGWTTestCase {
     }
 
     public void testCurrentTimeMillis() {
-        final long stime = System.currentTimeMillis();
         final double sutime = SystemUtils.currentTimeMillis();
+        final long stime = System.currentTimeMillis();
         // We should not have any special TimeSource in the tests
         // such that both must be about the same.
         // Delta is huge; idk why it takes so long. Maybe JIT kicks in?
-        assertEquals("currentTimeMillis()", stime, sutime, 1000.0);
+        assertEquals("currentTimeMillis()", stime, sutime, 100.0);
     }
 
     public void testDoubleToRawLongBits() {
@@ -124,13 +124,22 @@ public class GwtTestSystemUtilsTest extends BaseGWTTestCase {
         final long now = (long) SystemUtils.currentTimeMillis();
         assertTrue("newDate() vs currentTimeMillis()",
                 Math.abs(date.getTime() - now) < 100L);
+        assertEquals("local(Date) vs local()", SystemUtils.local(date)
+                .substring(0, 20), SystemUtils.local().substring(0, 20));
+        assertEquals("utc(Date) vs utc()",
+                SystemUtils.utc(date).substring(0, 20), SystemUtils.utc()
+                        .substring(0, 20));
         final String local = SystemUtils.local(D_2015_01_01);
         assertTrue("local: " + local, local.matches(DATE_FORMAT));
         final String utc = SystemUtils.utc(D_2015_01_01);
         assertTrue("utc: " + utc, utc.matches(DATE_FORMAT));
         assertFalse("utc==local", local.equals(utc));
-        // TODO SystemUtils.*local*()
-        // TODO SystemUtils.*utc*()
+
+        final String full = SystemUtils.utc();
+        final String utcdate = SystemUtils.utcDate();
+        final String utctime = SystemUtils.utcTime();
+        assertEquals(full.substring(0, 10), utcdate);
+        assertEquals(full.substring(11, 20), utctime.substring(0, 9));
     }
 
     public void testReflection() {

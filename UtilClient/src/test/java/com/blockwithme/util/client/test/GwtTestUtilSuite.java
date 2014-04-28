@@ -24,7 +24,7 @@ import com.google.gwt.junit.tools.GWTTestSuite;
  *
  * @author monster
  */
-public class UtilGwtTestSuite extends GWTTestSuite {
+public class GwtTestUtilSuite extends GWTTestSuite {
     public static TestSuite suite() {
         final TestSuite suite = new GWTTestSuite("All the Util GWT tests");
         suite.addTestSuite(GwtTestRandomTest.class);
@@ -32,6 +32,7 @@ public class UtilGwtTestSuite extends GWTTestSuite {
         suite.addTestSuite(GwtTestSystemUtilsTest.class);
         suite.addTestSuite(GwtTestThreadTest.class);
         suite.addTestSuite(GwtTestTimerTest.class);
+        suite.addTestSuite(GwtTestScriptEngineManagerTest.class);
         return suite;
     }
 }

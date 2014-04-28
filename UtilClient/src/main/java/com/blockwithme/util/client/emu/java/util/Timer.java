@@ -92,7 +92,11 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void schedule(TimerTask task, Date when) {
-        schedule(task, when.getTime() - System.currentTimeMillis());
+        long delay = when.getTime() - System.currentTimeMillis();
+        if (delay < 0) {
+            delay = 0;
+        }
+        schedule(task, delay);
     }
 
     /**
@@ -154,7 +158,11 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void schedule(TimerTask task, Date when, long period) {
-        schedule(task, when.getTime() - System.currentTimeMillis(), period);
+        long delay = when.getTime() - System.currentTimeMillis();
+        if (delay < 0) {
+            delay = 0;
+        }
+        schedule(task, delay, period);
     }
 
     /**
@@ -197,7 +205,11 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void scheduleAtFixedRate(TimerTask task, Date when, long period) {
-        scheduleAtFixedRate(task, when.getTime() - System.currentTimeMillis(), period);
+        long delay = when.getTime() - System.currentTimeMillis();
+        if (delay < 0) {
+            delay = 0;
+        }
+        scheduleAtFixedRate(task, delay, period);
     }
 
     /** Stops the timer, tasks will not be executed and time that passes will not be applied to the task delays. */

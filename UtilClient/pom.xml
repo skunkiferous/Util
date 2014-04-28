@@ -213,6 +213,8 @@
 	    <systemProperties>
 	      <java.awt.headless>true</java.awt.headless>
 	    </systemProperties>
+	    <!-- Run only test suites not individual test cases. -->
+  		<includes>**/Gwt*Suite.java</includes>
 	</configuration>
 </plugin>
 
