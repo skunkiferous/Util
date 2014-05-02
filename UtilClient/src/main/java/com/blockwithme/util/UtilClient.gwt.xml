@@ -10,7 +10,10 @@
     <inherits name="com.google.gwt.logging.Logging"/>
     <inherits name="com.google.gwt.inject.Inject"/>
     <inherits name="com.blockwithme.util.UtilShared"/>
-
+<!--
+    <inherits name='org.timepedia.exporter.Exporter'/>
+    <set-property name="export" value="yes"/>
+ -->
 	<super-source path="client/emu" />
 	<source path="client">
 		<exclude name="**/emu/**" />

@@ -19,6 +19,8 @@ import javax.script.Bindings;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import com.blockwithme.util.client.SomeDataType;
+
 /**
  * Tests javax.script.ScriptEngineManager emulation.
  *
@@ -28,12 +30,12 @@ public class GwtTestScriptEngineManagerTest extends BaseGWTTestCase {
 
     public void testStrings() {
         final ScriptEngineManager manager = new ScriptEngineManager();
-        manager.put("global_A", "abc");
+        manager.put("va", "abc");
         final ScriptEngine engine = manager.getEngineByName("js");
         final Bindings bindings = engine.createBindings();
-        bindings.put("engine_B", "def");
+        bindings.put("vb", "def");
         try {
-            final Object result = engine.eval("global_A + engine_B;", bindings);
+            final Object result = engine.eval("return va + vb;", bindings);
             assertEquals("abcdef", result);
         } catch (final javax.script.ScriptException e) {
             throw new RuntimeException(e);
@@ -42,13 +44,50 @@ public class GwtTestScriptEngineManagerTest extends BaseGWTTestCase {
 
     public void testNumbers() {
         final ScriptEngineManager manager = new ScriptEngineManager();
-        manager.put("global_A", 3.0);
-        final ScriptEngine engine = manager.getEngineByName("js");
+        manager.put("vc", 3.0);
+        final ScriptEngine engine = manager.getEngineByName("javascript");
         final Bindings bindings = engine.createBindings();
-        bindings.put("engine_B", 6.0);
+        bindings.put("vd", 6.0);
         try {
-            final Object result = engine.eval("global_A + engine_B;", bindings);
+            final Object result = engine.eval("return vc + vd;", bindings);
             assertEquals(new Double(9.0), result);
+        } catch (final javax.script.ScriptException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testExport() {
+        assertEquals("John", SomeDataType.create().name());
+    }
+
+    public void testCreateObjects() {
+        SomeDataType.exportType();
+        final ScriptEngineManager manager = new ScriptEngineManager();
+        final ScriptEngine engine = manager.getEngineByName("javascript");
+        try {
+            final Object result = engine
+                    .eval("var sdt = new $wnd.com.blockwithme.util.client.SomeDataType();\n" // NOP
+                            + "sdt.age = sdt.name().length;\n" // NOP
+                            + "return sdt;" // NOP
+                    );
+            assertTrue(result instanceof SomeDataType);
+        } catch (final javax.script.ScriptException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void testObjects() {
+        final ScriptEngineManager manager = new ScriptEngineManager();
+        final ScriptEngine engine = manager.getEngineByName("javascript");
+        final Bindings bindings = engine.createBindings();
+        final SomeDataType data = SomeDataType.create();
+        bindings.put("ve", data);
+        try {
+            final Object result = engine.eval(
+                    "var result = ve.name()+ve.age.toString();" + "ve.age=-1;"
+                            + "return result;", bindings);
+            assertEquals("John42", result);
+            assertEquals(-1, data.getAge());
         } catch (final javax.script.ScriptException e) {
             throw new RuntimeException(e);
         }

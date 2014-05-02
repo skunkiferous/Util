@@ -28,8 +28,6 @@ import javax.script.SimpleBindings;
  * @author karnok, 2011.02.20.
  *
  * Greatly expanded by Sebastien Diot.
- *
- * TODO Test!
  */
 public class ScriptEngineManager {
 
@@ -148,6 +146,9 @@ public class ScriptEngineManager {
         native void prepareOnWindow(int index)
         /*-{
 			$wnd["blockwithme_util_bindings_" + index] = new Array();
+			// This makes sure I can use "$wnd" everywhere. In fact,
+			// this is the only way to get everything to work cleanly.
+			$wnd["$wnd"] = $wnd;
         }-*/;
 
         /**
@@ -201,6 +202,7 @@ public class ScriptEngineManager {
         native void clearOnWindow(int index)
         /*-{
 			$wnd["blockwithme_util_bindings_" + index] = null;
+			$wnd["$wnd"] = null;
         }-*/;
 
         /**
@@ -234,8 +236,8 @@ public class ScriptEngineManager {
                     setOnWindow(index, name, ((Boolean) value).booleanValue());
                 } else if (value instanceof Number) {
                     setOnWindow(index, name, ((Number) value).doubleValue());
-                } else if (value instanceof String) {
-                    setOnWindow(index, name, (String) value);
+                } else if ((value instanceof CharSequence) || (value instanceof Character)) {
+                    setOnWindow(index, name, value.toString());
                 } else {
                     setUnknownOnWindow(index, name, value);
                 }
@@ -253,30 +255,27 @@ public class ScriptEngineManager {
             try {
                 StringBuilder script2 = new StringBuilder();
                 prepareOnWindow(seq);
+                final String key = "blockwithme_util_bindings_"+seq;
+                script2.append("var $tmp = $wnd[\"").append(key).append("\"];\n");
+                script2.append("$tmp[\"").append(key)
+                    .append("\"] = function() {\n");
+                script2.append("$tmp[\"").append(key)
+                .append("\"] = undefined;\n");
                 for (Map.Entry<String, Object> e : bindings.entrySet()) {
                     final Object value = e.getValue();
                     setOnWindow(seq, e.getKey(), value);
                     script2.append("var ").append(e.getKey()).append(" = ")
-                            .append("window[\"blockwithme_util_bindings_\" + ")
-                            .append(seq).append("][\"").append(e.getKey())
-                            .append("\"]; // ").append(value).append("\r\n");
+                            .append("$tmp[\"").append(e.getKey())
+                            .append("\"];\n");
                 }
-                script2.append("\r\n").append(script);
+                script2.append("\n").append(script).append("\n}\n");
+                script2.append("$tmp[\"").append(key)
+                .append("\"]();\n");
                 LOG.info("RUNNING SCRIPT: "+script2);
                 return invoke(script2.toString());
             } finally {
                 clearOnWindow(seq);
             }
-//            StringBuilder script2 = new StringBuilder();
-//            for (Map.Entry<String, Object> e : bindings.entrySet()) {
-//                final Object value = e.getValue();
-//                final Object value2 = (value instanceof String) ? "\""+value+"\"" : value;
-//                script2.append("var ").append(e.getKey()).append(" = ")
-//                        .append(value2).append(";\r\n");
-//            }
-//            script2.append("\r\n").append(script);
-//            LOG.warning("EFFECTIVE SCRIPT: "+script2);
-//            return invoke(script2.toString());
         }
     }
 
