@@ -23,20 +23,11 @@ public class SomeDataType extends JavaScriptObject {
 
     /** "Registers" (export) this type in JavaScript, so it can be used from there too. */
     private static final native void doExportType() /*-{
-		if (!$wnd.com) {
-			$wnd.com = {};
-		}
-
+		$wnd.com = $wnd.com || {};
 		var com = $wnd.com
-		if (!com.blockwithme) {
-			com.blockwithme = {};
-		}
-		if (!com.blockwithme.util) {
-			com.blockwithme.util = {};
-		}
-		if (!com.blockwithme.util.client) {
-			com.blockwithme.util.client = {};
-		}
+		com.blockwithme = com.blockwithme || {};
+		com.blockwithme.util = com.blockwithme.util || {};
+		com.blockwithme.util.client = com.blockwithme.util.client || {};
 
 		function SomeDataType() {
 			this.age = 42;

@@ -106,9 +106,14 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#newInstanceImpl(java.lang.Class)
      */
+    @SuppressWarnings("unchecked")
     @Override
     protected <T> T newInstanceImpl(final Class<T> c) {
-        return (T) ReflectionCache.getType(c).newInstance();
+        try {
+            return (T) ReflectionCache.getType(c).newInstance();
+        } catch (final NoSuchMethodException e) {
+            throw new RuntimeException("Could not instansiate " + c, e);
+        }
     }
 
     /* (non-Javadoc)
@@ -167,6 +172,6 @@ public class GWTSystemUtilsImpl extends SystemUtils {
             public void run() {
                 updateCurrentTimeMillis();
             }
-        }.scheduleRepeating((int) CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
+        }.scheduleRepeating(CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
     }
 }
