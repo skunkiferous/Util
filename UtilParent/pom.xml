@@ -44,6 +44,10 @@
 		<version>0.1.0</version>
 	</parent>
 
+	<properties>
+		<gwt.style>PRETTY</gwt.style>
+	</properties>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -71,6 +75,9 @@
 		<module>../UtilServer</module>
 		<module>../UtilPrototypes</module>
 		<module>../UtilClient</module>
+		<module>../UtilLinker</module>
+		<module>../UtilWebWorker</module>
+		<module>../UtilWWTest</module>
 	</modules>
 
 	<repositories>

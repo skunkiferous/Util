@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1399399957176
+Build-Jdk: 1.7.0_45
+Built-By: monster
+Bundle-Description: GWT WebWorker Linker Library
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: UtilLinker
+Bundle-SymbolicName: com.blockwithme.UtilLinker
+Bundle-Vendor: Sebastien Diot
+Bundle-Version: 0.1.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.blockwithme.util.linker;uses:="com.google.gwt.core.e
+ xt,com.google.gwt.core.ext.linker,com.google.gwt.core.linker";version="
+ 0.1.0"
+FuncGenerated012-dependency-version: 1.2.0
+Import-Package: com.google.gwt.core.ext,com.google.gwt.core.ext.linker,c
+ om.google.gwt.core.linker
+Tool: Bnd-2.1.0.20130426-122213
