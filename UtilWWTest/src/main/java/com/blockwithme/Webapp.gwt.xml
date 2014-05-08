@@ -8,9 +8,18 @@
 <module rename-to='webapp'>
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="elemental.Elemental"/>
-  <inherits name='com.google.gwt.user.theme.clean.Clean'/>
-  <inherits name='com.google.gwt.core.Core' />
-  <inherits name="com.google.gwt.json.JSON" />
+    <inherits name='com.google.gwt.core.Core' />
+    <!-- This one is not really needed; tries to fix warnings in unit tests -->
+    <inherits name='com.google.gwt.user.theme.clean.Clean'/>
+    <inherits name="com.google.gwt.json.JSON" />
+    <inherits name="com.google.gwt.logging.Logging"/>
+    <inherits name="com.google.gwt.inject.Inject"/>
+    <inherits name="com.badlogic.gdx" />
+    <inherits name="com.badlogic.gwtref.GwtReflect"/>
+    <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+    <inherits name="com.blockwithme.util.UtilShared"/>
+    <inherits name="com.blockwithme.util.UtilClient"/>
+
     <inherits name="com.blockwithme.util.client.WebWorker"/>
 
   <!-- Specify the app entry point class.                         -->

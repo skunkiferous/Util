@@ -42,7 +42,6 @@
 	</parent>
 
     <dependencies>
-<!--
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
@@ -52,6 +51,19 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>UtilLinker</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>UtilLinker</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
@@ -69,7 +81,6 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
- -->
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilWebWorker</artifactId>
@@ -79,19 +90,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilWebWorker</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilLinker</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilLinker</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
@@ -119,7 +117,6 @@
 			<classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-<!--
         <dependency>
             <groupId>com.google.gwt</groupId>
             <artifactId>gwt-dev</artifactId>
@@ -130,8 +127,6 @@
             <artifactId>gwt-dev</artifactId>
             <classifier>sources</classifier>
         </dependency>
- -->
-<!--
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>
@@ -166,7 +161,6 @@
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
 		</dependency>
- -->
     </dependencies>
     <build>
         <plugins>

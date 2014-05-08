@@ -15,6 +15,8 @@
  */
 package com.blockwithme.util.client.webworkers;
 
+import com.google.gwt.json.client.JSONObject;
+
 /**
  * Simplified interface representing a WebWorker.
  *
@@ -28,9 +30,33 @@ public interface WebWorker<WORKER> {
      * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
      *
      * @param channel The the "channel" to which this message is sent. Default channel is null.
-     * @param message The object to deliver to the worker; this will be in the data field in the event delivered to the <code>onmessage</code> handler. This may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     * @param message The object to deliver to the worker; this will be in the data field in the event delivered to the <code>onmessage</code> handler.
      */
-    void postMessage(String channel, Object message);
+    void postMessage(String channel, JSONObject message);
+
+    /**
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     *
+     * @param channel The the "channel" to which this message is sent. Default channel is null.
+     * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
+     */
+    void postMessage(String channel, String value);
+
+    /**
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     *
+     * @param channel The the "channel" to which this message is sent. Default channel is null.
+     * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
+     */
+    void postMessage(String channel, double value);
+
+    /**
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     *
+     * @param channel The the "channel" to which this message is sent. Default channel is null.
+     * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
+     */
+    void postMessage(String channel, boolean value);
 
     /**
      * Immediately terminates the worker. This does not offer the worker an opportunity to finish its operations; it is simply stopped at once.

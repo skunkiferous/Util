@@ -17,11 +17,12 @@
 package com.blockwithme.client;
 
 import com.blockwithme.util.client.webworkers.WebWorker;
-import com.blockwithme.util.client.webworkers.WebWorkerFacade;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
+import com.blockwithme.util.client.webworkers.main.WebWorkerFacade;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -47,9 +48,9 @@ public class WebApp implements EntryPoint {
                 "sampleworker", new WebWorkerListener() {
                     @Override
                     public void onMessage(final String channel,
-                            final Object data) {
+                            final JSONObject message) {
                         final Label l = new Label("Worker says: " + channel
-                                + " => " + data);
+                                + " => " + message);
                         RootPanel.get("container2").insert(l, 0);
                     }
                 });

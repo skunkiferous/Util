@@ -38,8 +38,18 @@ public class WorkerLinker extends D8ScriptLinker {
         result = "var load = importScripts;\n" //
                 + "window = self;\n" //
                 + "window.document = self;\n" //
-                + "function print(msg) { self.postMessage('LOG:'+msg); };\n" //
-                + result.substring(start);
+                + "window.write = function(txt) {\n" //
+                + "  var start = txt.search('src=')+5;\n" //
+                + "  var end = txt.search('><\\/script>')-1;\n" //
+                + "  var file = txt.substring(start, end);\n" //
+                + "  load(file);\n" //
+                + "};\n" //
+                + "console = {};\n" //
+                + "function log(level,msg) { self.postMessage({'_channel_':'java.util.logging','level':level,'loggerName':'global','message':msg,'millis':(new Date()).getTime()}); };\n" //
+                + "console.info = function(msg) { log('INFO',msg); };\n" //
+                + "console.error = function(msg) { log('SEVERE',msg); };\n" //
+                + "var print = console.info;\n" //
+                + result.substring(start).replace("console = {};", "");
         return result;
     }
 }

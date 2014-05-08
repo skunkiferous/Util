@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1399399957176
+Bnd-LastModified: 1399584254538
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: GWT WebWorker Linker Library

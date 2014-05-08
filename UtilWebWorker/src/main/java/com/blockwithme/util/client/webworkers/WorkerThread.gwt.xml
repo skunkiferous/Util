@@ -10,6 +10,10 @@
     <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
     <set-configuration-property name="document.compatMode.severity" value="IGNORE" />
 
+    <replace-with class="com.blockwithme.util.client.webworkers.thread.impl.WebWorkerLoggerImpl">
+        <when-type-is class="com.google.gwt.logging.impl.LoggerImplNull"/>
+    </replace-with>
+
 	<source path="thread" />
 
 	<add-linker name="workerlinker" />

@@ -15,6 +15,8 @@
  */
 package com.blockwithme.util.client.webworkers;
 
+import com.google.gwt.json.client.JSONObject;
+
 /**
  * Receives events and errors from a web-worker (or the main thread).
  *
@@ -24,11 +26,11 @@ public interface WebWorkerListener {
     /**
      * Called when a message is received.
      *
-     * The data can be any object that can be passed to {@link WebWorker#postMessage(String,Object)}
+     * The data can be any object that can be passed to {@link WebWorker#postMessage(String, JSONObject)}
      * Note that the object is a *copy*, and changing it will not affect the original.
      *
      * @param channel The channel on which this message was received.
      * @param message The message.
      */
-    void onMessage(String channel, Object message);
+    void onMessage(String channel, JSONObject message);
 }

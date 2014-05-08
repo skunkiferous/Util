@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.client.webworkers.impl;
+package com.blockwithme.util.client.webworkers.main.impl;
 
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
+import com.blockwithme.util.client.webworkers.impl.AbstractWebWorkerImpl;
 
 import elemental.html.Worker;
 

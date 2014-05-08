@@ -16,9 +16,13 @@
  **************************************************************************/
 package com.blockwithme.sampleworker;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.blockwithme.util.client.webworkers.WebWorker;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
 import com.blockwithme.util.client.webworkers.thread.ThreadFacade;
+import com.blockwithme.util.client.webworkers.thread.impl.LogHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.json.client.JSONObject;
 
@@ -26,30 +30,31 @@ import elemental.js.html.JsDedicatedWorkerGlobalScope;
 
 public final class SampleWorker implements EntryPoint, WebWorkerListener {
 
+    /** The Logger */
+    private static final Logger LOG = Logger.getLogger("SampleWorker");
+
     private WebWorker<JsDedicatedWorkerGlobalScope> worker;
 
-    // Export the brige method when the application is loaded
     @Override
     public void onModuleLoad() {
         worker = ThreadFacade.newWorker(this);
-        worker.postMessage("info", "SampleWorker setup");
+        final Logger rootLogger = Logger.getLogger("");
+        rootLogger.addHandler(new LogHandler(worker));
+        LOG.info("SampleWorker setup");
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.client.webworkers.WebWorkerListener#onMessage(java.lang.String,java.lang.Object)
      */
     @Override
-    public void onMessage(final String channel, final Object data) {
-        worker.postMessage("debug", data);
+    public void onMessage(final String channel, final JSONObject message) {
         try {
             worker.postMessage(null, "----====----");
             worker.postMessage(null,
                     "Current timestamp " + System.currentTimeMillis());
-            worker.postMessage(null, "Received message \"" + data + "\"");
+            worker.postMessage(null, "Received message \"" + message + "\"");
         } catch (final Exception e) {
-            worker.postMessage("error", e);
-            throw new RuntimeException("worker: "
-                    + new JSONObject(worker.getWorker()).toString(), e);
+            LOG.log(Level.SEVERE, "Failed to process message: " + message, e);
         }
     }
 }

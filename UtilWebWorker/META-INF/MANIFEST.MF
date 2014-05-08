@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1399406265312
+Bnd-LastModified: 1399584245975
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: GWT WebWorker Library
@@ -10,11 +10,13 @@ Bundle-SymbolicName: com.blockwithme.UtilWebWorker
 Bundle-Vendor: Sebastien Diot
 Bundle-Version: 0.1.0
 Created-By: Apache Maven Bundle Plugin
-Export-Package: com.blockwithme.util.client.webworkers.thread;uses:="com
- .blockwithme.util.client.webworkers,elemental.js.html";version="0.1.0",
- com.blockwithme.util.client.webworkers;uses:="elemental.html";version="
- 0.1.0"
+Export-Package: com.blockwithme.util.client.webworkers.main;uses:="com.b
+ lockwithme.util.client.webworkers,elemental.html";version="0.1.0",com.b
+ lockwithme.util.client.webworkers.thread;uses:="com.blockwithme.util.cl
+ ient.webworkers,elemental.js.html";version="0.1.0",com.blockwithme.util
+ .client.webworkers;uses:="com.google.gwt.json.client";version="0.1.0"
 FuncGenerated012-dependency-version: 1.2.0
-Import-Package: com.google.gwt.core.client,com.google.gwt.json.client,el
- emental.events,elemental.html,elemental.js.html
+Import-Package: com.blockwithme.util.client.webworkers,com.google.gwt.co
+ re.client,com.google.gwt.json.client,com.google.gwt.logging.impl,elemen
+ tal.events,elemental.html,elemental.js.html
 Tool: Bnd-2.1.0.20130426-122213
