@@ -38,17 +38,29 @@ public class WorkerLinker extends D8ScriptLinker {
         result = "var load = importScripts;\n" //
                 + "window = self;\n" //
                 + "window.document = self;\n" //
-                + "window.write = function(txt) {\n" //
-                + "  var start = txt.search('src=')+5;\n" //
-                + "  var end = txt.search('><\\/script>')-1;\n" //
-                + "  var file = txt.substring(start, end);\n" //
-                + "  load(file);\n" //
+                + "window.write = function(txt) {\n" // Assumes we want to load a script.
+                + "  var start = txt.search('src=');\n" // No point in loading HTML ... in a WebWorker.
+                + "  var end = txt.search('><\\/script>');\n" //
+                + "  if ((start != -1) && (end != -1)) {\n" //
+                + "    importScripts(txt.substring(start+5, end-1));\n" //
+                + "  } else {\n" //
+                + "    console.error('Cannot parse window.write('+txt+')');\n;" //
+                + "  };\n" //
                 + "};\n" //
-                + "console = {};\n" //
                 + "function log(level,msg) { self.postMessage({'_channel_':'java.util.logging','level':level,'loggerName':'global','message':msg,'millis':(new Date()).getTime()}); };\n" //
+                + "console = {};\n" //
+                + "console.debug = function(msg) { log('FINE',msg); };\n" //
                 + "console.info = function(msg) { log('INFO',msg); };\n" //
+                + "console.warn = function(msg) { log('WARNING',msg); };\n" //
                 + "console.error = function(msg) { log('SEVERE',msg); };\n" //
-                + "var print = console.info;\n" //
+                + "console.group = function(grp) {};\n" //
+                + "console.groupCollapsed = function(grp) {};\n" //
+                + "console.groupEnd = function() {};\n" //
+                + "console.exception = console.error;\n" //
+                + "console.time = function(name) { log('INFO','START:'+name); };\n" //
+                + "console.timeEnd = function(name) { log('INFO','END:'+name); };\n" //
+                + "console.trace = function() { console.info(Error().stack); };\n" //
+                + "var print = console.debug;\n" //
                 + result.substring(start).replace("console = {};", "");
         return result;
     }

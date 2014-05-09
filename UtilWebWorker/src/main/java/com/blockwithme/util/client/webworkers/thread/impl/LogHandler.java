@@ -31,6 +31,10 @@ import elemental.js.html.JsDedicatedWorkerGlobalScope;
 /**
  * Forward the logging messages to the main thread.
  *
+ * TODO Have the main thread specify the default log level,
+ *      so we drop message that are not logged anyway.
+ * TODO Add buffering, with a timer calling flush regularly.
+ *
  * @author monster
  */
 public class LogHandler extends Handler {

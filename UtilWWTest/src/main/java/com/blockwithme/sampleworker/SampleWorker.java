@@ -48,6 +48,7 @@ public final class SampleWorker implements EntryPoint, WebWorkerListener {
      */
     @Override
     public void onMessage(final String channel, final JSONObject message) {
+        LOG.fine("Got message: " + message);
         try {
             worker.postMessage(null, "----====----");
             worker.postMessage(null,

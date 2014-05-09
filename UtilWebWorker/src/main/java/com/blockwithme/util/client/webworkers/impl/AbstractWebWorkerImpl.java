@@ -76,19 +76,28 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
     public final void handleEvent(final elemental.events.Event evt) {
         if (evt instanceof MessageEvent) {
             final Object data = ((MessageEvent) evt).getData();
-            if ((data == null) || (data == JSONNull.getInstance())) {
+            if (data == null) {
                 logger.severe("got MessageEvent with null data");
             } else {
                 try {
-                    final JSONObject messageWrapper = new JSONObject(
-                            (JavaScriptObject) data);
-                    final JSONValue jsObject = messageWrapper.get("jsObject");
-                    if ((jsObject == null)
-                            || (jsObject == JSONNull.getInstance())) {
+                    JSONObject message = new JSONObject((JavaScriptObject) data);
+                    if (message.isObject() == null) {
                         logger.log(Level.SEVERE, "Problem parsing data: "
-                                + stringify(data) + " : jsObject is null");
+                                + stringify(data) + " : data not a JSONObject");
                     } else {
-                        final JSONObject message = jsObject.isObject();
+                        if (message.containsKey("jsObject")) {
+                            final JSONValue jsObject = message.get("jsObject");
+                            if (jsObject.isObject() != null) {
+                                message = jsObject.isObject();
+                            } else {
+                                logger.log(
+                                        Level.SEVERE,
+                                        "Problem parsing data: "
+                                                + stringify(data)
+                                                + " : data.jsObject not a JSONObject");
+                                message = null;
+                            }
+                        }
                         if (message != null) {
                             // Get and remove channel at the same time
                             final JSONValue channel = message.put("_channel_",
@@ -114,10 +123,6 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
                             } else {
                                 listener.onMessage(ch, message);
                             }
-                        } else {
-                            logger.log(Level.SEVERE, "Problem parsing data: "
-                                    + stringify(data)
-                                    + " : jsObject not a JSONObject");
                         }
                     }
                 } catch (final Throwable t) {
@@ -138,7 +143,7 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
     }
 
     private static native void postMessage2(final Object worker,
-            final JSONObject message)
+            final JavaScriptObject message)
     /*-{
            worker.postMessage(message);
        }-*/;
@@ -149,9 +154,9 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
         if (message != null) {
             message.put("_channel_", new JSONString(ch));
             try {
-                postMessage2(worker, message);
+                postMessage2(worker, message.getJavaScriptObject());
             } finally {
-                message.put("_channel_", JSONNull.getInstance());
+                message.put("_channel_", null);
             }
         } else {
             // We don't send null messages!
