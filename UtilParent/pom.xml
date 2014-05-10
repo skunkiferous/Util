@@ -76,8 +76,6 @@
 		<module>../UtilServer</module>
 		<module>../UtilPrototypes</module>
 		<module>../UtilClient</module>
-		<module>../UtilLinker</module>
-		<module>../UtilWebWorker</module>
 		<module>../UtilWWTest</module>
 	</modules>
 

@@ -11,13 +11,15 @@ Bundle-SymbolicName: com.blockwithme.Util-server
 Bundle-Vendor: Sebastien Diot
 Bundle-Version: 0.0.1
 Created-By: Apache Maven Bundle Plugin
-Export-Package: com.blockwithme.util.server.base40;uses:="com.blockwithm
- e.util,com.blockwithme.util.prim";version="0.0.1",com.blockwithme.util.
- server;uses:="com.blockwithme.util,com.blockwithme.util.annotations";ve
- rsion="0.0.1",com.blockwithme.util.server.properties;uses:="com.blockwi
- thme.util.server.properties.meta";version="0.0.1",com.blockwithme.util.
- server.properties.meta;uses:="com.blockwithme.util.server.properties";v
- ersion="0.0.1",com.blockwithme.util.server.stringnum;version="0.0.1"
+Export-Package: com.blockwithme.util.client.linker;version="0.1.0";uses:="com.google.gwt.core.ext,com.google.gwt.core.ext.linker,com.google.gwt.core.linker",
+ com.blockwithme.util.client.webworkers;version="0.1.0";uses:="com.google.gwt.json.client",
+ com.blockwithme.util.client.webworkers.main;version="0.1.0";uses:="com.blockwithme.util.client.webworkers,elemental.html",
+ com.blockwithme.util.client.webworkers.thread;version="0.1.0";uses:="com.blockwithme.util.client.webworkers,elemental.js.html",
+ com.blockwithme.util.server;version="0.0.1";uses:="com.blockwithme.util,com.blockwithme.util.annotations",
+ com.blockwithme.util.server.base40;version="0.0.1";uses:="com.blockwithme.util,com.blockwithme.util.prim",
+ com.blockwithme.util.server.properties;version="0.0.1";uses:="com.blockwithme.util.server.properties.meta",
+ com.blockwithme.util.server.properties.meta;version="0.0.1";uses:="com.blockwithme.util.server.properties",
+ com.blockwithme.util.server.stringnum;version="0.0.1"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.blockwithme.util.server.properties,
  com.blockwithme.util.server.properties.meta,

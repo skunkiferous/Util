@@ -4,7 +4,7 @@
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="elemental.Elemental"/>
     <inherits name='com.google.gwt.core.Core' />
-	<inherits name="com.blockwithme.util.WorkerLinker" />
+	<inherits name="com.blockwithme.util.client.WorkerLinker" />
     <inherits name="com.blockwithme.util.client.WebWorker"/>
 
     <set-configuration-property name="user.agent.runtimeWarning" value="false"/>

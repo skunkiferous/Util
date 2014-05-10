@@ -20,6 +20,8 @@
 	<super-source path="client/emu" />
 	<source path="client">
 		<exclude name="**/emu/**" />
+		<exclude name="**/webworkers/**" />
+		<exclude name="**/linker/**" />
 	</source>
 
     <entry-point class="com.blockwithme.util.client.UtilEntryPoint"/>

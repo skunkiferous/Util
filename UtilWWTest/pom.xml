@@ -70,19 +70,6 @@
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilLinker</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilLinker</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilClient</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
@@ -90,19 +77,6 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilClient</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilWebWorker</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilWebWorker</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>

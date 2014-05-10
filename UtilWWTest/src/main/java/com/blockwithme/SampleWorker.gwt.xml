@@ -15,7 +15,7 @@
     <inherits name="com.blockwithme.util.UtilShared"/>
     <inherits name="com.blockwithme.util.UtilClient"/>
 
-    <inherits name="com.blockwithme.util.WorkerLinker" />
+    <inherits name="com.blockwithme.util.client.WorkerLinker" />
 
     <inherits name="com.blockwithme.util.client.WebWorker"/>
     <inherits name="com.blockwithme.util.client.webworkers.WorkerThread"/>

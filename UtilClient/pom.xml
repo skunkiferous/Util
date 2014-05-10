@@ -248,7 +248,12 @@
 		</execution>
 	</executions>
 	<configuration>
-		<module>com.blockwithme.util.UtilClient</module>
+	    <modules>
+			<module>com.blockwithme.util.UtilClient</module>
+			<module>com.blockwithme.util.client.WorkerLinker</module>
+			<module>com.blockwithme.util.client.WebWorker</module>
+			<module>com.blockwithme.util.client.webworkers.WorkerThread</module>
+		</modules>
 		<strict>true</strict>
 		<draftCompile>true</draftCompile>
 		<optimizationLevel>0</optimizationLevel>
