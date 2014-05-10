@@ -17,7 +17,7 @@ package com.blockwithme.util.client;
 
 import java.util.logging.Logger;
 
-import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.base.SystemUtils;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.logging.client.ConsoleLogHandler;

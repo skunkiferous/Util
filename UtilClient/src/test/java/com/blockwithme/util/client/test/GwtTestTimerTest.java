@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.base.SystemUtils;
 
 /**
  * Tests GwtTestTimerTest.

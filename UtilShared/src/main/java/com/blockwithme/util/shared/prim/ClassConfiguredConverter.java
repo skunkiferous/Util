@@ -15,7 +15,7 @@
  ******************************************************************************/
 package com.blockwithme.util.shared.prim;
 
-import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.base.SystemUtils;
 
 /**
  * <code>EnumByteConverter</code> implements a ByteConverter for some enum type.

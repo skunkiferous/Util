@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.base;
 
 /**
  * Returns the current time. It is acceptable for an instance of this type to

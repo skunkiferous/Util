@@ -71,6 +71,7 @@
 		</pluginManagement>
 	</build>
 	<modules>
+		<module>../UtilBase</module>
 		<module>../UtilShared</module>
 		<module>../UtilServer</module>
 		<module>../UtilPrototypes</module>

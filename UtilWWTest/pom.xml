@@ -44,6 +44,19 @@
     <dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>UtilBase</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>UtilBase</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>

@@ -15,6 +15,8 @@
  */
 package com.blockwithme.util.shared;
 
+import com.blockwithme.util.base.TimeSource;
+
 /**
  * Default implementation of TimeSource.
  *
@@ -22,7 +24,7 @@ package com.blockwithme.util.shared;
  */
 public class DefaultTimeSource implements TimeSource {
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.TimeSource#currentTimeMillis()
+     * @see com.blockwithme.util.base.TimeSource#currentTimeMillis()
      */
     @Override
     public double currentTimeMillis() {

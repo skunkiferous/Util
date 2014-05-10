@@ -66,6 +66,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>UtilBase</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	    <dependency>
+			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
 			<version>${project.version}</version>
 		</dependency>

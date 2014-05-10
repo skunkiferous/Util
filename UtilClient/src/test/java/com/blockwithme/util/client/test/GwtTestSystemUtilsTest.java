@@ -17,8 +17,8 @@ package com.blockwithme.util.client.test;
 
 import java.util.Date;
 
-import com.blockwithme.util.shared.SystemUtils;
-import com.blockwithme.util.shared.TimeSource;
+import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.base.TimeSource;
 
 /**
  * Tests GWTSystemUtilsImpl.

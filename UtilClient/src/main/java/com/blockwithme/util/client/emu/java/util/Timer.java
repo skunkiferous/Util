@@ -18,7 +18,7 @@ package java.util;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.base.SystemUtils;
 
 /** Executes tasks in the future on the main loop thread.
  * @author Nathan Sweet */

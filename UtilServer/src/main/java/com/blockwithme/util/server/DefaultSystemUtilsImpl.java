@@ -22,7 +22,7 @@ import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.blockwithme.util.shared.SystemUtils;
+import com.blockwithme.util.base.SystemUtils;
 
 /**
  * Default implementation of SystemUtils for "standard" Java platforms.
@@ -130,7 +130,7 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#floatToRawIntBitsImpl(float)
+     * @see com.blockwithme.util.base.SystemUtils#floatToRawIntBitsImpl(float)
      */
     @Override
     protected int floatToRawIntBitsImpl(final float value) {
@@ -138,7 +138,7 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#doubleToRawLongBitsImpl(double)
+     * @see com.blockwithme.util.base.SystemUtils#doubleToRawLongBitsImpl(double)
      */
     @Override
     protected long doubleToRawLongBitsImpl(final double value) {
@@ -146,7 +146,7 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#reportUncaughtExceptionImpl(java.lang.Throwable)
+     * @see com.blockwithme.util.base.SystemUtils#reportUncaughtExceptionImpl(java.lang.Throwable)
      */
     @Override
     protected void reportUncaughtExceptionImpl(final Throwable e) {

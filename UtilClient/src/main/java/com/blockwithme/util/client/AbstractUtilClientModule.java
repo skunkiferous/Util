@@ -18,10 +18,10 @@ package com.blockwithme.util.client;
 import java.util.Random;
 import java.util.Timer;
 
-import com.blockwithme.util.shared.Application;
+import com.blockwithme.util.base.Application;
 import com.blockwithme.util.shared.DefaultApplication;
-import com.blockwithme.util.shared.SystemUtils;
-import com.blockwithme.util.shared.TimeSource;
+import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.base.TimeSource;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
@@ -36,7 +36,7 @@ public abstract class AbstractUtilClientModule extends AbstractGinModule {
     /** GWTTimeSource skips the double-to-long-to-double conversion. */
     private static final class GWTTimeSource implements TimeSource {
         /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.TimeSource#currentTimeMillis()
+         * @see com.blockwithme.util.base.TimeSource#currentTimeMillis()
          */
         @Override
         public native double currentTimeMillis() /*-{

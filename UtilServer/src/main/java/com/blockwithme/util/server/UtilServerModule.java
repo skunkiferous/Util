@@ -15,18 +15,18 @@
  */
 package com.blockwithme.util.server;
 
-import static com.blockwithme.util.shared.SystemUtils.CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
+import static com.blockwithme.util.base.SystemUtils.CURRENT_TIME_MILLIS_UPDATE_INTERVAL;
 
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
-import com.blockwithme.util.shared.Application;
+import com.blockwithme.util.base.Application;
 import com.blockwithme.util.shared.DefaultApplication;
 import com.blockwithme.util.shared.DefaultTimeSource;
-import com.blockwithme.util.shared.SystemUtils;
-import com.blockwithme.util.shared.TimeSource;
+import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.base.TimeSource;
 import com.google.inject.AbstractModule;
 
 /**

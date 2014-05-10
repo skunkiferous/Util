@@ -16,8 +16,7 @@
 
 package com.blockwithme.util.shared;
 
-import com.blockwithme.util.shared.SystemUtils;
-import com.blockwithme.util.shared.Validator;
+import com.blockwithme.util.base.SystemUtils;
 
 /**
  * <code>SuperclassTypeValidator</code> validates that the values are not null

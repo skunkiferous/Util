@@ -20,8 +20,8 @@ import java.util.Date;
 
 import com.badlogic.gwtref.client.ReflectionCache;
 import com.badlogic.gwtref.client.Type;
-import com.blockwithme.util.shared.SystemUtils;
-import com.blockwithme.util.shared.TimeSource;
+import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.base.TimeSource;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -36,7 +36,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     /** GWTTimeSource skips the double-to-long-to-double conversion. */
     private static final class GWTTimeSource implements TimeSource {
         /* (non-Javadoc)
-         * @see com.blockwithme.util.shared.TimeSource#currentTimeMillis()
+         * @see com.blockwithme.util.base.TimeSource#currentTimeMillis()
          */
         @Override
         public native double currentTimeMillis() /*-{
@@ -64,7 +64,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#forNameImpl(java.lang.String, java.lang.Class)
+     * @see com.blockwithme.util.base.SystemUtils#forNameImpl(java.lang.String, java.lang.Class)
      */
     @Override
     protected Class<?> forNameImpl(final String name, final Class<?> otherClass) {
@@ -117,7 +117,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#utcImpl(java.util.Date)
+     * @see com.blockwithme.util.base.SystemUtils#utcImpl(java.util.Date)
      */
     @Override
     protected String utcImpl(final Date date) {
@@ -125,7 +125,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#localImpl(java.util.Date)
+     * @see com.blockwithme.util.base.SystemUtils#localImpl(java.util.Date)
      */
     @Override
     protected String localImpl(final Date date) {
@@ -133,7 +133,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#floatToRawIntBitsImpl(float)
+     * @see com.blockwithme.util.base.SystemUtils#floatToRawIntBitsImpl(float)
      */
     @Override
     protected int floatToRawIntBitsImpl(final float value) {
@@ -143,7 +143,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#doubleToRawLongBitsImpl(double)
+     * @see com.blockwithme.util.base.SystemUtils#doubleToRawLongBitsImpl(double)
      */
     @Override
     protected long doubleToRawLongBitsImpl(final double value) {
@@ -153,7 +153,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.SystemUtils#reportUncaughtExceptionImpl(java.util.Throwable)
+     * @see com.blockwithme.util.base.SystemUtils#reportUncaughtExceptionImpl(java.util.Throwable)
      */
     @Override
     protected void reportUncaughtExceptionImpl(final Throwable e) {

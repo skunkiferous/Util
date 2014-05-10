@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TimerTask;
 
+import com.blockwithme.util.base.Application;
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * The default Application implementation.
  * It can be used outside of Timer too.
@@ -37,7 +40,7 @@ public class DefaultApplication extends TimerTask implements Application {
     private float lastDelta;
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.Application#postRunnable(java.lang.Runnable)
+     * @see com.blockwithme.util.base.Application#postRunnable(java.lang.Runnable)
      */
     @Override
     public synchronized void postRunnable(final Runnable runnable) {
@@ -67,7 +70,7 @@ public class DefaultApplication extends TimerTask implements Application {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.shared.Application#getDeltaTime()
+     * @see com.blockwithme.util.base.Application#getDeltaTime()
      */
     @Override
     public synchronized float getDeltaTime() {

@@ -17,6 +17,8 @@ package com.blockwithme.util.shared;
 
 import java.io.Serializable;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * Smallest possible mutable class that could contain anything,
  * without requiring "boxing" of primitive values.

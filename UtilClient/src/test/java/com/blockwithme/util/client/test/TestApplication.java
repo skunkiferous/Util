@@ -15,7 +15,7 @@
  */
 package com.blockwithme.util.client.test;
 
-import com.blockwithme.util.shared.Application;
+import com.blockwithme.util.base.Application;
 import com.blockwithme.util.shared.DefaultApplication;
 
 /**
