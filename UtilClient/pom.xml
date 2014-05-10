@@ -86,27 +86,27 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
 			<classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>
@@ -208,13 +208,10 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-				    <systemProperties>
-				      <java.awt.headless>true</java.awt.headless>
-				    </systemProperties>
+					<systemProperties>
+						<java.awt.headless>true</java.awt.headless>
+					</systemProperties>
 					<excludes>
-<!--
-						<exclude>**/client/**/*.java</exclude>
- -->
 						<exclude>**/emu/**/*.java</exclude>
 					</excludes>
 				</configuration>
@@ -222,53 +219,53 @@
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
-<plugin>
-	<groupId>org.codehaus.mojo</groupId>
-	<artifactId>gwt-maven-plugin</artifactId>
-	<executions>
-		<execution>
-			<goals>
-				<goal>compile</goal>
-				<goal>resources</goal>
-				<goal>test</goal>
-			</goals>
-		</execution>
-	</executions>
-	<configuration>
-	    <modules>
-			<module>com.blockwithme.util.UtilClient</module>
-			<module>com.blockwithme.util.client.WorkerLinker</module>
-			<module>com.blockwithme.util.client.WebWorker</module>
-			<module>com.blockwithme.util.client.webworkers.WorkerThread</module>
-		</modules>
-		<strict>true</strict>
-		<draftCompile>true</draftCompile>
-		<optimizationLevel>0</optimizationLevel>
-		<force>true</force>
-		<failOnError>true</failOnError>
-		<mode>htmlunit</mode>
-		<productionMode>true</productionMode>
-		<enableClosureCompiler>false</enableClosureCompiler>
-	    <systemProperties>
-	      <java.awt.headless>true</java.awt.headless>
-	    </systemProperties>
-	    <!-- Run only test suites not individual test cases. -->
-  		<includes>**/Gwt*Suite.java</includes>
-  		<style>${gwt.style}</style>
-	</configuration>
-</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>compile</goal>
+							<goal>resources</goal>
+							<goal>test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<modules>
+						<module>com.blockwithme.util.UtilClient</module>
+						<module>com.blockwithme.util.client.WorkerLinker</module>
+						<module>com.blockwithme.util.client.WebWorker</module>
+						<module>com.blockwithme.util.client.webworkers.WorkerThread</module>
+					</modules>
+					<strict>true</strict>
+					<draftCompile>true</draftCompile>
+					<optimizationLevel>0</optimizationLevel>
+					<force>true</force>
+					<failOnError>true</failOnError>
+					<mode>htmlunit</mode>
+					<productionMode>true</productionMode>
+					<enableClosureCompiler>false</enableClosureCompiler>
+					<systemProperties>
+						<java.awt.headless>true</java.awt.headless>
+					</systemProperties>
+	    			<!-- Run only test suites not individual test cases. -->
+					<includes>**/Gwt*Suite.java</includes>
+					<style>${gwt.style}</style>
+				</configuration>
+			</plugin>
 
-<plugin>
-       <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
 
-            <configuration>
-                <excludes>
-                    <exclude>**/*GwtTest*.java</exclude>
-                    <exclude>**/*Gwt*Suite*.java</exclude>
-                </excludes>
-            </configuration>
-</plugin>
+				<configuration>
+					<excludes>
+						<exclude>**/*GwtTest*.java</exclude>
+						<exclude>**/*Gwt*Suite*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 <!--
 			<plugin>
 			    <artifactId>maven-surefire-plugin</artifactId>

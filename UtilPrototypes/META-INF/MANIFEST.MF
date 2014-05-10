@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1399739399682
+Bnd-LastModified: 1399751921415
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: Contains some non-GWT-client "prototypes", which wer

@@ -19,9 +19,9 @@ import java.util.Random;
 import java.util.Timer;
 
 import com.blockwithme.util.base.Application;
-import com.blockwithme.util.shared.DefaultApplication;
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.base.TimeSource;
+import com.blockwithme.util.shared.DefaultApplication;
 import com.google.gwt.inject.client.AbstractGinModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
