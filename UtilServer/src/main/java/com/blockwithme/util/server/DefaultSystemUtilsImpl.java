@@ -18,11 +18,14 @@ package com.blockwithme.util.server;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 import java.util.TimeZone;
+import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.base.WeakKeyMap;
 
 /**
  * Default implementation of SystemUtils for "standard" Java platforms.
@@ -30,6 +33,78 @@ import com.blockwithme.util.base.SystemUtils;
  * @author monster
  */
 public class DefaultSystemUtilsImpl extends SystemUtils {
+
+    /** Implements WeakKeyMap<KEY, VALUE> .*/
+    private static final class MyWeakKeyMap<KEY, VALUE> extends
+            WeakHashMap<KEY, VALUE> implements WeakKeyMap<KEY, VALUE> {
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#clear()
+         */
+        @Override
+        public synchronized void clear() {
+            super.clear();
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#containsKey(java.lang.Object)
+         */
+        @Override
+        public synchronized boolean containsKey(final Object key) {
+            return super.containsKey(key);
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#remove(java.lang.Object)
+         */
+        @Override
+        public synchronized VALUE remove(final Object key) {
+            return super.remove(key);
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#get(java.lang.Object)
+         */
+        @Override
+        public synchronized VALUE get(final Object key) {
+            return super.get(key);
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#put(java.lang.Object, java.lang.Object)
+         */
+        @Override
+        public synchronized VALUE put(final KEY key, final VALUE value) {
+            if (key == null) {
+                throw new NullPointerException("key");
+            }
+            if (value == null) {
+                return super.remove(key);
+            }
+            return super.put(key, value);
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.base.WeakKeyMap#putAll(java.util.Map)
+         */
+        @Override
+        public synchronized void putAll(
+                final Map<? extends KEY, ? extends VALUE> m) {
+            for (final java.util.Map.Entry<? extends KEY, ? extends VALUE> e : m
+                    .entrySet()) {
+                final KEY key = e.getKey();
+                if (key == null) {
+                    throw new NullPointerException("key");
+                }
+                final VALUE value = e.getValue();
+                if (value == null) {
+                    super.remove(key);
+                } else {
+                    super.put(key, value);
+                }
+            }
+        }
+    }
 
     /** Logger */
     private static final Logger LOG = Logger
@@ -151,5 +226,13 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     @Override
     protected void reportUncaughtExceptionImpl(final Throwable e) {
         LOG.log(Level.SEVERE, "Uncaught Exception", e);
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.base.SystemUtils#newWeakKeyMapImpl()
+     */
+    @Override
+    protected <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMapImpl() {
+        return new MyWeakKeyMap<KEY, VALUE>();
     }
 }

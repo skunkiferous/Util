@@ -22,6 +22,7 @@ import com.badlogic.gwtref.client.ReflectionCache;
 import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.base.TimeSource;
+import com.blockwithme.util.base.WeakKeyMap;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
@@ -54,6 +55,12 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     /** DateTimeFormat used by localImpl(). */
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+    /** Check is JavaScript WeakMap is available. */
+    private static native boolean isJSWeakMapAvailable()
+    /*-{
+		return !!window.WeakMap;
+    }-*/;
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#isGWTClientImpl()
@@ -158,6 +165,17 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     @Override
     protected void reportUncaughtExceptionImpl(final Throwable e) {
         GWT.reportUncaughtException(e);
+    }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.base.SystemUtils#newWeakKeyMapImpl()
+     */
+    @Override
+    protected <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMapImpl() {
+        if (isJSWeakMapAvailable()) {
+            return new RealWeakKeyMap<KEY, VALUE>();
+        }
+        return new FakeWeakKeyMap<KEY, VALUE>();
     }
 
     /** Constructor */

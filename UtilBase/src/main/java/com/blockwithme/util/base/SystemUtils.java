@@ -114,6 +114,9 @@ public abstract class SystemUtils {
      */
     protected abstract void reportUncaughtExceptionImpl(Throwable e);
 
+    /** Creates and returns a new WeakKeyMap. */
+    protected abstract <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMapImpl();
+
     /** Specifies the Injector instance. */
     private static <E> E setInstance(final String type, final E oldInstance,
             final E newInstance) {
@@ -403,5 +406,10 @@ public abstract class SystemUtils {
         }
         // Not power of two, so "round up" by moving highest bit one notch up
         return Integer.highestOneBit(i) << 1;
+    }
+
+    /** Creates an returns a new WeakKeyMap. */
+    public static <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMap() {
+        return systemUtils.newWeakKeyMapImpl();
     }
 }

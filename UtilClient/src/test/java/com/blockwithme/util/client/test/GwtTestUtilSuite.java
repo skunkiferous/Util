@@ -33,6 +33,7 @@ public class GwtTestUtilSuite extends GWTTestSuite {
         suite.addTestSuite(GwtTestThreadTest.class);
         suite.addTestSuite(GwtTestTimerTest.class);
         suite.addTestSuite(GwtTestScriptEngineManagerTest.class);
+        suite.addTestSuite(GwtTestWeakKeyMapTest.class);
         return suite;
     }
 }
