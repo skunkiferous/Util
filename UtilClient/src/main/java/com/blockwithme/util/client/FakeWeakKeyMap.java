@@ -58,7 +58,7 @@ final class FakeWeakKeyMap<KEY, VALUE> implements WeakKeyMap<KEY, VALUE> {
     /*-{
 		var result = this.get(key);
 		if (result) {
-			delete key['_weak_map_value_'];
+			delete key[this];
 		}
 		return result;
     }-*/;
@@ -70,13 +70,13 @@ final class FakeWeakKeyMap<KEY, VALUE> implements WeakKeyMap<KEY, VALUE> {
     public native VALUE get(final Object key)
     /*-{
 		if (key) {
-			var tmp = key['_weak_map_value_'];
+			var tmp = key[this];
 			if (tmp) {
 				if (tmp.clearCount == this.clearCount) {
 					return tmp.value;
 				} else {
 					// Value outdated (older then last clear)
-					delete key['_weak_map_value_'];
+					delete key[this];
 				}
 			}
 		}
@@ -89,7 +89,7 @@ final class FakeWeakKeyMap<KEY, VALUE> implements WeakKeyMap<KEY, VALUE> {
     private native VALUE put2(final KEY key, final VALUE value)
     /*-{
 		var result = this.get(key);
-		key['_weak_map_value_'] = {
+		key[this] = {
 			'clearCount' : this.clearCount,
 			'value' : value
 		};
