@@ -19,8 +19,8 @@
     <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
     <inherits name="com.blockwithme.util.UtilShared"/>
     <inherits name="com.blockwithme.util.UtilClient"/>
-
     <inherits name="com.blockwithme.util.client.WebWorker"/>
+    <inherits name="com.codahale.Metrics"/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='com.blockwithme.client.WebApp'/>

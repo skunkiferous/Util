@@ -81,6 +81,19 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
@@ -147,6 +160,22 @@
 		<dependency>
 			<groupId>com.google.gwt.inject</groupId>
 			<artifactId>gin</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
+			<artifactId>gwt-slf4j</artifactId>
+			<version>0.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
+			<artifactId>gwt-slf4j</artifactId>
+			<version>0.0.2</version>
+			<classifier>sources</classifier>
 		</dependency>
     </dependencies>
     <build>

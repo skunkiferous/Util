@@ -19,6 +19,8 @@ package com.blockwithme.sampleworker;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.slf4j.LoggerFactory;
+
 import com.blockwithme.util.client.webworkers.WebWorker;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
 import com.blockwithme.util.client.webworkers.thread.ThreadFacade;
@@ -33,6 +35,10 @@ public final class SampleWorker implements EntryPoint, WebWorkerListener {
     /** The Logger */
     private static final Logger LOG = Logger.getLogger("SampleWorker");
 
+    /** The SLF4J Logger */
+    private static final org.slf4j.Logger SLF4K_LOG = LoggerFactory
+            .getLogger("SampleWorker");
+
     private WebWorker<JsDedicatedWorkerGlobalScope> worker;
 
     @Override
@@ -41,6 +47,7 @@ public final class SampleWorker implements EntryPoint, WebWorkerListener {
         final Logger rootLogger = Logger.getLogger("");
         rootLogger.addHandler(new LogHandler(worker));
         LOG.info("SampleWorker setup");
+        SLF4K_LOG.info("SLF4K_LOG: SampleWorker setup");
     }
 
     /* (non-Javadoc)

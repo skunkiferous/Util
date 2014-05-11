@@ -16,10 +16,20 @@
  **************************************************************************/
 package com.blockwithme.client;
 
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.slf4j.LoggerFactory;
+
 import com.blockwithme.util.client.webworkers.WebWorker;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
 import com.blockwithme.util.client.webworkers.main.WebWorkerFacade;
+import com.codahale.metrics.Counter;
+import com.codahale.metrics.MetricRegistry;
+import com.codahale.metrics.Slf4jReporter;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.json.client.JSONObject;
@@ -32,6 +42,9 @@ import elemental.html.Worker;
 
 public class WebApp implements EntryPoint {
 
+    /** The Logger */
+    private static final Logger LOG = Logger.getLogger("WebApp");
+
     private static native Window getWindow()
     /*-{
      return $wnd;
@@ -39,31 +52,47 @@ public class WebApp implements EntryPoint {
 
     @Override
     public void onModuleLoad() {
-        final Button startButton = new Button("Send msg to worker");
-        RootPanel.get("container1").add(startButton);
+        GWT.create(WebAppInjector.class);
 
-        final Window window = getWindow();//elemental.client.Browser.getWindow();
+        try {
+            final MetricRegistry registry = new MetricRegistry();
+            final Counter clicks = registry.counter(MetricRegistry.name(
+                    "WebApp", "clicks"));
+            final Slf4jReporter reporter = Slf4jReporter.forRegistry(registry)
+                    .outputTo(LoggerFactory.getLogger("com.example.metrics"))
+                    .convertRatesTo(TimeUnit.SECONDS)
+                    .convertDurationsTo(TimeUnit.MILLISECONDS).build();
+            reporter.start(5, TimeUnit.SECONDS);
 
-        final WebWorker<Worker> worker = WebWorkerFacade.newWorker(
-                "sampleworker", new WebWorkerListener() {
-                    @Override
-                    public void onMessage(final String channel,
-                            final JSONObject message) {
-                        final Label l = new Label("Worker says: " + channel
-                                + " => " + message);
-                        RootPanel.get("container2").insert(l, 0);
+            final Button startButton = new Button("Send msg to worker");
+            RootPanel.get("container1").add(startButton);
+
+            final Window window = getWindow();//elemental.client.Browser.getWindow();
+
+            final WebWorker<Worker> worker = WebWorkerFacade.newWorker(
+                    "sampleworker", new WebWorkerListener() {
+                        @Override
+                        public void onMessage(final String channel,
+                                final JSONObject message) {
+                            final Label l = new Label("Worker says: " + channel
+                                    + " => " + message);
+                            RootPanel.get("container2").insert(l, 0);
+                        }
+                    });
+
+            startButton.addClickHandler(new ClickHandler() {
+                @Override
+                public void onClick(final ClickEvent event) {
+                    try {
+                        clicks.inc();
+                        worker.postMessage(null, "Hello worker");
+                    } catch (final Exception e) {
+                        window.alert("Error message from worker: " + e);
                     }
-                });
-
-        startButton.addClickHandler(new ClickHandler() {
-            @Override
-            public void onClick(final ClickEvent event) {
-                try {
-                    worker.postMessage(null, "Hello worker");
-                } catch (final Exception e) {
-                    window.alert("Error message from worker: " + e);
                 }
-            }
-        });
+            });
+        } catch (final Exception e) {
+            LOG.log(Level.SEVERE, "FAIL!", e);
+        }
     }
 }

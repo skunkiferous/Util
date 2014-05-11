@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1399752194879
+Bnd-LastModified: 1399834113670
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The minimum shared code required to bootstrap the pl

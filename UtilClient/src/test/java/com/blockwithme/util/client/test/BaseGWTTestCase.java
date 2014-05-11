@@ -15,8 +15,8 @@
  */
 package com.blockwithme.util.client.test;
 
-import com.blockwithme.util.client.UtilEntryPoint;
 import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.client.UtilEntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 

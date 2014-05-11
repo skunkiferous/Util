@@ -114,7 +114,7 @@ public class Timer {
      */
     public void schedule(TimerTask task, long delay) {
         if (delay < 0) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("delay: "+delay);
         }
         sched(task, delay/1000.0f, 0, 0);
     }
@@ -135,8 +135,11 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void schedule(TimerTask task, long delay, long period) {
-        if (delay < 0 || period <= 0) {
-            throw new IllegalArgumentException();
+        if (delay < 0) {
+            throw new IllegalArgumentException("delay: "+delay);
+        }
+        if (period <= 0) {
+            throw new IllegalArgumentException("period: "+period);
         }
         sched(task, delay/1000.0f, period/1000.0f, FOREVER);
     }
@@ -182,8 +185,11 @@ public class Timer {
      *                scheduled or canceled.
      */
     public void scheduleAtFixedRate(TimerTask task, long delay, long period) {
-        if (delay < 0 || period <= 0) {
-            throw new IllegalArgumentException();
+        if (delay < 0) {
+            throw new IllegalArgumentException("delay: "+delay);
+        }
+        if (period <= 0) {
+            throw new IllegalArgumentException("period: "+period);
         }
         sched(task, delay/1000.0f, period/1000.0f, FOREVER);
     }

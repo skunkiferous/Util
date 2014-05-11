@@ -76,8 +76,9 @@
 		<module>../UtilServer</module>
 		<module>../UtilPrototypes</module>
 		<module>../UtilClient</module>
-		<module>../UtilWWTest</module>
+		<module>../metrics-core</module>
 		<module>../jactor2-coreSt</module>
+		<module>../UtilWWTest</module>
 	</modules>
 
 	<repositories>

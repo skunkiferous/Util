@@ -82,7 +82,11 @@ public class AtomicReference<T> {
 		}
 	}
 
-	@Override 
+        public final boolean weakCompareAndSet(T expect, T update) {
+            return compareAndSet(expect, update);
+        }
+
+	@Override
 	public String toString() {
 		return String.valueOf(value);
 	}

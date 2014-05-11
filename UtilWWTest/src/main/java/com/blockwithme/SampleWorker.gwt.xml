@@ -20,6 +20,9 @@
     <inherits name="com.blockwithme.util.client.WebWorker"/>
     <inherits name="com.blockwithme.util.client.webworkers.WorkerThread"/>
 
+    <inherits name="de.benediktmeurer.gwt.slf4j.api.API"/>
+    <inherits name="de.benediktmeurer.gwt.slf4j.jul.JUL"/>
+
     <set-configuration-property name="user.agent.runtimeWarning" value="false"/>
     <set-configuration-property name="document.compatMode.severity" value="IGNORE" />
 

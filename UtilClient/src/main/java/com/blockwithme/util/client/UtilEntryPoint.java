@@ -45,6 +45,8 @@ public class UtilEntryPoint implements EntryPoint {
 
             // This should come out as an "info" log message.
             System.out.println("Util Module initialized");
+            final Logger log = Logger.getLogger(UtilEntryPoint.class.getName());
+            log.info("Util Module initialized");
         }
     }
 
