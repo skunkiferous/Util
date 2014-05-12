@@ -29,6 +29,12 @@ import com.google.inject.Singleton;
 /**
  * Guice module for Util-Server.
  *
+ * WARNING: This code is ONLY EXECUTED IN THE COMPILER.
+ *
+ * In other words, the GIN plugin just checks which object get injected where,
+ * but stuff like constructor, or other code in configure(), will NOT get
+ * executed later when the client actually runs.
+ *
  * @author monster
  */
 public abstract class AbstractUtilClientModule extends AbstractGinModule {
@@ -64,6 +70,7 @@ public abstract class AbstractUtilClientModule extends AbstractGinModule {
     protected void configure() {
 //        install(new GinFactoryModuleBuilder().build(AssistedInjectionFactory.class));
 
+        new UtilEntryPoint().onModuleLoad();
         requestStaticInjection(SystemUtils.class);
     }
 

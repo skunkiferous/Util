@@ -23,11 +23,11 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 /** Make sure error are always logged. */
 public final class MyUncaughtExceptionHandler implements
         UncaughtExceptionHandler {
-    /** The root logger */
-    private static final Logger ROOT = Logger.getLogger("");
+    /** The global logger */
+    private static final Logger GLOBAL = Logger.getLogger("global");
 
     @Override
     public void onUncaughtException(final Throwable e) {
-        ROOT.log(Level.SEVERE, "Uncaught exception escaped", e);
+        GLOBAL.log(Level.SEVERE, "Uncaught exception escaped", e);
     }
 }

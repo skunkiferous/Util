@@ -15,6 +15,7 @@
  */
 package com.blockwithme.util.client;
 
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.logging.Logger;
@@ -27,15 +28,23 @@ import java.util.logging.Logger;
  * @author monster
  */
 public class LoggingPrintStream extends PrintStream {
-    /** The root logger */
-    private static final Logger ROOT = Logger.getLogger("");
+    /** The global logger */
+    private static final Logger GLOBAL = Logger.getLogger("global");
+
+    /** Dummy OutputStream */
+    private static final OutputStream DUMMY = new OutputStream() {
+        @Override
+        public void write(final int b) throws IOException {
+            // NOP
+        }
+    };
 
     private final boolean error;
     private byte[] buffer = new byte[1024];
     private int pos;
 
     public LoggingPrintStream(final boolean error) {
-        super((OutputStream) null);
+        super(DUMMY);
         this.error = error;
     }
 
@@ -66,9 +75,9 @@ public class LoggingPrintStream extends PrintStream {
             final String msg = new String(buffer, 0, pos);
             pos = 0;
             if (error) {
-                ROOT.severe(msg);
+                GLOBAL.severe(msg);
             } else {
-                ROOT.info(msg);
+                GLOBAL.info(msg);
             }
         }
     }

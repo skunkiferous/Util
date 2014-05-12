@@ -16,7 +16,6 @@
 package com.blockwithme.util.client.test;
 
 import com.blockwithme.util.base.SystemUtils;
-import com.blockwithme.util.client.UtilEntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
 
@@ -33,7 +32,6 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
     @Override
     protected void gwtSetUp() throws Exception {
         if (injector == null) {
-            new UtilEntryPoint().onModuleLoad();
             injector = GWT.create(TestInjector.class);
             assertNotNull("TestInjector", injector);
         }

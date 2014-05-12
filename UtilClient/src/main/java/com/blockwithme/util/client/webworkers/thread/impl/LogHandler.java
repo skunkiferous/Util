@@ -66,6 +66,7 @@ public class LogHandler extends Handler {
     /** Constructor */
     public LogHandler(final WebWorker<JsDedicatedWorkerGlobalScope> worker2) {
         this.worker = Objects.requireNonNull(worker2, "worker");
+        setLevel(Level.ALL);
     }
 
     /* (non-Javadoc)
