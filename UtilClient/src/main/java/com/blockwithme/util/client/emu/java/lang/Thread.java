@@ -16,6 +16,8 @@
 
 package java.lang;
 
+import java.util.logging.LogRecord;
+
 import com.google.gwt.core.client.GWT;
 
 /**
@@ -41,6 +43,9 @@ public class Thread implements Runnable {
 
     /** The constant thread. */
     protected static final Thread CURRENT_THREAD = new Thread();
+
+    /** The Thread name. */
+    private String name = "main";
 
     /** Is the thread interrupted? */
     boolean interruptedFlag;
@@ -77,9 +82,13 @@ public class Thread implements Runnable {
         return 1;
     }
 
-    public String getName() {
-        return "jsmain";
-    }
+    public final native String getName()
+    /*-{
+		if (!this.threadName) {
+			return 'main';
+		}
+		return this.threadName;
+    }-*/;
 
     public int getPriority() {
         return NORM_PRIORITY;

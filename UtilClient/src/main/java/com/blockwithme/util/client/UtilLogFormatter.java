@@ -40,16 +40,17 @@ public class UtilLogFormatter extends Formatter {
     private ArrayList<LogRecord> tempBuf;
 
     @Override
-    public String format(final LogRecord event) {
+    public String format(final LogRecord record) {
         if (SystemUtils.getImplementation() == null) {
             if (!saidNotReady) {
                 saidNotReady = true;
-                return "SystemUtils NOT READY YET; buffering log events...";
+                // SystemUtils NOT READY YET; buffering log records...
+                return "";
             }
             if (tempBuf == null) {
                 tempBuf = new ArrayList<>();
             }
-            tempBuf.add(event);
+            tempBuf.add(record);
             return "";
         } else {
             if (tempBuf != null) {
@@ -58,28 +59,44 @@ public class UtilLogFormatter extends Formatter {
                 for (final LogRecord buffered : tempBuf2) {
                     Logger.getLogger(buffered.getLoggerName()).log(buffered);
                 }
-                // We have to repost the current event too, otherwise it
+                // We have to repost the current record too, otherwise it
                 // will come out before the earlier ones.
-                Logger.getLogger(event.getLoggerName()).log(event);
+                Logger.getLogger(record.getLoggerName()).log(record);
                 return "";
             }
-            return doFormat(event);
+            return doFormat(record);
         }
     }
 
-    private String doFormat(final LogRecord event) {
+    private static native String getThreadName(final LogRecord record)
+    /*-{
+		return record.threadName;
+    }-*/;
+
+    private String doFormat(final LogRecord record) {
         // TODO Once we have added real thread names in WebWorkers,
         // We should output it here too.
+        String threadName = null;
+        try {
+            threadName = getThreadName(record);
+        } catch (final Exception e) {
+            // NOP
+        }
+        if ((threadName == null) || threadName.isEmpty()) {
+            threadName = "main";
+        }
         final StringBuilder message = new StringBuilder();
-        final Date date = new Date(event.getMillis());
+        final Date date = new Date(record.getMillis());
         message.append(SystemUtils.utc(date));
         message.append(" ");
-        message.append(event.getLevel().getName());
+        message.append(record.getLevel().getName());
         message.append(" ");
-        message.append(event.getLoggerName());
+        message.append(threadName);
         message.append(" ");
-        message.append(event.getMessage());
-        final Throwable t = event.getThrown();
+        message.append(record.getLoggerName());
+        message.append(" ");
+        message.append(record.getMessage());
+        final Throwable t = record.getThrown();
         if (t != null) {
             t.printStackTrace(new StackTracePrintStream(message));
         }

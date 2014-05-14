@@ -62,7 +62,7 @@ public class GwtTestThreadTest extends BaseGWTTestCase {
      * Tests Thread.currentThread().getName()
      */
     public void testGetName() {
-        assertEquals("jsmain", Thread.currentThread().getName());
+        assertEquals("main", Thread.currentThread().getName());
     }
 
     /**

@@ -35,7 +35,7 @@ public interface WebWorker<WORKER> {
     void postMessage(String channel, JSONObject message);
 
     /**
-     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker.
      *
      * @param channel The the "channel" to which this message is sent. Default channel is null.
      * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
@@ -43,7 +43,7 @@ public interface WebWorker<WORKER> {
     void postMessage(String channel, String value);
 
     /**
-     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker.
      *
      * @param channel The the "channel" to which this message is sent. Default channel is null.
      * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
@@ -51,7 +51,17 @@ public interface WebWorker<WORKER> {
     void postMessage(String channel, double value);
 
     /**
-     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker. The data may be any value or JavaScript object that does not contain functions or cyclical references (since the object is converted to <a class="internal" title="En/JSON" rel="internal" href="https://developer.mozilla.org/en/JSON">JSON</a> internally).
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker.
+     * Note that Java "long" is problematic. Not all of it's possible values can be represented correctly as a JSON number.
+     * Therefore, for those non-representable values, an hexadecimal String is used (0x...).
+     *
+     * @param channel The the "channel" to which this message is sent. Default channel is null.
+     * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.
+     */
+    void postMessage(String channel, long value);
+
+    /**
+     * Sends a message to the worker's inner scope. This accepts a single parameter, which is the data to send to the worker.
      *
      * @param channel The the "channel" to which this message is sent. Default channel is null.
      * @param value The message to deliver to the worker; this will be in the data field {'value':value} in the event delivered to the <code>onmessage</code> handler.

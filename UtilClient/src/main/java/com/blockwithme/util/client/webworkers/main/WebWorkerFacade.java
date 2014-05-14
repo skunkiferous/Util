@@ -35,8 +35,8 @@ public class WebWorkerFacade {
 
     private static native Window getWindow()
     /*-{
-     return $wnd;
-     }-*/;
+		return $wnd;
+    }-*/;
 
     /** Creates and starts a new WebWorker from the "main thread". */
     public static WebWorker<Worker> newWorker(final String moduleName,
@@ -47,6 +47,6 @@ public class WebWorkerFacade {
                 + ".nocache.js";
         final Window window = getWindow();//elemental.client.Browser.getWindow()
         final Worker worker = window.newWorker(path);
-        return new WebWorkerAPIImpl(worker, listener, path);
+        return new WebWorkerAPIImpl(worker, listener, moduleName);
     }
 }

@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import com.blockwithme.util.client.webworkers.WebWorker;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
 import com.blockwithme.util.client.webworkers.thread.ThreadFacade;
-import com.blockwithme.util.client.webworkers.thread.impl.LogHandler;
+import com.blockwithme.util.client.webworkers.thread.impl.WebWorkerLogHandler;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.json.client.JSONObject;
 
@@ -45,7 +45,7 @@ public final class SampleWorker implements EntryPoint, WebWorkerListener {
     public void onModuleLoad() {
         worker = ThreadFacade.newWorker(this);
         final Logger rootLogger = Logger.getLogger("");
-        rootLogger.addHandler(new LogHandler(worker));
+        rootLogger.addHandler(new WebWorkerLogHandler(worker));
         LOG.info("SampleWorker setup");
         SLF4K_LOG.info("SLF4K_LOG: SampleWorker setup");
     }
@@ -57,7 +57,8 @@ public final class SampleWorker implements EntryPoint, WebWorkerListener {
     public void onMessage(final String channel, final JSONObject message) {
         LOG.fine("Got message: " + message);
         try {
-            worker.postMessage(null, "----====----");
+            worker.postMessage(null, "----[" + Thread.currentThread().getName()
+                    + "]----");
             worker.postMessage(null,
                     "Current timestamp " + System.currentTimeMillis());
             worker.postMessage(null, "Received message \"" + message + "\"");

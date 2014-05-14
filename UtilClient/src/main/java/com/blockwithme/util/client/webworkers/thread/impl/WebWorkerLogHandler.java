@@ -37,7 +37,7 @@ import elemental.js.html.JsDedicatedWorkerGlobalScope;
  *
  * @author monster
  */
-public class LogHandler extends Handler {
+public class WebWorkerLogHandler extends Handler {
     private static class JsonLogRecordThrowable extends Throwable {
         /**  */
         private static final long serialVersionUID = -5989043208781005256L;
@@ -64,7 +64,8 @@ public class LogHandler extends Handler {
     private final WebWorker<JsDedicatedWorkerGlobalScope> worker;
 
     /** Constructor */
-    public LogHandler(final WebWorker<JsDedicatedWorkerGlobalScope> worker2) {
+    public WebWorkerLogHandler(
+            final WebWorker<JsDedicatedWorkerGlobalScope> worker2) {
         this.worker = Objects.requireNonNull(worker2, "worker");
         setLevel(Level.ALL);
     }
@@ -153,6 +154,8 @@ public class LogHandler extends Handler {
                 thrown_msg = thrown_msgValue.isString().stringValue();
             }
             result.setThrown(new JsonLogRecordThrowable(thrown_type, thrown_msg));
+        } else if ((message == null) || message.isEmpty()) {
+            return null;
         }
 
         return result;

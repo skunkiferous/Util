@@ -24,10 +24,11 @@ import elemental.html.Worker;
 public class WebWorkerAPIImpl extends AbstractWebWorkerImpl<Worker> {
     /** The constructor */
     public WebWorkerAPIImpl(final Worker worker,
-            final WebWorkerListener listener, final String toString) {
-        super(worker, listener, toString);
+            final WebWorkerListener listener, final String name) {
+        super(worker, listener, name);
         worker.setOnmessage(this);
         worker.setOnerror(this);
+        postMessage("set.thread.name", name);
     }
 
     @Override

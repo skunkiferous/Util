@@ -20,9 +20,10 @@ import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.client.webworkers.WebWorker;
 import com.blockwithme.util.client.webworkers.WebWorkerListener;
-import com.blockwithme.util.client.webworkers.thread.impl.LogHandler;
+import com.blockwithme.util.client.webworkers.thread.impl.WebWorkerLogHandler;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONBoolean;
 import com.google.gwt.json.client.JSONNull;
@@ -45,21 +46,21 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
     protected final WebWorkerListener listener;
 
     /** toString value */
-    private final String toString;
+    private final String name;
 
     /** The Logger */
     private final Logger logger;
 
     /** The constructor */
     public AbstractWebWorkerImpl(final WORKER worker,
-            final WebWorkerListener listener, final String toString) {
+            final WebWorkerListener listener, final String name) {
         Objects.requireNonNull(worker, "worker");
         Objects.requireNonNull(listener, "listener");
-        Objects.requireNonNull(toString, "toString");
+        Objects.requireNonNull(name, "name");
         this.worker = worker;
         this.listener = listener;
-        this.toString = toString;
-        logger = Logger.getLogger(toString);
+        this.name = name;
+        logger = Logger.getLogger(name);
     }
 
     @Override
@@ -69,7 +70,7 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
 
     private static native String stringify(Object jso)
     /*-{
-    return JSON.stringify(jso);
+		return JSON.stringify(jso);
     }-*/;
 
     @Override
@@ -114,12 +115,17 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
                                 }
                             }
                             if ("java.util.logging".equals(ch)) {
-                                final LogRecord record = LogHandler
+                                final LogRecord record = WebWorkerLogHandler
                                         .fromJSONObject(message);
                                 if (record != null) {
+                                    setThreadName(record, name);
                                     Logger.getLogger(record.getLoggerName())
                                             .log(record);
                                 }
+                            } else if ("set.thread.name".equals(ch)) {
+                                final String name = message.get("value")
+                                        .isString().stringValue();
+                                setThreadName(Thread.currentThread(), name);
                             } else {
                                 listener.onMessage(ch, message);
                             }
@@ -145,8 +151,14 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
     private static native void postMessage2(final Object worker,
             final JavaScriptObject message)
     /*-{
-           worker.postMessage(message);
-       }-*/;
+		worker.postMessage(message);
+    }-*/;
+
+    private static native void setThreadName(final Object object,
+            final String threadName)
+    /*-{
+		object.threadName = threadName;
+    }-*/;
 
     @Override
     public final void postMessage(final String channel, final JSONObject message) {
@@ -184,6 +196,18 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
     }
 
     @Override
+    public final void postMessage(final String channel, final long value) {
+        final JSONObject message = new JSONObject();
+        if ((value <= SystemUtils.MAX_DOUBLE_INT_VALUE)
+                && (value >= SystemUtils.MIN_DOUBLE_INT_VALUE)) {
+            message.put("value", new JSONNumber(value));
+        } else {
+            message.put("value", new JSONString("0x" + Long.toHexString(value)));
+        }
+        postMessage(channel, message);
+    }
+
+    @Override
     public final void postMessage(final String channel, final boolean value) {
         final JSONObject message = new JSONObject();
         message.put("value", JSONBoolean.getInstance(value));
@@ -192,6 +216,6 @@ public abstract class AbstractWebWorkerImpl<WORKER> implements
 
     @Override
     public final String toString() {
-        return toString;
+        return name;
     }
 }

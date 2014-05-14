@@ -51,6 +51,12 @@ public abstract class SystemUtils {
      */
     public static final int CURRENT_TIME_MILLIS_UPDATE_INTERVAL = 5;
 
+    /** Maximum integer value in a double. */
+    public static final double MAX_DOUBLE_INT_VALUE = (1L << 52L);
+
+    /** Minimum integer value in a double. */
+    public static final double MIN_DOUBLE_INT_VALUE = -MAX_DOUBLE_INT_VALUE;
+
     /** Random instance. */
     private static volatile Random random;
 
