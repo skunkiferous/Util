@@ -17,6 +17,7 @@
     <inherits name="com.badlogic.gdx" />
     <inherits name="com.badlogic.gwtref.GwtReflect"/>
     <inherits name='com.badlogic.gdx.backends.gdx_backends_gwt' />
+    <inherits name="com.blockwithme.util.UtilBase"/>
     <inherits name="com.blockwithme.util.UtilShared"/>
     <inherits name="com.blockwithme.util.UtilClient"/>
     <inherits name="com.blockwithme.util.client.WebWorker"/>

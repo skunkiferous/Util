@@ -3,6 +3,7 @@
 <module>
     <inherits name="com.google.gwt.user.User"/>
     <inherits name="elemental.Elemental"/>
+    <inherits name="com.blockwithme.util.UtilBase"/>
 
 	<source path="webworkers">
 		<exclude name="webworkers/thread/**" />
