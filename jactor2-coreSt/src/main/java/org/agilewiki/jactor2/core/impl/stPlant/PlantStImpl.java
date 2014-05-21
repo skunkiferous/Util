@@ -1,5 +1,6 @@
 package org.agilewiki.jactor2.core.impl.stPlant;
 
+import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.CloseableImpl;
 import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
@@ -218,5 +219,20 @@ public class PlantStImpl extends PlantImpl {
                 currentReactorImpl = null;
             }
         }
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap() {
+        return ISMapImpl.empty();
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap(String key, V value) {
+        return ISMapImpl.singleton(key, value);
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap(Map<String, V> m) {
+        return ISMapImpl.from(m);
     }
 }
