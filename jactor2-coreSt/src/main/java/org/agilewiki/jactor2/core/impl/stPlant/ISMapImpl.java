@@ -82,28 +82,28 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
     }
 
     @Override
-    public ISMapImpl minus(String key) {
+    public ISMapImpl<VALUE> minus(String key) {
         TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.remove(key);
-        return new ISMapImpl(tm);
+        return new ISMapImpl<VALUE>(tm);
     }
 
     @Override
-    public ISMapImpl plus(String key, VALUE value) {
+    public ISMapImpl<VALUE> plus(String key, VALUE value) {
         TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.put(key, value);
         return new ISMapImpl(tm);
     }
 
     @Override
-    public ISMapImpl plusAll(Map<String, VALUE> m) {
+    public ISMapImpl<VALUE> plusAll(Map<String, VALUE> m) {
         TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.putAll(m);
         return new ISMapImpl(tm);
     }
 
     @Override
-    public ISMapImpl subMap(String keyPrefix) {
+    public ISMapImpl<VALUE> subMap(String keyPrefix) {
         return new ISMapImpl(base.subMap(keyPrefix, keyPrefix + Character.MAX_VALUE));
     }
 
@@ -158,12 +158,12 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
     }
 
     @Deprecated
-    public String put(String key, VALUE value) {
+    public VALUE put(String key, VALUE value) {
         throw new UnsupportedOperationException();
     }
 
     @Deprecated
-    public String remove(Object key) {
+    public VALUE remove(Object key) {
         throw new UnsupportedOperationException();
     }
 

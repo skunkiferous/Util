@@ -20,6 +20,7 @@ import org.agilewiki.jactor2.core.requests.AsyncRequestImpl;
 import org.agilewiki.jactor2.core.requests.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 

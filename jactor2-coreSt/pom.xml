@@ -27,7 +27,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>jactor2-core</artifactId>
-            <version>${project.version}</version>
+            <version>0.10.0</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
