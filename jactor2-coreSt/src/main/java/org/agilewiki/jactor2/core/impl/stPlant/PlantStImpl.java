@@ -1,5 +1,6 @@
 package org.agilewiki.jactor2.core.impl.stPlant;
 
+import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.CloseableImpl;
 import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
@@ -9,6 +10,7 @@ import org.agilewiki.jactor2.core.impl.stRequests.AsyncRequestStImpl;
 import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImpl;
 import org.agilewiki.jactor2.core.plant.PlantImpl;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
+import org.agilewiki.jactor2.core.reactors.Facility;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.Reactor;
@@ -18,6 +20,7 @@ import org.agilewiki.jactor2.core.requests.AsyncRequestImpl;
 import org.agilewiki.jactor2.core.requests.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -40,7 +43,7 @@ public class PlantStImpl extends PlantImpl {
 
     private PlantConfiguration plantConfiguration;
 
-    private final NonBlockingReactor internalReactor;
+    private final Facility internalFacility;
 
     public ReactorImpl currentReactorImpl;
 
@@ -56,7 +59,7 @@ public class PlantStImpl extends PlantImpl {
             System.out.println("\n*** jactor.debug = true ***\n");
         }
         plantConfiguration = _plantConfiguration;
-        internalReactor = createInternalReactor();
+        internalFacility = createInternalFacility();
     }
 
     @Override
@@ -128,7 +131,7 @@ public class PlantStImpl extends PlantImpl {
             return;
         }
         try {
-            getInternalReactor().close();
+            getInternalFacility().close();
         } finally {
             PlantScheduler plantScheduler = getPlantScheduler();
             if (plantScheduler != null)
@@ -161,8 +164,8 @@ public class PlantStImpl extends PlantImpl {
      *
      * @return The reactor belonging to the singleton.
      */
-    protected NonBlockingReactor createInternalReactor() {
-        return new NonBlockingReactor(null);
+    protected Facility createInternalFacility() {
+        return new Facility(null);
     }
 
     /**
@@ -171,8 +174,8 @@ public class PlantStImpl extends PlantImpl {
      * @return The reactor belonging to the singleton.
      */
     @Override
-    public NonBlockingReactor getInternalReactor() {
-        return internalReactor;
+    public Facility getInternalFacility() {
+        return internalFacility;
     }
 
     /**
@@ -218,5 +221,20 @@ public class PlantStImpl extends PlantImpl {
                 currentReactorImpl = null;
             }
         }
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap() {
+        return ISMapImpl.empty();
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap(String key, V value) {
+        return ISMapImpl.singleton(key, value);
+    }
+
+    @Override
+    public <V> ISMap<V> createISMap(Map<String, V> m) {
+        return ISMapImpl.from(m);
     }
 }
