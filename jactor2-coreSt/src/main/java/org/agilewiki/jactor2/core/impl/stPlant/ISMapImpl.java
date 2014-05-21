@@ -1,4 +1,4 @@
-package org.agilewiki.jactor2.modules.properties.immutable;
+package org.agilewiki.jactor2.core.impl.stPlant;
 
 import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 
