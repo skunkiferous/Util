@@ -55,9 +55,8 @@ public class DefaultApplication extends TimerTask implements Application {
      */
     @Override
     public synchronized void run() {
-        SystemUtils.updateCurrentTimeMillis();
-        final double now = SystemUtils.currentTimeMillis();
-        lastDelta = (float) (now - lastLoop);
+        final double now = SystemUtils.updateCurrentTimeMillis();
+        lastDelta = (float) ((now - lastLoop) / 1000.0);
         lastLoop = now;
         if (!runnables.isEmpty()) {
             final Runnable[] array = runnables.toArray(new Runnable[runnables

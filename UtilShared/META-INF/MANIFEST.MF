@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400695586832
+Bnd-LastModified: 1400703864659
 Build-Jdk: 1.7.0_45
 Built-By: monster
 Bundle-Description: The common/shared part of the Util project.
@@ -15,5 +15,6 @@ Export-Package: com.blockwithme.util.shared.annotations;version="0.2.0",
  ithme.util.shared.prim,javax.inject";version="0.2.0",com.blockwithme.ut
  il.shared.prim;version="0.2.0"
 FuncGenerated012-dependency-version: 1.2.0
-Import-Package: com.blockwithme.util.base,javax.inject
+Import-Package: com.blockwithme.util.base;version="[0.2,1)",javax.inject
+ ;version="[0.2,1)"
 Tool: Bnd-2.1.0.20130426-122213

@@ -56,10 +56,23 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     private static final DateTimeFormat LOCAL = DateTimeFormat
             .getFormat("yyyy-MM-dd HH:mm:ss.SSS");
 
-    /** Check is JavaScript WeakMap is available. */
+    /** Check if JavaScript WeakMap is available. */
     private static native boolean isJSWeakMapAvailable()
     /*-{
 		return !!window.WeakMap;
+    }-*/;
+
+    /** Initialize JavaScript high resolution time. */
+    private static native void initHighResTime()
+    /*-{
+		Date.now = Date.now || function() {
+			return new Date().getTime();
+		};
+		window.performance = window.performance || {};
+		performance.now = (function() {
+			return performance.now || performance.mozNow || performance.msNow
+					|| performance.oNow || performance.webkitNow || Date.now;
+		})();
     }-*/;
 
     /* (non-Javadoc)
@@ -178,8 +191,18 @@ public class GWTSystemUtilsImpl extends SystemUtils {
         return new FakeWeakKeyMap<KEY, VALUE>();
     }
 
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.base.SystemUtils#highResTimeMillisImpl()
+     */
+    @Override
+    protected native double highResTimeMillisImpl()
+    /*-{
+		return performance.now();
+    }-*/;
+
     /** Constructor */
     public GWTSystemUtilsImpl() {
+        initHighResTime();
         setTimeSource(new GWTTimeSource());
         // We use a "native" GWT Timer, because we want updates independent
         // of the application (game) cycle speed. We do this, because if some

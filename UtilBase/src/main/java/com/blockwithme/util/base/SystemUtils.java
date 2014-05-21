@@ -72,6 +72,9 @@ public abstract class SystemUtils {
     /** The source of time. */
     private static volatile TimeSource timeSource;
 
+    /** True if we are in the GWT client. */
+    private static volatile boolean isGWTClient;
+
     /**
      * The approximate current time, in milliseconds.
      */
@@ -123,6 +126,18 @@ public abstract class SystemUtils {
     /** Creates and returns a new WeakKeyMap. */
     protected abstract <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMapImpl();
 
+    /**
+     * Returns some time value, in milliseconds, with the highest possible
+     * precision.
+     *
+     * This method returns a time value that is usable to measure elapsed time
+     * precisely. It does not (have to) represent the current time. It should
+     * always move forward, independent of clock-changes, ...
+     *
+     * In Java, it will by "System.nanoTime()/1000000.0".
+     */
+    protected abstract double highResTimeMillisImpl();
+
     /** Specifies the Injector instance. */
     private static <E> E setInstance(final String type, final E oldInstance,
             final E newInstance) {
@@ -144,6 +159,7 @@ public abstract class SystemUtils {
             final SystemUtils systemUtils) {
         SystemUtils.systemUtils = setInstance("SystemUtils",
                 SystemUtils.systemUtils, systemUtils);
+        isGWTClient = systemUtils.isGWTClientImpl();
     }
 
     /** Returns the implementation. */
@@ -288,6 +304,20 @@ public abstract class SystemUtils {
         return currentTimeMillis;
     }
 
+    /**
+     * Returns some time value, in milliseconds, with the highest possible
+     * precision.
+     *
+     * This method returns a time value that is usable to measure elapsed time
+     * precisely. It does not (have to) represent the current time. It should
+     * always move forward, independent of clock-changes, ...
+     *
+     * In Java, it will by "System.nanoTime()/1000000.0".
+     */
+    public static double highResTimeMillis() {
+        return systemUtils.highResTimeMillisImpl();
+    }
+
     /** Creates a new Date, using *our* currentTimeMillis() method. */
     public static Date newDate() {
         // That is the downside of using double for time.
@@ -355,7 +385,7 @@ public abstract class SystemUtils {
 
     /** Returns true if we are in the GWT client. */
     public static boolean isGWTClient() {
-        return systemUtils.isGWTClientImpl();
+        return isGWTClient;
     }
 
     /** Returns an int representation of the specified floating-point value */

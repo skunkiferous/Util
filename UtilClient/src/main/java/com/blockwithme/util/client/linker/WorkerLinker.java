@@ -47,7 +47,8 @@ public class WorkerLinker extends D8ScriptLinker {
                 + "    console.error('Cannot parse window.write('+txt+')');\n;" //
                 + "  };\n" //
                 + "};\n" //
-                + "function log(level,msg) { self.postMessage({'_channel_':'java.util.logging','level':level,'loggerName':'global','message':msg,'millis':(new Date()).getTime()}); };\n" //
+                + "if (!Date.now) { Date.now = function() { return new Date().getTime(); }; }\n" //
+                + "function log(level,msg) { self.postMessage({'_channel_':'java.util.logging','level':level,'loggerName':'global','message':msg,'millis':Date.now()}); };\n" //
                 + "console = {};\n" //
                 + "console.debug = function(msg) { log('FINE',msg); };\n" //
                 + "console.info = function(msg) { log('INFO',msg); };\n" //

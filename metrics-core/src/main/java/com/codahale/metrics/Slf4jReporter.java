@@ -215,15 +215,11 @@ public class Slf4jReporter extends ScheduledReporter {
                 format("type=GAUGE, name={}, value={}", name, gauge.getValue()));
     }
 
-    private static int REMOVE_ME = 0;
-
     /** Since our slf4j does NOT support "parameters", we have to format ourselves. */
     private static String format(final String format,
             final Object... parameters) {
         final char[] chars = format.toCharArray();
         final StringBuilder buf = new StringBuilder(chars.length * 3);
-        REMOVE_ME++;
-        buf.append("REMOVE_ME: ").append(REMOVE_ME).append(' ');
         // Next to use in array
         int next = 0;
         // Start of format String section
