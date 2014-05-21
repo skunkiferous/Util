@@ -42,7 +42,7 @@ public class PlantStImpl extends PlantImpl {
 
     private PlantConfiguration plantConfiguration;
 
-    private final Facility internalReactor;
+    private final Facility internalFacility;
 
     public ReactorImpl currentReactorImpl;
 
@@ -58,7 +58,7 @@ public class PlantStImpl extends PlantImpl {
             System.out.println("\n*** jactor.debug = true ***\n");
         }
         plantConfiguration = _plantConfiguration;
-        internalReactor = createInternalReactor();
+        internalFacility = createInternalFacility();
     }
 
     @Override
@@ -130,7 +130,7 @@ public class PlantStImpl extends PlantImpl {
             return;
         }
         try {
-            getInternalReactor().close();
+            getInternalFacility().close();
         } finally {
             PlantScheduler plantScheduler = getPlantScheduler();
             if (plantScheduler != null)
@@ -163,7 +163,7 @@ public class PlantStImpl extends PlantImpl {
      *
      * @return The reactor belonging to the singleton.
      */
-    protected Facility createInternalReactor() {
+    protected Facility createInternalFacility() {
         return new Facility(null);
     }
 
@@ -173,8 +173,8 @@ public class PlantStImpl extends PlantImpl {
      * @return The reactor belonging to the singleton.
      */
     @Override
-    public Facility getInternalReactor() {
-        return internalReactor;
+    public Facility getInternalFacility() {
+        return internalFacility;
     }
 
     /**
