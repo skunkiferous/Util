@@ -10,6 +10,7 @@ import org.agilewiki.jactor2.core.impl.stRequests.AsyncRequestStImpl;
 import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImpl;
 import org.agilewiki.jactor2.core.plant.PlantImpl;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
+import org.agilewiki.jactor2.core.reactors.Facility;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.Reactor;
@@ -41,7 +42,7 @@ public class PlantStImpl extends PlantImpl {
 
     private PlantConfiguration plantConfiguration;
 
-    private final NonBlockingReactor internalReactor;
+    private final Facility internalReactor;
 
     public ReactorImpl currentReactorImpl;
 
@@ -162,8 +163,8 @@ public class PlantStImpl extends PlantImpl {
      *
      * @return The reactor belonging to the singleton.
      */
-    protected NonBlockingReactor createInternalReactor() {
-        return new NonBlockingReactor(null);
+    protected Facility createInternalReactor() {
+        return new Facility(null);
     }
 
     /**
@@ -172,7 +173,7 @@ public class PlantStImpl extends PlantImpl {
      * @return The reactor belonging to the singleton.
      */
     @Override
-    public NonBlockingReactor getInternalReactor() {
+    public Facility getInternalReactor() {
         return internalReactor;
     }
 
