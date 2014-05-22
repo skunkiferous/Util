@@ -15,7 +15,7 @@ final public class Plant extends PlantBase {
      *
      * @param _plantConfiguration The configuration to be used by the plant.
      */
-    public Plant(final PlantConfiguration _plantConfiguration) {
+    public Plant(final PlantConfiguration _plantConfiguration) throws Exception {
         new PlantStImpl(_plantConfiguration);
     }
 }

@@ -21,7 +21,7 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
 }
 
 class Async1 extends NonBlockingBladeBase {
-    Async1() {
+    Async1() throws Exception {
         super(new NonBlockingReactor());
     }
 
@@ -46,7 +46,7 @@ class Async1 extends NonBlockingBladeBase {
 }
 
 class Async2 extends NonBlockingBladeBase {
-    Async2() {
+    Async2() throws Exception {
         super(new NonBlockingReactor());
     }
 

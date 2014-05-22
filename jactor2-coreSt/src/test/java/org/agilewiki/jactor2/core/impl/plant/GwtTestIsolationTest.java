@@ -24,7 +24,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
 }
 
 class Iso1 extends NonBlockingBladeBase {
-    Iso1() {
+    Iso1() throws Exception {
         super(new NonBlockingReactor());
     }
 
@@ -85,7 +85,7 @@ class Iso2 extends BladeBase {
 }
 
 class Iso3 extends NonBlockingBladeBase {
-    Iso3() {
+    Iso3() throws Exception {
         super(new NonBlockingReactor());
     }
 

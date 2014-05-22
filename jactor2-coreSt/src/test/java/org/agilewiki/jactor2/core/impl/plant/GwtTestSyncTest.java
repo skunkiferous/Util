@@ -20,7 +20,7 @@ public class GwtTestSyncTest extends BaseGWTTestCase {
 }
 
 class Sync1 extends NonBlockingBladeBase {
-    Sync1() {
+    Sync1() throws Exception {
         super(new NonBlockingReactor());
     }
 

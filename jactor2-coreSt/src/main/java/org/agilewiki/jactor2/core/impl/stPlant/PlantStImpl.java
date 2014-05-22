@@ -56,7 +56,7 @@ public class PlantStImpl extends PlantImpl {
      *
      * @param _plantConfiguration The configuration to be used by the singleton.
      */
-    public PlantStImpl(final PlantConfiguration _plantConfiguration) {
+    public PlantStImpl(final PlantConfiguration _plantConfiguration) throws Exception {
         if (DEBUG) {
             System.out.println("\n*** jactor.debug = true ***\n");
         }
@@ -166,7 +166,7 @@ public class PlantStImpl extends PlantImpl {
      *
      * @return The reactor belonging to the singleton.
      */
-    protected Facility createInternalFacility() {
+    protected Facility createInternalFacility() throws Exception {
         return new Facility(PLANT_INTERNAL_FACILITY_NAME, null);
     }
 
