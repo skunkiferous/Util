@@ -26,6 +26,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 public class PlantStImpl extends PlantImpl {
 
+    public static final String PLANT_INTERNAL_FACILITY_NAME = "PlantInternalFacility";
+
     /**
      * Returns this singleton.
      *
@@ -165,7 +167,7 @@ public class PlantStImpl extends PlantImpl {
      * @return The reactor belonging to the singleton.
      */
     protected Facility createInternalFacility() {
-        return new Facility(null);
+        return new Facility(PLANT_INTERNAL_FACILITY_NAME, null);
     }
 
     /**
