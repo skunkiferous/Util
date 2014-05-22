@@ -4,7 +4,8 @@ import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.PoolThreadReactorImpl;
 
-abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements PoolThreadReactorImpl {
+abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements
+        PoolThreadReactorImpl {
     private Runnable onIdle;
 
     /**
@@ -12,8 +13,7 @@ abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements P
      *
      * @param _parentReactor         The parent reactor.
      */
-    public PoolThreadReactorStImpl(
-            NonBlockingReactor _parentReactor) {
+    public PoolThreadReactorStImpl(final NonBlockingReactor _parentReactor) {
         super(_parentReactor);
     }
 
@@ -26,18 +26,20 @@ abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements P
 
     @Override
     protected void afterAdd() {
-        PlantStImpl plantStImpl = PlantStImpl.getSingleton();
+        final PlantStImpl plantStImpl = PlantStImpl.getSingleton();
         plantStImpl.submit(this);
     }
 
     /**
      * The object to be run when the inbox is emptied and before the threadReference is cleared.
      */
+    @Override
     public Runnable getOnIdle() {
         return onIdle;
     }
 
-    public void setOnIdle(Runnable onIdle) {
+    @Override
+    public void setOnIdle(final Runnable onIdle) {
         this.onIdle = onIdle;
     }
 }

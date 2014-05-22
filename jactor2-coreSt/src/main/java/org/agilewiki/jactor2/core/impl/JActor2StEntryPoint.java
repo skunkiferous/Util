@@ -22,7 +22,8 @@ package org.agilewiki.jactor2.core.impl;
  * </p>
  * @author monster
  */
-public class JActor2StEntryPoint implements com.google.gwt.core.client.EntryPoint {
+public class JActor2StEntryPoint implements
+        com.google.gwt.core.client.EntryPoint {
 
     @Override
     public void onModuleLoad() {

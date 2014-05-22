@@ -1,13 +1,13 @@
 package org.agilewiki.jactor2.core.impl.stCloseable;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.CloseableImpl;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.ReactorImpl;
-
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Implements multiple dependencies.
@@ -15,8 +15,7 @@ import java.util.Set;
 public class CloseableStImpl implements CloseableImpl {
     private final Closeable closeable;
 
-    private Set<ReactorImpl> closers =
-            new HashSet<ReactorImpl>();
+    private final Set<ReactorImpl> closers = new HashSet<ReactorImpl>();
 
     private volatile boolean closing;
 
@@ -30,24 +29,26 @@ public class CloseableStImpl implements CloseableImpl {
 
     @Override
     public void addReactor(final ReactorImpl _reactorImpl) {
-        if (closing)
+        if (closing) {
             throw new ReactorClosedException("Closeable is closed");
+        }
         closers.add(_reactorImpl);
     }
 
     @Override
     public void removeReactor(final ReactorImpl _reactorImpl) {
-        if (closing)
+        if (closing) {
             return;
+        }
         closers.remove(_reactorImpl);
     }
 
     @Override
     public void close() throws Exception {
         closing = true;
-        Iterator<ReactorImpl> it = closers.iterator();
+        final Iterator<ReactorImpl> it = closers.iterator();
         while (it.hasNext()) {
-            ReactorImpl reactorImpl = it.next();
+            final ReactorImpl reactorImpl = it.next();
             reactorImpl.removeCloseable(closeable);
         }
     }

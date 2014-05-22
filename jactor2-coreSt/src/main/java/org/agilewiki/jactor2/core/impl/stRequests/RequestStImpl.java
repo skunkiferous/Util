@@ -10,14 +10,13 @@ import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
 import org.agilewiki.jactor2.core.requests.RequestImpl;
 
-import java.util.concurrent.Semaphore;
-
 /**
  * Base class for internal reactor implementations.
  *
  * @param <RESPONSE_TYPE>
  */
-public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPONSE_TYPE> {
+public abstract class RequestStImpl<RESPONSE_TYPE> implements
+        RequestImpl<RESPONSE_TYPE> {
 
     /**
      * Assigned to current time when Facility.DEBUG.
@@ -117,8 +116,8 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * @return True when the request does not pass back a result.
      */
     public boolean isOneWay() {
-        return responseProcessor == OneWayResponseProcessor.SINGLETON ||
-                responseProcessor == SignalResponseProcessor.SINGLETON;
+        return (responseProcessor == OneWayResponseProcessor.SINGLETON)
+                || (responseProcessor == SignalResponseProcessor.SINGLETON);
     }
 
     /**
@@ -138,6 +137,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
         return targetReactorImpl;
     }
 
+    @Override
     public Reactor getTargetReactor() {
         return targetReactor;
     }
@@ -150,7 +150,6 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
     public ReactorStImpl getRequestSource() {
         return requestSource;
     }
-
 
     /**
      * Marks the request as having been used, or throws an
@@ -169,13 +168,15 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * If an exception is thrown while processing this Request,
      * that exception is simply logged as a warning.
      */
+    @Override
     public void signal() {
         use();
         responseProcessor = SignalResponseProcessor.SINGLETON;
         targetReactorImpl.unbufferedAddMessage(this, false);
-        PlantStImpl plantStImpl = PlantStImpl.getSingleton();
-        if (plantStImpl.currentReactorImpl == null)
+        final PlantStImpl plantStImpl = PlantStImpl.getSingleton();
+        if (plantStImpl.currentReactorImpl == null) {
             plantStImpl.processMessages();
+        }
     }
 
     /**
@@ -192,8 +193,9 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      *                           AsyncResponseProcessor is used to process the result on the same thread
      *                           that originally invoked this method. If null, then no response is returned.
      */
+    @Override
     public void doSend(final ReactorImpl _source,
-                       final AsyncResponseProcessor<RESPONSE_TYPE> _responseProcessor) {
+            final AsyncResponseProcessor<RESPONSE_TYPE> _responseProcessor) {
         final ReactorStImpl source = (ReactorStImpl) _source;
         if (!source.isRunning()) {
             throw new IllegalStateException(
@@ -232,6 +234,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * @return The response value from applying this Request to the target reactor.
      * @throws Exception If the result is an exception, it is thrown rather than being returned.
      */
+    @Override
     public RESPONSE_TYPE call() throws Exception {
         throw new UnsupportedOperationException();
     }
@@ -243,7 +246,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * @param _activeReactor The responding reactor.
      */
     protected void setResponse(final Object _response,
-                               final ReactorStImpl _activeReactor) {
+            final ReactorStImpl _activeReactor) {
         _activeReactor.requestEnd(this);
         incomplete = false;
         response = _response;
@@ -266,7 +269,8 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
         }
         setResponse(_response, targetReactorImpl);
         if (!isOneWay()) {
-            requestSource.incomingResponse(RequestStImpl.this, targetReactorImpl);
+            requestSource.incomingResponse(RequestStImpl.this,
+                    targetReactorImpl);
         } else {
             if (_response instanceof Throwable) {
                 targetReactor.asReactorImpl().warn("Uncaught throwable",
@@ -278,8 +282,9 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
 
     @Override
     public boolean isCanceled() throws ReactorClosedException {
-        if (closed)
+        if (closed) {
             throw new ReactorClosedException();
+        }
         return canceled;
     }
 
@@ -303,16 +308,18 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
         incomplete = false;
         closed = true;
         response = new ReactorClosedException();
-        if (requestSource != null)
+        if (requestSource != null) {
             requestSource.incomingResponse(this, null);
+        }
     }
 
     /**
      * Cancel this request.
      */
     public void cancel() {
-        if (canceled)
+        if (canceled) {
             return;
+        }
         canceled = true;
     }
 
@@ -326,15 +333,17 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
             targetReactorImpl.requestBegin(this);
             try {
                 processRequestMessage();
-            } catch (InterruptedException ex) {
+            } catch (final InterruptedException ex) {
                 Thread.currentThread().interrupt();
             } catch (final RuntimeException re) {
-                processException(targetReactorImpl, new ReactorClosedException());
+                processException(targetReactorImpl,
+                        new ReactorClosedException());
                 targetReactorImpl.getRecovery().onRuntimeException(this, re);
             } catch (final Exception e) {
                 processException(targetReactorImpl, e);
             } catch (final StackOverflowError soe) {
-                processException(targetReactorImpl, new ReactorClosedException());
+                processException(targetReactorImpl,
+                        new ReactorClosedException());
                 targetReactorImpl.getRecovery().onStackOverflowError(this, soe);
             }
         } else {
@@ -351,7 +360,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * A response has been received for a subordinate request.
      * @param request    A subordinate request.
      */
-    public void responseReceived(RequestImpl request) {
+    public void responseReceived(final RequestImpl request) {
     }
 
     /**
@@ -365,7 +374,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      */
     protected void processResponseMessage() {
         oldMessage.responseReceived(this);
-        final ReactorStImpl sourceMessageProcessor = (ReactorStImpl) requestSource;
+        final ReactorStImpl sourceMessageProcessor = requestSource;
         sourceMessageProcessor.setExceptionHandler(sourceExceptionHandler);
         sourceMessageProcessor.setCurrentRequest(oldMessage);
         if (response instanceof Exception) {
@@ -389,18 +398,20 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
      * @param _e             The exception to be processed.
      */
     public void processException(final ReactorStImpl _activeReactor,
-                                 final Exception _e) {
+            final Exception _e) {
         final ReactorStImpl activeMessageProcessor = _activeReactor;
         final ExceptionHandler<RESPONSE_TYPE> exceptionHandler = activeMessageProcessor
                 .getExceptionHandler();
         if (exceptionHandler != null) {
             try {
-                exceptionHandler.processException(_e, new AsyncResponseProcessor() {
-                    @Override
-                    public void processAsyncResponse(Object _response) {
-                        processObjectResponse(_response);
-                    }
-                });
+                exceptionHandler.processException(_e,
+                        new AsyncResponseProcessor() {
+                            @Override
+                            public void processAsyncResponse(
+                                    final Object _response) {
+                                processObjectResponse(_response);
+                            }
+                        });
             } catch (final Throwable u) {
                 if (!isOneWay()) {
                     if (!incomplete) {
@@ -423,21 +434,19 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements RequestImpl<RESPON
             if (!isOneWay()) {
                 requestSource.incomingResponse(this, activeMessageProcessor);
             } else {
-                activeMessageProcessor.warn("Uncaught throwable",
-                        _e);
+                activeMessageProcessor.warn("Uncaught throwable", _e);
             }
         }
     }
 
     @Override
     public String toString() {
-        return "message=" + asRequest() +
-                ", isComplete=" + isComplete() +
-                ", isOneWay=" + isOneWay() +
-                ", source=" + (requestSource == null ? "null" : requestSource) +
-                ", target=" + getTargetReactor().asReactorImpl() +
-                ", this=" + super.toString() +
-                (oldMessage == null ? "" : "\n" + oldMessage.toString());
+        return "message=" + asRequest() + ", isComplete=" + isComplete()
+                + ", isOneWay=" + isOneWay() + ", source="
+                + (requestSource == null ? "null" : requestSource)
+                + ", target=" + getTargetReactor().asReactorImpl() + ", this="
+                + super.toString()
+                + (oldMessage == null ? "" : "\n" + oldMessage.toString());
     }
 
     /**

@@ -1,8 +1,15 @@
 package org.agilewiki.jactor2.core.impl.stPlant;
 
-import org.agilewiki.jactor2.core.blades.transactions.ISMap;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
-import java.util.*;
+import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 
 /**
  * <p>
@@ -47,7 +54,7 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
      * @param value The value to be included.
      * @return The instance with one key/value pair.
      */
-    public static <V> ISMapImpl<V> singleton(String key, V value) {
+    public static <V> ISMapImpl<V> singleton(final String key, final V value) {
         return new ISMapImpl<V>(key, value);
     }
 
@@ -57,7 +64,7 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
      * @param m   The map to be included.
      * @return The instance that includes the map.
      */
-    public static <V> ISMapImpl<V> from(Map<String, V> m) {
+    public static <V> ISMapImpl<V> from(final Map<String, V> m) {
         return new ISMapImpl<V>(m);
     }
 
@@ -67,48 +74,49 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
         base = Collections.unmodifiableSortedMap(new TreeMap<String, VALUE>());
     }
 
-    private ISMapImpl(String key, VALUE value) {
-        TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>();
+    private ISMapImpl(final String key, final VALUE value) {
+        final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>();
         tm.put(key, value);
         base = Collections.unmodifiableSortedMap(tm);
     }
 
-    private ISMapImpl(Map<String, VALUE> m) {
+    private ISMapImpl(final Map<String, VALUE> m) {
         base = Collections.unmodifiableSortedMap(new TreeMap<String, VALUE>(m));
     }
 
-    private ISMapImpl(SortedMap<String, VALUE> immutableMap) {
+    private ISMapImpl(final SortedMap<String, VALUE> immutableMap) {
         base = Collections.unmodifiableSortedMap(immutableMap);
     }
 
     @Override
-    public ISMapImpl<VALUE> minus(String key) {
-        TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
+    public ISMapImpl<VALUE> minus(final String key) {
+        final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.remove(key);
         return new ISMapImpl<VALUE>(tm);
     }
 
     @Override
-    public ISMapImpl<VALUE> plus(String key, VALUE value) {
-        TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
+    public ISMapImpl<VALUE> plus(final String key, final VALUE value) {
+        final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.put(key, value);
         return new ISMapImpl(tm);
     }
 
     @Override
-    public ISMapImpl<VALUE> plusAll(Map<String, VALUE> m) {
-        TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
+    public ISMapImpl<VALUE> plusAll(final Map<String, VALUE> m) {
+        final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.putAll(m);
         return new ISMapImpl(tm);
     }
 
     @Override
-    public ISMapImpl<VALUE> subMap(String keyPrefix) {
-        return new ISMapImpl(base.subMap(keyPrefix, keyPrefix + Character.MAX_VALUE));
+    public ISMapImpl<VALUE> subMap(final String keyPrefix) {
+        return new ISMapImpl(base.subMap(keyPrefix, keyPrefix
+                + Character.MAX_VALUE));
     }
 
     @Override
-    public VALUE get(Object key) {
+    public VALUE get(final Object key) {
         return base.get(key);
     }
 
@@ -123,13 +131,14 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(final Object key) {
         return base.containsKey(key);
     }
 
     @Override
     public SortedSet<String> sortedKeySet() {
-        return Collections.unmodifiableSortedSet(new TreeSet<String>(base.keySet()));
+        return Collections.unmodifiableSortedSet(new TreeSet<String>(base
+                .keySet()));
     }
 
     @Override
@@ -153,25 +162,29 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public boolean containsValue(final Object value) {
         return base.containsValue(value);
     }
 
+    @Override
     @Deprecated
-    public VALUE put(String key, VALUE value) {
+    public VALUE put(final String key, final VALUE value) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     @Deprecated
-    public VALUE remove(Object key) {
+    public VALUE remove(final Object key) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     @Deprecated
-    public void putAll(Map<? extends String, ? extends VALUE> m) {
+    public void putAll(final Map<? extends String, ? extends VALUE> m) {
         throw new UnsupportedOperationException();
     }
 
+    @Override
     @Deprecated
     public void clear() {
         throw new UnsupportedOperationException();

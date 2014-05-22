@@ -196,8 +196,9 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
         reason = _reason;
         closeableImpl.close();
 
-        if (startClosing)
+        if (startClosing) {
             return;
+        }
         startClosing = true;
 
         if (closeables != null) {
@@ -208,7 +209,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
                 try {
                     closeable.close();
                 } catch (final Throwable t) {
-                    if (closeable != null && PlantStImpl.DEBUG) {
+                    if ((closeable != null) && PlantStImpl.DEBUG) {
                         warn("Error closing a "
                                 + closeable.getClass().getName(), t);
                     }
@@ -384,7 +385,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      * @param _message The request that has completed
      */
     public void requestEnd(final RequestImpl _message) {
-        RequestStImpl message = (RequestStImpl) _message;
+        final RequestStImpl message = (RequestStImpl) _message;
         if (message.isForeign()) {
             final boolean b = inProcessRequests.remove(message);
         }
@@ -403,7 +404,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
                     return;
                 }
                 RequestStImpl request = inbox.poll();
-                while (request != null && request._isCanceled()) {
+                while ((request != null) && request._isCanceled()) {
                     request = inbox.poll();
                 }
                 if (request == null) {
@@ -459,14 +460,17 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      */
     @Override
     public boolean addCloseable(final Closeable _closeable) {
-        if (startedClosing())
+        if (startedClosing()) {
             throw new ReactorClosedException(
                     "call to addCloseable when reactor already started closing: "
                             + reason);
-        if (this == _closeable)
+        }
+        if (this == _closeable) {
             return false;
-        if (!getCloseableSet().add(_closeable))
+        }
+        if (!getCloseableSet().add(_closeable)) {
             return false;
+        }
         _closeable.asCloseableImpl().addReactor(this);
         return true;
     }
@@ -479,8 +483,9 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      */
     @Override
     public boolean removeCloseable(final Closeable _closeable) {
-        if (closeables == null)
+        if (closeables == null) {
             return false;
+        }
         if (!closeables.remove(_closeable)) {
             return false;
         }

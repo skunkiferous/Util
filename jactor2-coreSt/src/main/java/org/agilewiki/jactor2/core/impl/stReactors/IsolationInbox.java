@@ -1,9 +1,8 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
-import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
-
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
 
 /**
  * The inbox used by IsolationReactor, the next request is not made available for processing
@@ -81,8 +80,9 @@ public class IsolationInbox extends Inbox {
 
     @Override
     public void requestBegin(final RequestStImpl _requestImpl) {
-        if (_requestImpl.isSignal())
+        if (_requestImpl.isSignal()) {
             return;
+        }
         if (processingRequest) {
             throw new IllegalStateException("already processing a request");
         }
@@ -91,8 +91,9 @@ public class IsolationInbox extends Inbox {
 
     @Override
     public void requestEnd(final RequestStImpl _message) {
-        if (_message.isSignal())
+        if (_message.isSignal()) {
             return;
+        }
         if (!processingRequest) {
             throw new IllegalStateException("not processing a request");
         }

@@ -1,5 +1,9 @@
 package org.agilewiki.jactor2.core.impl.stPlant;
 
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
+
 import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.CloseableImpl;
@@ -20,10 +24,6 @@ import org.agilewiki.jactor2.core.requests.AsyncRequestImpl;
 import org.agilewiki.jactor2.core.requests.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 
-import java.util.Map;
-import java.util.Queue;
-import java.util.concurrent.LinkedBlockingQueue;
-
 public class PlantStImpl extends PlantImpl {
 
     /**
@@ -41,7 +41,7 @@ public class PlantStImpl extends PlantImpl {
     public static final boolean DEBUG = "true".equals(System
             .getProperty("jactor.debug"));
 
-    private PlantConfiguration plantConfiguration;
+    private final PlantConfiguration plantConfiguration;
 
     private final Facility internalFacility;
 
@@ -54,7 +54,8 @@ public class PlantStImpl extends PlantImpl {
      *
      * @param _plantConfiguration The configuration to be used by the singleton.
      */
-    public PlantStImpl(final PlantConfiguration _plantConfiguration) throws Exception {
+    public PlantStImpl(final PlantConfiguration _plantConfiguration)
+            throws Exception {
         if (DEBUG) {
             System.out.println("\n*** jactor.debug = true ***\n");
         }
@@ -107,18 +108,20 @@ public class PlantStImpl extends PlantImpl {
     public <RESPONSE_TYPE> RequestImpl<RESPONSE_TYPE> createSyncRequestImpl(
             final SyncRequest<RESPONSE_TYPE> _syncRequest,
             final Reactor _targetReactor) {
-        return new SyncRequestStImpl<RESPONSE_TYPE>(_syncRequest, _targetReactor);
+        return new SyncRequestStImpl<RESPONSE_TYPE>(_syncRequest,
+                _targetReactor);
     }
 
     @Override
     public <RESPONSE_TYPE> AsyncRequestImpl<RESPONSE_TYPE> createAsyncRequestImpl(
             final AsyncRequest<RESPONSE_TYPE> _asyncRequest,
             final Reactor _targetReactor) {
-        return new AsyncRequestStImpl<RESPONSE_TYPE>(_asyncRequest, _targetReactor);
+        return new AsyncRequestStImpl<RESPONSE_TYPE>(_asyncRequest,
+                _targetReactor);
     }
 
     @Override
-    public CloseableImpl createCloseableImpl(Closeable _closeable) {
+    public CloseableImpl createCloseableImpl(final Closeable _closeable) {
         return new CloseableStImpl(_closeable);
     }
 
@@ -133,9 +136,10 @@ public class PlantStImpl extends PlantImpl {
         try {
             getInternalFacility().close();
         } finally {
-            PlantScheduler plantScheduler = getPlantScheduler();
-            if (plantScheduler != null)
+            final PlantScheduler plantScheduler = getPlantScheduler();
+            if (plantScheduler != null) {
                 plantScheduler.close();
+            }
             super.close();
         }
     }
@@ -213,8 +217,9 @@ public class PlantStImpl extends PlantImpl {
     public void processMessages() {
         while (true) {
             currentReactorImpl = pendingReactors.poll();
-            if (currentReactorImpl == null)
+            if (currentReactorImpl == null) {
                 return;
+            }
             try {
                 currentReactorImpl.run();
             } finally {
@@ -229,12 +234,12 @@ public class PlantStImpl extends PlantImpl {
     }
 
     @Override
-    public <V> ISMap<V> createISMap(String key, V value) {
+    public <V> ISMap<V> createISMap(final String key, final V value) {
         return ISMapImpl.singleton(key, value);
     }
 
     @Override
-    public <V> ISMap<V> createISMap(Map<String, V> m) {
+    public <V> ISMap<V> createISMap(final Map<String, V> m) {
         return ISMapImpl.from(m);
     }
 }

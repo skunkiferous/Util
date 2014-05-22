@@ -38,8 +38,9 @@ abstract public class PlantConfiguration {
      * @return The default Recovery instance.
      */
     public Recovery getRecovery() {
-        if (recovery == null)
+        if (recovery == null) {
             recovery = createRecovery();
+        }
         return recovery;
     }
 
@@ -56,8 +57,9 @@ abstract public class PlantConfiguration {
      * @return The plant scheduler.
      */
     public PlantScheduler getPlantScheduler() {
-        if (plantScheduler == null)
+        if (plantScheduler == null) {
             plantScheduler = createPlantScheduler();
+        }
         return plantScheduler;
     }
 

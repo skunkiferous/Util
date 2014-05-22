@@ -1,9 +1,8 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
-import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
-
 import java.util.concurrent.LinkedBlockingQueue;
+
+import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
 
 /**
  * The inbox used by NonBlockingReactor, ThreadBoundReactor

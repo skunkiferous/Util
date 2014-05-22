@@ -2,8 +2,8 @@ package org.agilewiki.jactor2.core.impl.plant;
 
 import org.agilewiki.jactor2.core.blades.BladeBase;
 import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
-import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.impl.JActorStTestPlantConfiguration;
+import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
@@ -36,8 +36,9 @@ class Iso1 extends NonBlockingBladeBase {
                 @Override
                 public void processAsyncResponse(final Void _response)
                         throws Exception {
-                    if (getPendingResponseCount() == 0)
+                    if (getPendingResponseCount() == 0) {
                         dis.processAsyncResponse(null);
+                    }
                 }
             };
 

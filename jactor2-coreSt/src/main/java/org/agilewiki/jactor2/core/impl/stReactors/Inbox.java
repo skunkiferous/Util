@@ -1,7 +1,6 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
 import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
 
 /**
  * Provides at least one queue for a targetReactor's incoming messages, where the queue is a

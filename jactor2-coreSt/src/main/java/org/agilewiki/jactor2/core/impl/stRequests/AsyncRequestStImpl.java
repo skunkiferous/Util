@@ -1,14 +1,18 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
-import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
-import org.agilewiki.jactor2.core.reactors.CommonReactor;
-import org.agilewiki.jactor2.core.reactors.Reactor;
-import org.agilewiki.jactor2.core.reactors.ReactorImpl;
-import org.agilewiki.jactor2.core.requests.*;
-
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
+import org.agilewiki.jactor2.core.reactors.CommonReactor;
+import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.AsyncRequestImpl;
+import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
+import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.Request;
+import org.agilewiki.jactor2.core.requests.RequestImpl;
 
 /**
  * Internal implementation of AsyncRequest.
@@ -18,7 +22,7 @@ import java.util.Set;
 public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         RequestStImpl<RESPONSE_TYPE> implements AsyncRequestImpl<RESPONSE_TYPE> {
 
-    private Set<RequestStImpl> pendingRequests = new HashSet<RequestStImpl>();
+    private final Set<RequestStImpl> pendingRequests = new HashSet<RequestStImpl>();
 
     private boolean noHungRequestCheck;
 
@@ -31,7 +35,8 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @param _targetReactor The targetReactor where this AsyncRequest Objects is passed for processing.
      *                       The thread owned by this targetReactor will process this AsyncRequest.
      */
-    public AsyncRequestStImpl(final AsyncRequest<RESPONSE_TYPE> _asyncRequest, final Reactor _targetReactor) {
+    public AsyncRequestStImpl(final AsyncRequest<RESPONSE_TYPE> _asyncRequest,
+            final Reactor _targetReactor) {
         super(_targetReactor);
         asyncRequest = _asyncRequest;
     }
@@ -45,6 +50,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * Disable check for hung request.
      * This must be called when a response must wait for a subsequent request.
      */
+    @Override
     public void setNoHungRequestCheck() {
         noHungRequestCheck = true;
     }
@@ -54,6 +60,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      *
      * @return A count of the number of subordinate requests which have not yet responded.
      */
+    @Override
     public int getPendingResponseCount() {
         return pendingRequests.size();
     }
@@ -63,6 +70,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      *
      * @param _response The response to this request.
      */
+    @Override
     public void processAsyncResponse(final RESPONSE_TYPE _response) {
         processObjectResponse(_response);
     }
@@ -74,12 +82,14 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      *
      * @param _response An exception.
      */
+    @Override
     public void processAsyncException(final Exception _response) {
         processObjectResponse(_response);
     }
 
     private void pendingCheck() throws Exception {
-        if (incomplete && !isCanceled() && pendingRequests.size() == 0 && !noHungRequestCheck) {
+        if (incomplete && !isCanceled() && (pendingRequests.size() == 0)
+                && !noHungRequestCheck) {
             targetReactor.asReactorImpl().error("hung request:\n" + toString());
             close();
             targetReactorImpl.getRecovery().onHungRequest(this);
@@ -93,7 +103,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
-    public void responseReceived(RequestImpl request) {
+    public void responseReceived(final RequestImpl request) {
         pendingRequests.remove(request);
     }
 
@@ -101,8 +111,8 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     public void responseProcessed() {
         try {
             pendingCheck();
-        } catch (Exception e) {
-            processException((ReactorStImpl) requestSource, e);
+        } catch (final Exception e) {
+            processException(requestSource, e);
         }
     }
 
@@ -113,15 +123,21 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @param _responseProcessor A callback to handle the result value from the subordinate request.
      * @param <RT>               The type of result value.
      */
+    @Override
     public <RT> void send(final Request<RT> _request,
-                          final AsyncResponseProcessor<RT> _responseProcessor) {
-        if (canceled && _responseProcessor != null)
+            final AsyncResponseProcessor<RT> _responseProcessor) {
+        if (canceled && (_responseProcessor != null)) {
             return;
-        if (targetReactorImpl.getCurrentRequest() != this)
-            throw new UnsupportedOperationException("send called on inactive request");
-        RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request.asRequestImpl();
-        if (_responseProcessor != OneWayResponseProcessor.SINGLETON)
+        }
+        if (targetReactorImpl.getCurrentRequest() != this) {
+            throw new UnsupportedOperationException(
+                    "send called on inactive request");
+        }
+        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request
+                .asRequestImpl();
+        if (_responseProcessor != OneWayResponseProcessor.SINGLETON) {
             pendingRequests.add(requestImpl);
+        }
         requestImpl.doSend(targetReactorImpl, _responseProcessor);
     }
 
@@ -135,22 +151,26 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @param <RT>           The response value type of the subordinate request.
      * @param <RT2>          The fixed response type.
      */
+    @Override
     public <RT, RT2> void send(final Request<RT> _request,
-                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
-        if (canceled)
+            final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        if (canceled) {
             return;
-        if (targetReactorImpl.getCurrentRequest() != this)
-            throw new UnsupportedOperationException("send called on inactive request");
-        RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request.asRequestImpl();
+        }
+        if (targetReactorImpl.getCurrentRequest() != this) {
+            throw new UnsupportedOperationException(
+                    "send called on inactive request");
+        }
+        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request
+                .asRequestImpl();
         pendingRequests.add(requestImpl);
-        requestImpl.doSend(targetReactorImpl,
-                new AsyncResponseProcessor<RT>() {
-                    @Override
-                    public void processAsyncResponse(final RT _response) throws Exception {
-                        _dis.processAsyncResponse(_fixedResponse);
-                    }
-                }
-        );
+        requestImpl.doSend(targetReactorImpl, new AsyncResponseProcessor<RT>() {
+            @Override
+            public void processAsyncResponse(final RT _response)
+                    throws Exception {
+                _dis.processAsyncResponse(_fixedResponse);
+            }
+        });
     }
 
     /**
@@ -167,6 +187,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @return The exception handler that was previously in effect, or null if the
      * default exception handler was in effect.
      */
+    @Override
     public ExceptionHandler<RESPONSE_TYPE> setExceptionHandler(
             final ExceptionHandler<RESPONSE_TYPE> _exceptionHandler) {
         final ExceptionHandler<RESPONSE_TYPE> old = targetReactorImpl
@@ -189,8 +210,9 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         if (!incomplete) {
             return;
         }
-        HashSet<RequestStImpl> pr = new HashSet<RequestStImpl>(pendingRequests);
-        Iterator<RequestStImpl> it = pr.iterator();
+        final HashSet<RequestStImpl> pr = new HashSet<RequestStImpl>(
+                pendingRequests);
+        final Iterator<RequestStImpl> it = pr.iterator();
         while (it.hasNext()) {
             it.next().cancel();
         }
@@ -204,10 +226,12 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @param _requestImpl The subordinate RequestImpl.
      * @return True if the subordinate RequestImpl was canceled.
      */
-    public boolean cancel(RequestImpl _requestImpl) {
-        RequestStImpl requestImpl = (RequestStImpl) _requestImpl;
-        if (!pendingRequests.remove(requestImpl))
+    @Override
+    public boolean cancel(final RequestImpl _requestImpl) {
+        final RequestStImpl requestImpl = (RequestStImpl) _requestImpl;
+        if (!pendingRequests.remove(requestImpl)) {
             return false;
+        }
         requestImpl.cancel();
         return true;
     }
@@ -215,9 +239,10 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     /**
      * Cancel all subordinate RequestImpl's.
      */
+    @Override
     public void cancelAll() {
-        Set<RequestImpl> all = new HashSet<RequestImpl>(pendingRequests);
-        Iterator<RequestImpl> it = all.iterator();
+        final Set<RequestImpl> all = new HashSet<RequestImpl>(pendingRequests);
+        final Iterator<RequestImpl> it = all.iterator();
         while (it.hasNext()) {
             cancel(it.next());
         }
@@ -226,18 +251,22 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     /**
      * Cancel this request.
      */
+    @Override
     public void cancel() {
-        if (canceled)
+        if (canceled) {
             return;
+        }
         canceled = true;
         asRequest().onCancel();
     }
 
     @Override
     protected void setResponse(final Object _response,
-                               final ReactorStImpl _activeReactor) {
-        if (_response instanceof Throwable || targetReactor instanceof CommonReactor)
+            final ReactorStImpl _activeReactor) {
+        if ((_response instanceof Throwable)
+                || (targetReactor instanceof CommonReactor)) {
             cancelAll();
+        }
         super.setResponse(_response, _activeReactor);
     }
 
