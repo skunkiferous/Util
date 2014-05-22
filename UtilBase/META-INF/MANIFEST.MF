@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400642697856
-Build-Jdk: 1.8.0
+Bnd-LastModified: 1400662798518
+Build-Jdk: 1.7.0_55
 Built-By: BILL
 Bundle-Description: The minimum shared code required to bootstrap the pl
  atform-specific parts of the Util project.

@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400642804426
-Build-Jdk: 1.8.0
+Bnd-LastModified: 1400662801501
+Build-Jdk: 1.7.0_55
 Built-By: BILL
 Bundle-Description: The common/shared part of the Util project.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
