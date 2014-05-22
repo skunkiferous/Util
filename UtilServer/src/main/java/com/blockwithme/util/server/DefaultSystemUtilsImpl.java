@@ -235,4 +235,12 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     protected <KEY, VALUE> WeakKeyMap<KEY, VALUE> newWeakKeyMapImpl() {
         return new MyWeakKeyMap<KEY, VALUE>();
     }
+
+    /* (non-Javadoc)
+     * @see com.blockwithme.util.base.SystemUtils#highResTimeMillisImpl()
+     */
+    @Override
+    protected double highResTimeMillisImpl() {
+        return System.nanoTime() / 1000000.0;
+    }
 }

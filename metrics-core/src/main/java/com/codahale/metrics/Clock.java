@@ -4,6 +4,24 @@ package com.codahale.metrics;
  * An abstraction for how time passes. It is passed to {@link Timer} to track timing.
  */
 public abstract class Clock {
+
+    /** Initialize JavaScript high resolution time. */
+    private static native void initHighResTime()
+    /*-{
+		Date.now = Date.now || function() {
+			return new Date().getTime();
+		};
+		window.performance = window.performance || {};
+		performance.now = (function() {
+			return performance.now || performance.mozNow || performance.msNow
+					|| performance.oNow || performance.webkitNow || Date.now;
+		})();
+    }-*/;
+
+    static {
+	 initHighResTime();
+    }
+
     /**
      * Returns the current time tick.
      *
@@ -37,9 +55,15 @@ public abstract class Clock {
      * A clock implementation which returns the current time in epoch nanoseconds.
      */
     public static class UserTimeClock extends Clock {
+
+        private static native double highResTimeMillisImpl()
+        /*-{
+		return performance.now();
+        }-*/;
+
         @Override
         public long getTick() {
-            return System.currentTimeMillis() * 1000000L;
+            return (long) (highResTimeMillisImpl() * 1000000L);
         }
     }
 }

@@ -1,7 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1400662805838
 Build-Jdk: 1.7.0_55
 Built-By: BILL
+=======
+Bnd-LastModified: 1400703872522
+Build-Jdk: 1.7.0_45
+Built-By: monster
+>>>>>>> a6986d6c7579abbf3eddc3f16556531d4daad7a5
 Bundle-Description: Contains some non-GWT-client "prototypes", which wer
  e too small to justify independent projects.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
