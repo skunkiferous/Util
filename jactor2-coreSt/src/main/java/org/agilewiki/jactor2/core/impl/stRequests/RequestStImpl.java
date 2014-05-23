@@ -9,6 +9,7 @@ import org.agilewiki.jactor2.core.reactors.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
 import org.agilewiki.jactor2.core.requests.RequestImpl;
+import org.agilewiki.jactor2.core.util.GwtIncompatible;
 
 /**
  * Base class for internal reactor implementations.
@@ -234,6 +235,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
      * @return The response value from applying this Request to the target reactor.
      * @throws Exception If the result is an exception, it is thrown rather than being returned.
      */
+    @GwtIncompatible
     @Override
     public RESPONSE_TYPE call() throws Exception {
         throw new UnsupportedOperationException();
