@@ -5,7 +5,7 @@
 
 	<groupId>com.blockwithme</groupId>
 	<artifactId>UtilParent</artifactId>
-	<version>0.2.0</version>
+	<version>0.3.0</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2014</inceptionYear>
 	<name>UtilParent</name>
@@ -41,7 +41,7 @@
 	<parent>
 		<groupId>com.blockwithme</groupId>
 		<artifactId>oss-parent</artifactId>
-		<version>0.1.0</version>
+		<version>0.3.0</version>
 	</parent>
 
 	<properties>
@@ -55,7 +55,6 @@
 <!--
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>2.2.1</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -76,7 +75,6 @@
 		<module>../UtilServer</module>
 		<module>../UtilPrototypes</module>
 		<module>../UtilClient</module>
-		<module>../metrics-core</module>
 		<module>../jactor2-coreSt</module>
 		<module>../UtilWWTest</module>
 	</modules>
