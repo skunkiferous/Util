@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400792225875
-Build-Jdk: 1.7.0_45
-Built-By: monster
+Bnd-LastModified: 1400822995946
+Build-Jdk: 1.7.0_55
+Built-By: BILL
 Bundle-Description: The minimum shared code required to bootstrap the pl
  atform-specific parts of the Util project.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
