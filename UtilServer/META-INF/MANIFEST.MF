@@ -1,13 +1,7 @@
 Manifest-Version: 1.0
-<<<<<<< HEAD
-Bnd-LastModified: 1400991960840
+Bnd-LastModified: 1401011001852
 Build-Jdk: 1.7.0_55
 Built-By: BILL
-=======
-Bnd-LastModified: 1401009254436
-Build-Jdk: 1.7.0_45
-Built-By: monster
->>>>>>> 553e0346680780ae98160c1f8400244cb8b4c409
 Bundle-Description: The non-GWT-client part. It is not in any way "serve
  r code", but just normal Java code, which is not GWT compatible.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
