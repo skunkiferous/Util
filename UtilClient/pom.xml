@@ -38,7 +38,7 @@
 	<parent>
 		<groupId>com.blockwithme</groupId>
 		<artifactId>UtilParent</artifactId>
-		<version>0.2.0</version>
+		<version>0.3.0</version>
 		<relativePath>../UtilParent</relativePath>
 	</parent>
 
@@ -145,42 +145,46 @@
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
+			<artifactId>gwt-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
+			<artifactId>gwt-slf4j</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+
 <!--
 		<dependency>
 			<groupId>org.timepedia.exporter</groupId>
 			<artifactId>gwtexporter</artifactId>
-			<version>2.5.0-SNAPSHOT</version>
-     		<type>jar</type>
+	     		<type>jar</type>
 			<scope>provided</scope>
-		    <exclusions>
-		        <exclusion>
-		            <groupId>com.sun</groupId>
-		            <artifactId>tools</artifactId>
-		        </exclusion>
-		    </exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.googlecode.gwt-test-utils</groupId>
 			<artifactId>gwt-test-utils</artifactId>
-			<version>0.47</version>
-	        <scope>test</scope>
+	        	<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>javassist</groupId>
+			<groupId>org.javassist</groupId>
 			<artifactId>javassist</artifactId>
-			<version>3.12.1.GA</version>
-	        <scope>test</scope>
+		        <scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
-	        <scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>1.7.6</version>
 	        <scope>test</scope>
 		</dependency>
 		<dependency>

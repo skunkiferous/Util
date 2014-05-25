@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>com.blockwithme</groupId>
 		<artifactId>UtilParent</artifactId>
-		<version>0.2.0</version>
+		<version>0.3.0</version>
 		<relativePath>../UtilParent</relativePath>
 	</parent>
 
@@ -20,7 +20,7 @@
 		<gwt.genParam>false</gwt.genParam>
 		<runTarget>http://localhost:8080/</runTarget>
 		<util-groupId>com.blockwithme</util-groupId>
-		<util-version>0.2.0</util-version>
+		<util-version>0.3.0</util-version>
 	</properties>
 
     <dependencies>
@@ -147,6 +147,15 @@
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
 		</dependency>
+	    <dependency>
+        	<groupId>com.codahale.metrics</groupId>
+	        <artifactId>metrics-core</artifactId>
+	    </dependency>
+	    <dependency>
+        	<groupId>com.codahale.metrics</groupId>
+	        <artifactId>metrics-core</artifactId>
+        	<classifier>sources</classifier>
+	    </dependency>
     </dependencies>
 
     <build>

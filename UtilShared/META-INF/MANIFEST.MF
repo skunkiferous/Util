@@ -1,20 +1,19 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400822999607
-Build-Jdk: 1.7.0_55
-Built-By: BILL
+Bnd-LastModified: 1400962593931
+Build-Jdk: 1.7.0_45
+Built-By: monster
 Bundle-Description: The common/shared part of the Util project.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
 Bundle-ManifestVersion: 2
 Bundle-Name: UtilShared
 Bundle-SymbolicName: com.blockwithme.UtilShared
 Bundle-Vendor: Sebastien Diot
-Bundle-Version: 0.2.0
+Bundle-Version: 0.3.0
 Created-By: Apache Maven Bundle Plugin
-Export-Package: com.blockwithme.util.shared.annotations;version="0.2.0",
+Export-Package: com.blockwithme.util.shared.annotations;version="0.3.0",
  com.blockwithme.util.shared;uses:="com.blockwithme.util.base,com.blockw
- ithme.util.shared.prim,javax.inject";version="0.2.0",com.blockwithme.ut
- il.shared.prim;version="0.2.0"
+ ithme.util.shared.prim,javax.inject";version="0.3.0",com.blockwithme.ut
+ il.shared.prim;version="0.3.0"
 FuncGenerated012-dependency-version: 1.2.0
-Import-Package: com.blockwithme.util.base;version="[0.2,1)",javax.inject
- ;version="[0.2,1)"
+Import-Package: com.blockwithme.util.base,javax.inject
 Tool: Bnd-2.1.0.20130426-122213

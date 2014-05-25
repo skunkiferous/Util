@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400822995946
-Build-Jdk: 1.7.0_55
-Built-By: BILL
+Bnd-LastModified: 1400962591953
+Build-Jdk: 1.7.0_45
+Built-By: monster
 Bundle-Description: The minimum shared code required to bootstrap the pl
  atform-specific parts of the Util project.
 Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -9,10 +9,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: UtilBase
 Bundle-SymbolicName: com.blockwithme.UtilBase
 Bundle-Vendor: Sebastien Diot
-Bundle-Version: 0.2.0
+Bundle-Version: 0.3.0
 Created-By: Apache Maven Bundle Plugin
-Export-Package: LICENSE;version="0.2.0",README.md;version="0.2.0",com.bl
- ockwithme.util.base;uses:="javax.inject";version="0.2.0",com.google.inj
+Export-Package: LICENSE;version="0.3.0",README.md;version="0.3.0",com.bl
+ ockwithme.util.base;uses:="javax.inject";version="0.3.0",com.google.inj
  ect;version="1.3";uses:="com.google.inject.binder,com.google.inject.mat
  cher,com.google.inject.spi,javax.inject,org.aopalliance.intercept",com.
  google.inject.assistedinject;version="1.3";uses:="com.google.inject,com
@@ -20,19 +20,19 @@ Export-Package: LICENSE;version="0.2.0",README.md;version="0.2.0",com.bl
  oogle.inject,javax.inject",com.google.inject.internal;uses:="com.google
  .inject,com.google.inject.binder,com.google.inject.internal.cglib.proxy
  ,com.google.inject.internal.cglib.reflect,com.google.inject.spi,javax.i
- nject";version="0.2.0",com.google.inject.internal.asm;version="0.2.0",c
+ nject";version="0.3.0",com.google.inject.internal.asm;version="0.3.0",c
  om.google.inject.internal.cglib.core;uses:="com.google.inject.internal.
- asm";version="0.2.0",com.google.inject.internal.cglib.proxy;uses:="com.
+ asm";version="0.3.0",com.google.inject.internal.cglib.proxy;uses:="com.
  google.inject.internal.asm,com.google.inject.internal.cglib.core";versi
- on="0.2.0",com.google.inject.internal.cglib.reflect;uses:="com.google.i
- nject.internal.asm,com.google.inject.internal.cglib.core";version="0.2.
- 0",com.google.inject.internal.util;version="0.2.0",com.google.inject.ma
+ on="0.3.0",com.google.inject.internal.cglib.reflect;uses:="com.google.i
+ nject.internal.asm,com.google.inject.internal.cglib.core";version="0.3.
+ 0",com.google.inject.internal.util;version="0.3.0",com.google.inject.ma
  tcher;version="1.3",com.google.inject.name;version="1.3";uses:="com.goo
  gle.inject",com.google.inject.spi;version="1.3";uses:="com.google.injec
  t,com.google.inject.matcher,javax.inject,org.aopalliance.intercept",com
  .google.inject.util;version="1.3";uses:="com.google.inject,javax.inject
- ",javax.inject;version="0.2.0",org.aopalliance.aop;version="0.2.0",org.
- aopalliance.intercept;uses:="org.aopalliance.aop";version="0.2.0"
+ ",javax.inject;version="0.3.0",org.aopalliance.aop;version="0.3.0",org.
+ aopalliance.intercept;uses:="org.aopalliance.aop";version="0.3.0"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.google.inject.internal.asm.util
 Tool: Bnd-2.1.0.20130426-122213

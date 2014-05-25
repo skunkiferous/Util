@@ -37,7 +37,7 @@
 	<parent>
 		<groupId>com.blockwithme</groupId>
 		<artifactId>UtilParent</artifactId>
-		<version>0.2.0</version>
+		<version>0.3.0</version>
 		<relativePath>../UtilParent</relativePath>
 	</parent>
 
@@ -81,20 +81,6 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>metrics-core</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
@@ -169,14 +155,22 @@
 		<dependency>
 			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
 			<artifactId>gwt-slf4j</artifactId>
-			<version>0.0.2</version>
 		</dependency>
 		<dependency>
 			<groupId>de.benediktmeurer.gwt-slf4j</groupId>
 			<artifactId>gwt-slf4j</artifactId>
-			<version>0.0.2</version>
 			<classifier>sources</classifier>
 		</dependency>
+	    <dependency>
+        	<groupId>com.codahale.metrics</groupId>
+	        <artifactId>metrics-core</artifactId>
+	    </dependency>
+	    <dependency>
+        	<groupId>com.codahale.metrics</groupId>
+	        <artifactId>metrics-core</artifactId>
+        	<classifier>sources</classifier>
+	    </dependency>
+
     </dependencies>
     <build>
         <plugins>
