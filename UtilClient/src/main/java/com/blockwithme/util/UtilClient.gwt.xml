@@ -13,6 +13,9 @@
     <inherits name="com.google.gwt.inject.Inject"/>
     <inherits name="com.blockwithme.util.UtilBase"/>
     <inherits name="com.blockwithme.util.UtilShared"/>
+    <inherits name="de.benediktmeurer.gwt.slf4j.api.API"/>
+    <inherits name="de.benediktmeurer.gwt.slf4j.jul.JUL"/>
+
 <!--
     <inherits name='org.timepedia.exporter.Exporter'/>
     <set-property name="export" value="yes"/>
