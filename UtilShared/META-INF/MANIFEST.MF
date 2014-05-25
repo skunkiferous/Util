@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1400903622421
+Bnd-LastModified: 1400991958505
 Build-Jdk: 1.7.0_55
 Built-By: BILL
 Bundle-Description: The common/shared part of the Util project.
