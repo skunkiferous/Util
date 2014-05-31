@@ -7,6 +7,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.CloseableImpl;
+import org.agilewiki.jactor2.core.impl.DefaultPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.IsolationReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.NonBlockingReactorStImpl;
@@ -61,6 +62,14 @@ public class PlantStImpl extends PlantImpl {
         }
         plantConfiguration = _plantConfiguration;
         internalFacility = createInternalFacility();
+    }
+
+    /**
+     * @throws Exception
+     *
+     */
+    public PlantStImpl() throws Exception {
+        this(new DefaultPlantConfiguration());
     }
 
     @Override

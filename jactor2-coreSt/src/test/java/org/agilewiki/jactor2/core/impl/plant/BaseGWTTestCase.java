@@ -16,6 +16,11 @@
 package org.agilewiki.jactor2.core.impl.plant;
 
 import org.agilewiki.jactor2.core.impl.JActorStTestInjector;
+import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
+import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
+import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.Request;
+import org.agilewiki.jactor2.core.requests.SyncRequest;
 
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.client.UtilEntryPoint;
@@ -28,6 +33,52 @@ import com.google.gwt.junit.client.GWTTestCase;
  * @author monster
  */
 public abstract class BaseGWTTestCase extends GWTTestCase {
+
+    private static class TestRunner<RESPONSE_TYPE> extends SyncRequest<Void> {
+        private final Request<RESPONSE_TYPE> request;
+        private volatile Object result;
+
+        @SuppressWarnings("unchecked")
+        public Object runAndWait() throws InterruptedException {
+            signal();
+            while (result == null) {
+                Thread.sleep(1);
+            }
+            return (result == TestRunner.class) ? null : result;
+        }
+
+        public TestRunner(final Request<RESPONSE_TYPE> request)
+                throws Exception {
+            super(new NonBlockingReactor());
+            this.request = request;
+        }
+
+        @Override
+        public Void processSyncRequest() throws Exception {
+            getTargetReactor().asReactorImpl().setExceptionHandler(
+                    new ExceptionHandler<RESPONSE_TYPE>() {
+                        @Override
+                        public RESPONSE_TYPE processException(final Exception e)
+                                throws Exception {
+                            result = e;
+                            return null;
+                        }
+                    });
+            request.asRequestImpl().doSend(getTargetReactor().asReactorImpl(),
+                    new AsyncResponseProcessor<RESPONSE_TYPE>() {
+                        @Override
+                        public void processAsyncResponse(
+                                final RESPONSE_TYPE _response) throws Exception {
+                            if (_response == null) {
+                                result = TestRunner.class;
+                            } else {
+                                result = _response;
+                            }
+                        }
+                    });
+            return null;
+        }
+    }
 
     /** The injector */
     private static JActorStTestInjector injector;
@@ -54,5 +105,15 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
     @Override
     public String getModuleName() {
         return "org.agilewiki.jactor2.core.JActor2CoreSt";
+    }
+
+    protected <RESPONSE_TYPE> RESPONSE_TYPE call(
+            final Request<RESPONSE_TYPE> request) throws Exception {
+        final Object result = new TestRunner<RESPONSE_TYPE>(request)
+                .runAndWait();
+        if (result instanceof Exception) {
+            throw (Exception) result;
+        }
+        return (RESPONSE_TYPE) result;
     }
 }

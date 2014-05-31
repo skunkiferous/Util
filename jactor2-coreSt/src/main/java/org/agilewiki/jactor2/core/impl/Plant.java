@@ -18,4 +18,12 @@ final public class Plant extends PlantBase {
     public Plant(final PlantConfiguration _plantConfiguration) throws Exception {
         new PlantStImpl(_plantConfiguration);
     }
+
+    /**
+     * @throws Exception
+     *
+     */
+    public Plant() throws Exception {
+        new PlantStImpl();
+    }
 }

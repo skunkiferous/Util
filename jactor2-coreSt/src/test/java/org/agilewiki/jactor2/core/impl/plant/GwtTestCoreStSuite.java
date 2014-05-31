@@ -17,6 +17,13 @@ package org.agilewiki.jactor2.core.impl.plant;
 
 import junit.framework.TestSuite;
 
+import org.agilewiki.jactor2.core.impl.blades.GwtTest1;
+import org.agilewiki.jactor2.core.impl.blades.GwtTest3;
+import org.agilewiki.jactor2.core.impl.blades.GwtTestISMTransactionTest;
+import org.agilewiki.jactor2.core.impl.blades.GwtTestPubSubTest;
+import org.agilewiki.jactor2.core.impl.reactors.GwtTestCloseableSetTest;
+import org.agilewiki.jactor2.core.impl.reactors.GwtTestRegistrationTest;
+
 import com.google.gwt.junit.tools.GWTTestSuite;
 
 /**
@@ -31,6 +38,22 @@ public class GwtTestCoreStSuite extends GWTTestSuite {
         suite.addTestSuite(GwtTestLogTest.class);
         suite.addTestSuite(GwtTestPlantTest.class);
         suite.addTestSuite(GwtTestSyncTest.class);
+        suite.addTestSuite(GwtTestISMTransactionTest.class);
+        suite.addTestSuite(GwtTestPubSubTest.class);
+        suite.addTestSuite(GwtTest1.class);
+        suite.addTestSuite(GwtTest3.class);
+        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transactions.GwtTestSyncTest.class);
+        suite.addTestSuite(GwtTestCloseableSetTest.class);
+        suite.addTestSuite(GwtTestRegistrationTest.class);
+        suite.addTestSuite(org.agilewiki.jactor2.core.impl.requests.GwtTest1.class);
+        suite.addTestSuite(org.agilewiki.jactor2.core.impl.requests.GwtTest3.class);
+        suite.addTestSuite(GwtTestHungRequestTest.class);
+
+        // Infinite loop!
+//        suite.addTestSuite(GwtTestICloseTest.class);
+
+        // Infinite loop!
+//        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transactions.GwtTestAsyncTest.class);
         return suite;
     }
 }
