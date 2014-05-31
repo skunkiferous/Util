@@ -15,6 +15,8 @@
  */
 package org.agilewiki.jactor2.core.impl;
 
+import com.blockwithme.util.client.UtilEntryPoint;
+
 /**
  * JActor2-Core-St EntryPoint.
  * <p>
@@ -27,6 +29,6 @@ public class JActor2StEntryPoint implements
 
     @Override
     public void onModuleLoad() {
-        // NOP
+        new UtilEntryPoint().onModuleLoad();
     }
 }

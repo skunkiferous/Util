@@ -22,6 +22,7 @@ import org.agilewiki.jactor2.core.impl.blades.GwtTest3;
 import org.agilewiki.jactor2.core.impl.blades.GwtTestISMTransactionTest;
 import org.agilewiki.jactor2.core.impl.blades.GwtTestPubSubTest;
 import org.agilewiki.jactor2.core.impl.reactors.GwtTestCloseableSetTest;
+import org.agilewiki.jactor2.core.impl.reactors.GwtTestICloseTest;
 import org.agilewiki.jactor2.core.impl.reactors.GwtTestRegistrationTest;
 
 import com.google.gwt.junit.tools.GWTTestSuite;
@@ -48,12 +49,8 @@ public class GwtTestCoreStSuite extends GWTTestSuite {
         suite.addTestSuite(org.agilewiki.jactor2.core.impl.requests.GwtTest1.class);
         suite.addTestSuite(org.agilewiki.jactor2.core.impl.requests.GwtTest3.class);
         suite.addTestSuite(GwtTestHungRequestTest.class);
-
-        // Infinite loop!
-//        suite.addTestSuite(GwtTestICloseTest.class);
-
-        // Infinite loop!
-//        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transactions.GwtTestAsyncTest.class);
+        suite.addTestSuite(GwtTestICloseTest.class);
+        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transactions.GwtTestAsyncTest.class);
         return suite;
     }
 }

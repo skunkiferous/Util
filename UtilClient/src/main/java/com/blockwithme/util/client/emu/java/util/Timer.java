@@ -16,6 +16,7 @@
 package java.util;
 
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 import com.badlogic.gdx.Gdx;
 import com.blockwithme.util.base.SystemUtils;
@@ -227,9 +228,12 @@ public class Timer {
     /** Cancels all tasks. */
     public int purge() {
         int result = tasks.size();
-        for (int i = 0, n = result; i < n; i++)
-            tasks.get(i).cancel();
-        tasks.clear();
+        if (result > 0) {
+            for (final TimerTask task : tasks.toArray(new TimerTask[tasks.size()])) {
+                task.cancel();
+            }
+            tasks.clear();
+        }
         return result;
     }
 
@@ -247,8 +251,8 @@ public class Timer {
         }
 
         float delta = SystemUtils.getDeltaTime();
-        for (int i = 0, n = tasks.size(); i < n; i++) {
-            TimerTask task = tasks.get(i);
+        // We make a copy, in case some task would cause the list to change
+        for (final TimerTask task : tasks.toArray(new TimerTask[tasks.size()])) {
             task.delaySeconds -= delta;
             if (task.delaySeconds > 0)
                 continue;
@@ -258,9 +262,7 @@ public class Timer {
                 task.run();
             }
             if (task.repeatCount == CANCELLED) {
-                tasks.remove(i);
-                i--;
-                n--;
+                tasks.remove(task);
             } else {
                 task.delaySeconds = task.intervalSeconds;
                 if (task.repeatCount > 0)

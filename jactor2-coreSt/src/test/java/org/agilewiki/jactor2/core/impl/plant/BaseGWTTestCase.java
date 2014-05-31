@@ -34,16 +34,38 @@ import com.google.gwt.junit.client.GWTTestCase;
  */
 public abstract class BaseGWTTestCase extends GWTTestCase {
 
+    public static interface CheckResult {
+        void checkResult(Object result);
+    }
+
+    public static class DefaultCheckResult implements CheckResult {
+        @Override
+        public void checkResult(final Object result) {
+            if (result instanceof RuntimeException) {
+                throw (RuntimeException) result;
+            }
+            if (result instanceof Error) {
+                throw (Error) result;
+            }
+            if (result instanceof Exception) {
+                throw new RuntimeException((Exception) result);
+            }
+            onRealResult(result);
+        }
+
+        protected void onRealResult(final Object result) {
+            // NOP
+        }
+    }
+
+    private static final CheckResult DEFAULT_CHECKER = new DefaultCheckResult();
+
     private static class TestRunner<RESPONSE_TYPE> extends SyncRequest<Void> {
         private final Request<RESPONSE_TYPE> request;
         private volatile Object result;
 
         @SuppressWarnings("unchecked")
-        public Object runAndWait() throws InterruptedException {
-            signal();
-            while (result == null) {
-                Thread.sleep(1);
-            }
+        public Object getResult() {
             return (result == TestRunner.class) ? null : result;
         }
 
@@ -109,11 +131,30 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
 
     protected <RESPONSE_TYPE> RESPONSE_TYPE call(
             final Request<RESPONSE_TYPE> request) throws Exception {
-        final Object result = new TestRunner<RESPONSE_TYPE>(request)
-                .runAndWait();
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                request);
+        runner.signal();
+        final Object result = runner.getResult();
         if (result instanceof Exception) {
             throw (Exception) result;
         }
         return (RESPONSE_TYPE) result;
+    }
+
+    protected <RESPONSE_TYPE> void call(final Request<RESPONSE_TYPE> request,
+            final CheckResult checker, final int wait) throws Exception {
+        final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
+                : checker;
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                request);
+        runner.signal();
+        delayTestFinish(wait);
+        new com.google.gwt.user.client.Timer() {
+            @Override
+            public void run() {
+                checker2.checkResult(runner.getResult());
+                finishTest();
+            }
+        }.schedule(wait);
     }
 }

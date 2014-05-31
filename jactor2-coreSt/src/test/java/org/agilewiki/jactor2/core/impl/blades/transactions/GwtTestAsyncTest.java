@@ -12,13 +12,14 @@ import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 public class GwtTestAsyncTest extends BaseGWTTestCase {
     public void testI() throws Exception {
         new Plant();
+        delayTestFinish(400);
 
         final AsyncTransaction<String> addGood = new AsyncTransaction<String>() {
             @Override
             protected void update(final ImmutableSource<String> source,
                     final AsyncResponseProcessor<Void> asyncResponseProcessor)
                     throws Exception {
-                applyAReq.send(new DelayAReq(1000),
+                applyAReq.send(new DelayAReq(100),
                         new AsyncResponseProcessor<Void>() {
                             @Override
                             public void processAsyncResponse(
@@ -39,17 +40,59 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
             }
         };
 
-        try {
-            ImmutableReference m = new ImmutableReference<String>("fun");
-            System.out.println(m.getImmutable()); // fun
-            call(addGood.applyAReq(m));
-            System.out.println(m.getImmutable()); // good fun
-            m = new ImmutableReference<String>("grapes");
-            System.out.println(m.getImmutable()); // grapes
-            call(addMoreGood.applyAReq(m));
-            System.out.println(m.getImmutable()); // more good grapes
-        } finally {
-            Plant.close();
-        }
+        final ImmutableReference m = new ImmutableReference<String>("fun");
+        System.out.println(m.getImmutable()); // fun
+        call(addGood.applyAReq(m), new DefaultCheckResult() {
+            @Override
+            public void onRealResult(final Object result) {
+                System.out.println(m.getImmutable()); // good fun
+                final ImmutableReference m2;
+                try {
+                    m2 = new ImmutableReference<String>("grapes");
+                } catch (final RuntimeException e) {
+                    try {
+                        Plant.close();
+                    } catch (final Exception e1) {
+                        // NOP
+                    }
+                    throw e;
+                } catch (final Exception e) {
+                    try {
+                        Plant.close();
+                    } catch (final Exception e1) {
+                        // NOP
+                    }
+                    throw new RuntimeException(e);
+                }
+                System.out.println(m2.getImmutable()); // grapes
+                try {
+                    call(addMoreGood.applyAReq(m2), new DefaultCheckResult() {
+                        @Override
+                        public void checkResult(final Object result) {
+                            System.out.println(m2.getImmutable()); // more good grapes
+                            try {
+                                Plant.close();
+                            } catch (final Exception e1) {
+                                // NOP
+                            }
+                        }
+                    }, 150);
+                } catch (final RuntimeException e) {
+                    try {
+                        Plant.close();
+                    } catch (final Exception e1) {
+                        // NOP
+                    }
+                    throw e;
+                } catch (final Exception e) {
+                    try {
+                        Plant.close();
+                    } catch (final Exception e1) {
+                        // NOP
+                    }
+                    throw new RuntimeException(e);
+                }
+            }
+        }, 150);
     }
 }

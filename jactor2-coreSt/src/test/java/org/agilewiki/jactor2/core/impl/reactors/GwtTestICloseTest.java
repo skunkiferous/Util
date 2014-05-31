@@ -12,7 +12,8 @@ public class GwtTestICloseTest extends BaseGWTTestCase {
     public void testa() throws Exception {
         new Plant();
         try {
-            call(new IHang().goAReq());
+            delayTestFinish(150);
+            call(new IHang().goAReq(), null, 100);
         } finally {
             Plant.close();
         }
