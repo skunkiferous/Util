@@ -148,7 +148,6 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
                 request);
         runner.signal();
-        delayTestFinish(wait);
         new com.google.gwt.user.client.Timer() {
             @Override
             public void run() {
