@@ -110,12 +110,6 @@ public abstract class SystemUtils {
     /** Returns true if we are in the GWT client. */
     protected abstract boolean isGWTClientImpl();
 
-    /** Returns an int representation of the specified floating-point value */
-    protected abstract int floatToRawIntBitsImpl(float value);
-
-    /** Returns a long representation of the specified floating-point value */
-    protected abstract long doubleToRawLongBitsImpl(double value);
-
     /**
      * Reports an exception caught at the "top level". This is
      * used in places where the browser calls into user code such as event
@@ -386,16 +380,6 @@ public abstract class SystemUtils {
     /** Returns true if we are in the GWT client. */
     public static boolean isGWTClient() {
         return isGWTClient;
-    }
-
-    /** Returns an int representation of the specified floating-point value */
-    public static int floatToRawIntBits(final float value) {
-        return systemUtils.floatToRawIntBitsImpl(value);
-    }
-
-    /** Returns a long representation of the specified floating-point value */
-    public static long doubleToRawLongBits(final double value) {
-        return systemUtils.doubleToRawLongBitsImpl(value);
     }
 
     /**

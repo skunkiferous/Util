@@ -38,12 +38,13 @@ public class ExactyTypeValidator<E> implements Validator<E> {
     }
 
     @Override
-    public String validate(final E e) {
-        if (e == null) {
-            return "is null";
+    public String validate(final E value, final Object name) {
+        if (value == null) {
+            return name + " is null";
         }
-        if (e.getClass() != type) {
-            return "is a " + e.getClass() + " but a " + type + " was expected";
+        if (value.getClass() != type) {
+            return name + " is a " + value.getClass() + " but a " + type
+                    + " was expected";
         }
         return null;
     }

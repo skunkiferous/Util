@@ -29,14 +29,12 @@ public class InternalizerImpl<E> implements Internalizer<E> {
     private final ConcurrentMap<E, E> map;
 
     /** Constructor, with optional parent. */
-    @SuppressWarnings("unchecked")
     public InternalizerImpl() {
         map = new ConcurrentHashMap<>();
         parent = null;
     }
 
     /** Constructor, with optional parent. */
-    @SuppressWarnings("unchecked")
     public InternalizerImpl(final Internalizer<E> theParent) {
         map = new ConcurrentHashMap<>();
         parent = theParent;

@@ -17,11 +17,9 @@ package com.blockwithme.util.shared;
 
 import java.io.Serializable;
 
-import com.blockwithme.util.base.SystemUtils;
-
 /**
  * Smallest possible mutable class that could contain anything,
- * without requiring "boxing" of primitive values.
+ * without requiring "boxing" of primitive values (except long!).
  *
  * Note that it also supports the AnyType.Empty, which allows us to represent
  * "no data", for example, when querying the value of a non-existent property.
@@ -36,7 +34,7 @@ public class Any implements Serializable {
     private static final long serialVersionUID = -2510171712544971710L;
 
     /** The primitive data. */
-    private long primitive;
+    private double primitive;
     /** The object data. */
     private Object object;
 
@@ -98,6 +96,10 @@ public class Any implements Serializable {
      */
     @Override
     public String toString() {
+        final long l = (long) primitive;
+        if (l == primitive) {
+            return "Any [primitive=" + l + ", object=" + object + "]";
+        }
         return "Any [primitive=" + primitive + ", object=" + object + "]";
     }
 
@@ -109,7 +111,8 @@ public class Any implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((object == null) ? 0 : object.hashCode());
-        result = prime * result + (int) (primitive ^ (primitive >>> 32));
+        final long l = Double.doubleToLongBits(primitive);
+        result = prime * result + (int) (l ^ (l >>> 32));
         return result;
     }
 
@@ -147,6 +150,9 @@ public class Any implements Serializable {
         if (object instanceof AnyType) {
             // Not an object
             return (AnyType) object;
+        }
+        if (object instanceof Long) {
+            return AnyType.Long;
         }
         // Must be an object, including null
         return AnyType.Object;
@@ -321,8 +327,8 @@ public class Any implements Serializable {
 
     /** Sets the Any with a long. */
     public final void setLong(final long value) {
-        object = AnyType.Long;
-        primitive = value;
+        object = value;
+        primitive = 0;
     }
 
     /**
@@ -331,10 +337,10 @@ public class Any implements Serializable {
      * @return the long.
      */
     public final long getLong() {
-        if (object != AnyType.Long) {
+        if (!(object instanceof Long)) {
             throw new IllegalStateException("Not a long: " + object);
         }
-        return primitive;
+        return (Long) object;
     }
 
     /**
@@ -342,13 +348,13 @@ public class Any implements Serializable {
      * @return the long.
      */
     public final long getLongUnsafe() {
-        return primitive;
+        return (Long) object;
     }
 
     /** Sets the Any with a float. */
     public final void setFloat(final float value) {
         object = AnyType.Float;
-        primitive = SystemUtils.floatToRawIntBits(value);
+        primitive = value;
     }
 
     /**
@@ -368,13 +374,13 @@ public class Any implements Serializable {
      * @return the int.
      */
     public final float getFloatUnsafe() {
-        return Float.intBitsToFloat((int) primitive);
+        return (float) primitive;
     }
 
     /** Sets the Any with a double. */
     public final void setDouble(final double value) {
         object = AnyType.Double;
-        primitive = SystemUtils.doubleToRawLongBits(value);
+        primitive = value;
     }
 
     /**
@@ -394,6 +400,6 @@ public class Any implements Serializable {
      * @return the double.
      */
     public final double getDoubleUnsafe() {
-        return Double.longBitsToDouble(primitive);
+        return primitive;
     }
 }

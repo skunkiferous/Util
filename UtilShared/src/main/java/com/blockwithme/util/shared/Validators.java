@@ -25,7 +25,7 @@ public class Validators {
     /** Returns true for any value */
     private static final class AnyValidator implements Validator<Object> {
         @Override
-        public String validate(final Object e) {
+        public String validate(final Object value, final Object name) {
             return null;
         }
     };
@@ -33,8 +33,8 @@ public class Validators {
     /** Returns true for non-null values. */
     private static final class NotNullValidator implements Validator<Object> {
         @Override
-        public String validate(final Object e) {
-            return (e == null) ? "cannot be null" : null;
+        public String validate(final Object value, final Object name) {
+            return (value == null) ? name + " cannot be null" : null;
         }
     };
 

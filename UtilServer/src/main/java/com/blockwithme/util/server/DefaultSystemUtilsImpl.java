@@ -205,22 +205,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.base.SystemUtils#floatToRawIntBitsImpl(float)
-     */
-    @Override
-    protected int floatToRawIntBitsImpl(final float value) {
-        return Float.floatToRawIntBits(value);
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.base.SystemUtils#doubleToRawLongBitsImpl(double)
-     */
-    @Override
-    protected long doubleToRawLongBitsImpl(final double value) {
-        return Double.doubleToRawLongBits(value);
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.base.SystemUtils#reportUncaughtExceptionImpl(java.lang.Throwable)
      */
     @Override

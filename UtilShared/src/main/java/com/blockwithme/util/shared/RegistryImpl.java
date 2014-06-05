@@ -101,14 +101,13 @@ public class RegistryImpl<K, V> implements Registry<K, V> {
 
     @Override
     public V register(final K key, final V value, final boolean update) {
-        final String checkKey = keyValidator.validate(key);
+        final String checkKey = keyValidator.validate(key, "key");
         if (checkKey != null) {
-            throw new IllegalArgumentException("key " + key + " " + checkKey);
+            throw new IllegalArgumentException(checkKey);
         }
-        final String checkValue = valueValidator.validate(value);
+        final String checkValue = valueValidator.validate(value, "value");
         if (checkValue != null) {
-            throw new IllegalArgumentException("value " + value + " "
-                    + checkValue);
+            throw new IllegalArgumentException(checkValue);
         }
         return register2(key, value, update);
     }

@@ -153,26 +153,6 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.base.SystemUtils#floatToRawIntBitsImpl(float)
-     */
-    @Override
-    protected int floatToRawIntBitsImpl(final float value) {
-        // TODO This messes up the data, if the value is a NaN :(
-//      return Float.floatToIntBits(value);
-        throw new UnsupportedOperationException();
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.util.base.SystemUtils#doubleToRawLongBitsImpl(double)
-     */
-    @Override
-    protected long doubleToRawLongBitsImpl(final double value) {
-        // TODO This messes up the data, if the value is a NaN :(
-//        return Double.doubleToLongBits(value);
-        throw new UnsupportedOperationException();
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.base.SystemUtils#reportUncaughtExceptionImpl(java.util.Throwable)
      */
     @Override

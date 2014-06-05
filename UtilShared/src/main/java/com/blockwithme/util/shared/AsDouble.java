@@ -16,13 +16,12 @@
 
 package com.blockwithme.util.shared;
 
-/** Validates some values. */
-public interface Validator<E> {
-    /**
-     * Returns null for valid values, otherwise an error message.
-     *
-     * @param value The value to be checked
-     * @param name The name of the value, which could be used in the message.
-     */
-    String validate(final E value, final Object name);
+/**
+ * <code>AsDouble</code> can be implemented by objects that can be represented as a primitive double.
+ *
+ * @author monster
+ */
+public interface AsDouble {
+    /** Returns the primitive double representation. */
+    double asDouble();
 }

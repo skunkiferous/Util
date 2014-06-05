@@ -26,6 +26,8 @@ import com.blockwithme.util.base.SystemUtils;
  * The default Application implementation.
  * It can be used outside of Timer too.
  *
+ * TODO Make the Runnables async and faster.
+ *
  * @author monster
  */
 public class DefaultApplication extends TimerTask implements Application {

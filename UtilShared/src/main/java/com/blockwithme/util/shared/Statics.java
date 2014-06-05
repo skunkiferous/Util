@@ -29,11 +29,7 @@ import java.util.concurrent.ConcurrentMap;
  * @author monster
  */
 public class Statics {
-    /**
-     * The static cache.
-     *
-     * I *think* GWT provides an implementation of ConcurrentHashMap now.
-     */
+    /** The static cache. */
     private static final ConcurrentMap<String, Object> cache = new ConcurrentHashMap<>();
 
     /** Returns the current value of this key. */

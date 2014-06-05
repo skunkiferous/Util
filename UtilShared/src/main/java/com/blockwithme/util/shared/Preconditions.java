@@ -16,6 +16,7 @@
 package com.blockwithme.util.shared;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -24,9 +25,15 @@ import java.util.Map;
  * @author monster
  */
 public class Preconditions {
-    public static String requireNonEmpty(final String obj, final String name) {
+    public static <T> T requireNonNull(final T obj, final Object name) {
+        if (obj == null)
+            throw new NullPointerException(String.valueOf(name));
+        return obj;
+    }
+
+    public static String requireNonEmpty(final String obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.isEmpty()) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -35,9 +42,9 @@ public class Preconditions {
     }
 
     public static boolean[] requireNonEmpty(final boolean[] obj,
-            final String name) {
+            final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -45,9 +52,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static byte[] requireNonEmpty(final byte[] obj, final String name) {
+    public static byte[] requireNonEmpty(final byte[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -55,9 +62,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static short[] requireNonEmpty(final short[] obj, final String name) {
+    public static short[] requireNonEmpty(final short[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -65,9 +72,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static char[] requireNonEmpty(final char[] obj, final String name) {
+    public static char[] requireNonEmpty(final char[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -75,9 +82,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static int[] requireNonEmpty(final int[] obj, final String name) {
+    public static int[] requireNonEmpty(final int[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -85,9 +92,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static long[] requireNonEmpty(final long[] obj, final String name) {
+    public static long[] requireNonEmpty(final long[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -95,9 +102,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static float[] requireNonEmpty(final float[] obj, final String name) {
+    public static float[] requireNonEmpty(final float[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -105,9 +112,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static double[] requireNonEmpty(final double[] obj, final String name) {
+    public static double[] requireNonEmpty(final double[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -115,9 +122,9 @@ public class Preconditions {
         return obj;
     }
 
-    public static <T> T[] requireNonEmpty(final T[] obj, final String name) {
+    public static <T> T[] requireNonEmpty(final T[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.length == 0) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -126,9 +133,9 @@ public class Preconditions {
     }
 
     public static <T extends Collection<?>> T requireNonEmpty(final T obj,
-            final String name) {
+            final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.isEmpty()) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -137,9 +144,9 @@ public class Preconditions {
     }
 
     public static <T extends Map<?, ?>> T requireNonEmpty(final T obj,
-            final String name) {
+            final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         if (obj.isEmpty()) {
             throw new IllegalArgumentException("Empty: " + name);
@@ -147,10 +154,21 @@ public class Preconditions {
         return obj;
     }
 
-    public static <T> T requireContains(final T obj, final T[] array,
-            final String name) {
+    public static <T extends Iterator<?>> T requireNonEmpty(final T obj,
+            final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
+        }
+        if (!obj.hasNext()) {
+            throw new IllegalArgumentException("Empty: " + name);
+        }
+        return obj;
+    }
+
+    public static <T> T requireContains(final T obj, final T[] array,
+            final Object name) {
+        if (obj == null) {
+            throw new NullPointerException(String.valueOf(name));
         }
         for (final T o : array) {
             if (o == obj) {
@@ -160,9 +178,9 @@ public class Preconditions {
         throw new IllegalArgumentException("Unknown: " + name + " " + obj);
     }
 
-    public static <T> T[] requireContainsNoNull(final T[] obj, final String name) {
+    public static <T> T[] requireContainsNoNull(final T[] obj, final Object name) {
         if (obj == null) {
-            throw new NullPointerException(name);
+            throw new NullPointerException(String.valueOf(name));
         }
         for (final T o : obj) {
             if (o == null) {

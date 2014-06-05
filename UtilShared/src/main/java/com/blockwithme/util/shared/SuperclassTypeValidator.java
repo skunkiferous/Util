@@ -40,12 +40,13 @@ public class SuperclassTypeValidator<E> implements Validator<E> {
     }
 
     @Override
-    public String validate(final E e) {
-        if (e == null) {
-            return "is null";
+    public String validate(final E value, final Object name) {
+        if (value == null) {
+            return name + " is null";
         }
-        if (!SystemUtils.isInstance(type, e)) {
-            return "is a " + e.getClass() + " but a " + type + " was expected";
+        if (!SystemUtils.isInstance(type, value)) {
+            return name + " is a " + value.getClass() + " but a " + type
+                    + " was expected";
         }
         return null;
     }

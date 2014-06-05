@@ -24,6 +24,7 @@ import com.blockwithme.util.shared.prim.FloatConverter;
 import com.blockwithme.util.shared.prim.IntConverter;
 import com.blockwithme.util.shared.prim.LongConverter;
 import com.blockwithme.util.shared.prim.ShortConverter;
+import com.blockwithme.util.shared.prim.StringConverter;
 
 /**
  * <code>ConverterRegistry</code> is a registry for primitive converters.
@@ -126,6 +127,15 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     public <E> Object register(final DoubleConverter<E> converter,
+            final Class<E> type) {
+        return registry.register(type, converter, true);
+    }
+
+    /**
+     * Registers a String converter. Returns the old converter.
+     * The result is untyped, because the previous converter might have been to another type.
+     */
+    public <E> Object register(final StringConverter<E> converter,
             final Class<E> type) {
         return registry.register(type, converter, true);
     }

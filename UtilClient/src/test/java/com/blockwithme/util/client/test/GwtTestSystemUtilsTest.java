@@ -50,28 +50,6 @@ public class GwtTestSystemUtilsTest extends BaseGWTTestCase {
         assertEquals("currentTimeMillis()", stime, sutime, 100.0);
     }
 
-    public void testDoubleToRawLongBits() {
-        boolean failed = true;
-        try {
-            SystemUtils.doubleToRawLongBits(123.456);
-            failed = false;
-        } catch (final Exception e) {
-            // NOP
-        }
-        assertTrue("doubleToRawLongBits()", failed);
-    }
-
-    public void testFloatToRawIntBits() {
-        boolean failed = true;
-        try {
-            SystemUtils.floatToRawIntBits(123.456f);
-            failed = false;
-        } catch (final Exception e) {
-            // NOP SOME_RND_LONG
-        }
-        assertTrue("floatToRawIntBits()", failed);
-    }
-
     public void testLowHighLong() {
         final int low = SystemUtils.getLow(SOME_RND_LONG);
         assertTrue("getLow() " + low, low != SOME_RND_LONG);
