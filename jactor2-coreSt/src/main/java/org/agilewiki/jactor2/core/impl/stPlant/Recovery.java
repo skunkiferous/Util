@@ -14,7 +14,7 @@ public class Recovery {
      *
      * @param _requestImpl The reactor with the hung request.
      */
-    public void onHungRequest(final RequestStImpl _requestImpl)
+    public void onHungRequest(final RequestStImpl<?> _requestImpl)
             throws Exception {
         final ReactorImpl reactor = _requestImpl.getTargetReactorImpl();
         reactor.error("request hung -> reactor close");
@@ -27,7 +27,7 @@ public class Recovery {
      * @param _requestImpl The reactor with the hung request.
      * @param _error       The StackOverflowError.
      */
-    public void onStackOverflowError(final RequestStImpl _requestImpl,
+    public void onStackOverflowError(final RequestStImpl<?> _requestImpl,
             final StackOverflowError _error) {
         final ReactorImpl reactor = _requestImpl.getTargetReactorImpl();
         reactor.error("stack overflow error -> reactor close", _error);
@@ -44,7 +44,7 @@ public class Recovery {
      * @param _requestImpl The reactor with the hung request.
      * @param _exception   The runtime exception
      */
-    public void onRuntimeException(final RequestStImpl _requestImpl,
+    public void onRuntimeException(final RequestStImpl<?> _requestImpl,
             final RuntimeException _exception) {
         final ReactorImpl reactor = _requestImpl.getTargetReactorImpl();
         reactor.error("runtime exception -> reactor close", _exception);

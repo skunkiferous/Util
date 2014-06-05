@@ -9,7 +9,6 @@ import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 
 public class GwtTestAsyncTest extends BaseGWTTestCase {
     public void testa() throws Exception {
-        final JActorStTestPlantConfiguration config = new JActorStTestPlantConfiguration();
         new Plant(new JActorStTestPlantConfiguration());
         try {
             final Async1 async1 = new Async1();

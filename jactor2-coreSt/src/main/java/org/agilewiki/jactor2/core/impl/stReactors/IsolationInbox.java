@@ -20,24 +20,24 @@ public class IsolationInbox extends Inbox {
     /**
      * Local response-pending (requests) queue for same-thread exchanges.
      */
-    private final LinkedBlockingQueue<RequestStImpl> localResponsePendingQueue;
+    private final LinkedBlockingQueue<RequestStImpl<?>> localResponsePendingQueue;
 
     /**
      * Local no-response-pending (events and responses) queue for same-thread exchanges.
      */
-    private final LinkedBlockingQueue<RequestStImpl> localNoResponsePendingQueue;
+    private final LinkedBlockingQueue<RequestStImpl<?>> localNoResponsePendingQueue;
 
     /**
      * Creates an IsolationInbox.
      *
      */
     public IsolationInbox() {
-        localResponsePendingQueue = new LinkedBlockingQueue<RequestStImpl>();
-        localNoResponsePendingQueue = new LinkedBlockingQueue<RequestStImpl>();
+        localResponsePendingQueue = new LinkedBlockingQueue<RequestStImpl<?>>();
+        localNoResponsePendingQueue = new LinkedBlockingQueue<RequestStImpl<?>>();
     }
 
     @Override
-    protected void offerLocal(final RequestStImpl msg) {
+    protected void offerLocal(final RequestStImpl<?> msg) {
         if (!msg.isComplete() && !msg.isSignal()) {
             localResponsePendingQueue.offer(msg);
         } else {
@@ -66,11 +66,11 @@ public class IsolationInbox extends Inbox {
     }
 
     @Override
-    public RequestStImpl poll() {
+    public RequestStImpl<?> poll() {
         if (!hasWork()) {
             return null;
         }
-        final RequestStImpl msg = localNoResponsePendingQueue.poll();
+        final RequestStImpl<?> msg = localNoResponsePendingQueue.poll();
         if (msg != null) {
             return msg;
         } else {
@@ -79,7 +79,7 @@ public class IsolationInbox extends Inbox {
     }
 
     @Override
-    public void requestBegin(final RequestStImpl _requestImpl) {
+    public void requestBegin(final RequestStImpl<?> _requestImpl) {
         if (_requestImpl.isSignal()) {
             return;
         }
@@ -90,7 +90,7 @@ public class IsolationInbox extends Inbox {
     }
 
     @Override
-    public void requestEnd(final RequestStImpl _message) {
+    public void requestEnd(final RequestStImpl<?> _message) {
         if (_message.isSignal()) {
             return;
         }

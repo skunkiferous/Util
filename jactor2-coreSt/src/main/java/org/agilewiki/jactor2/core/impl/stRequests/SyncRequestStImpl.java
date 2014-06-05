@@ -20,14 +20,14 @@ public class SyncRequestStImpl<RESPONSE_TYPE> extends
      * @param _syncRequest   The request being implemented.
      * @param _targetReactor The target reactor.
      */
-    public SyncRequestStImpl(final SyncRequest _syncRequest,
+    public SyncRequestStImpl(final SyncRequest<RESPONSE_TYPE> _syncRequest,
             final Reactor _targetReactor) {
         super(_targetReactor);
         syncRequest = _syncRequest;
     }
 
     @Override
-    public SyncRequest asRequest() {
+    public SyncRequest<RESPONSE_TYPE> asRequest() {
         return syncRequest;
     }
 

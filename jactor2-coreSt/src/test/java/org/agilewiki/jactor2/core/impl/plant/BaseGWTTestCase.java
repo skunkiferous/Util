@@ -64,7 +64,6 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         private final Request<RESPONSE_TYPE> request;
         private volatile Object result;
 
-        @SuppressWarnings("unchecked")
         public Object getResult() {
             return (result == TestRunner.class) ? null : result;
         }
@@ -129,6 +128,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         return "org.agilewiki.jactor2.core.JActor2CoreSt";
     }
 
+    @SuppressWarnings("unchecked")
     protected <RESPONSE_TYPE> RESPONSE_TYPE call(
             final Request<RESPONSE_TYPE> request) throws Exception {
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(

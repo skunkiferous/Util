@@ -41,12 +41,12 @@ public class CommonInbox extends Inbox {
     }
 
     @Override
-    protected void offerLocal(final RequestStImpl msg) {
+    protected void offerLocal(final RequestStImpl<?> msg) {
         localQueue.offer(msg);
     }
 
     @Override
-    public RequestStImpl poll() {
-        return (RequestStImpl) localQueue.poll();
+    public RequestStImpl<?> poll() {
+        return (RequestStImpl<?>) localQueue.poll();
     }
 }

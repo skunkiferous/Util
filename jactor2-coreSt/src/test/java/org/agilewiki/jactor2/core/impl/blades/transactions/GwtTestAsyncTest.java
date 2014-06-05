@@ -40,13 +40,14 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
             }
         };
 
-        final ImmutableReference m = new ImmutableReference<String>("fun");
+        final ImmutableReference<String> m = new ImmutableReference<String>(
+                "fun");
         System.out.println(m.getImmutable()); // fun
         call(addGood.applyAReq(m), new DefaultCheckResult() {
             @Override
             public void onRealResult(final Object result) {
                 System.out.println(m.getImmutable()); // good fun
-                final ImmutableReference m2;
+                final ImmutableReference<String> m2;
                 try {
                     m2 = new ImmutableReference<String>("grapes");
                 } catch (final RuntimeException e) {

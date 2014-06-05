@@ -99,19 +99,19 @@ public class ISMapImpl<VALUE> implements ISMap<VALUE> {
     public ISMapImpl<VALUE> plus(final String key, final VALUE value) {
         final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.put(key, value);
-        return new ISMapImpl(tm);
+        return new ISMapImpl<VALUE>(tm);
     }
 
     @Override
     public ISMapImpl<VALUE> plusAll(final Map<String, VALUE> m) {
         final TreeMap<String, VALUE> tm = new TreeMap<String, VALUE>(base);
         tm.putAll(m);
-        return new ISMapImpl(tm);
+        return new ISMapImpl<VALUE>(tm);
     }
 
     @Override
     public ISMapImpl<VALUE> subMap(final String keyPrefix) {
-        return new ISMapImpl(base.subMap(keyPrefix, keyPrefix
+        return new ISMapImpl<VALUE>(base.subMap(keyPrefix, keyPrefix
                 + Character.MAX_VALUE));
     }
 

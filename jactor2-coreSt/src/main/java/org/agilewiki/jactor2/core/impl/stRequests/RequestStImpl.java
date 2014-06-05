@@ -22,6 +22,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     /**
      * Assigned to current time when Facility.DEBUG.
      */
+    @SuppressWarnings("unused")
     private Long debugTimestamp;
 
     /**
@@ -50,18 +51,18 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
      * The request targeted to the source reactor which, when processed,
      * resulted in this message.
      */
-    protected RequestStImpl oldMessage;
+    protected RequestStImpl<?> oldMessage;
 
     /**
      * The exception handler that was active in the source reactor
      * when this message was created.
      */
-    protected ExceptionHandler sourceExceptionHandler;
+    protected ExceptionHandler<RESPONSE_TYPE> sourceExceptionHandler;
 
     /**
      * The application object that will process the results.
      */
-    protected AsyncResponseProcessor responseProcessor;
+    protected AsyncResponseProcessor<RESPONSE_TYPE> responseProcessor;
 
     /**
      * True when a response to this message has not yet been determined.
@@ -169,10 +170,11 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
      * If an exception is thrown while processing this Request,
      * that exception is simply logged as a warning.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void signal() {
         use();
-        responseProcessor = SignalResponseProcessor.SINGLETON;
+        responseProcessor = (AsyncResponseProcessor<RESPONSE_TYPE>) SignalResponseProcessor.SINGLETON;
         targetReactorImpl.unbufferedAddMessage(this, false);
         final PlantStImpl plantStImpl = PlantStImpl.getSingleton();
         if (plantStImpl.currentReactorImpl == null) {
@@ -194,6 +196,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
      *                           AsyncResponseProcessor is used to process the result on the same thread
      *                           that originally invoked this method. If null, then no response is returned.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public void doSend(final ReactorImpl _source,
             final AsyncResponseProcessor<RESPONSE_TYPE> _responseProcessor) {
@@ -220,7 +223,8 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         }
         requestSource = source;
         oldMessage = source.getCurrentRequest();
-        sourceExceptionHandler = source.getExceptionHandler();
+        sourceExceptionHandler = (ExceptionHandler<RESPONSE_TYPE>) source
+                .getExceptionHandler();
         responseProcessor = rp;
         final boolean local = targetReactor == source.asReactor();
         targetReactorImpl.unbufferedAddMessage(this, local);
@@ -362,7 +366,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
      * A response has been received for a subordinate request.
      * @param request    A subordinate request.
      */
-    public void responseReceived(final RequestImpl request) {
+    public void responseReceived(final RequestImpl<?> request) {
     }
 
     /**
@@ -374,6 +378,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     /**
      * Process a response.
      */
+    @SuppressWarnings("unchecked")
     protected void processResponseMessage() {
         oldMessage.responseReceived(this);
         final ReactorStImpl sourceMessageProcessor = requestSource;
@@ -386,7 +391,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
             return;
         }
         try {
-            responseProcessor.processAsyncResponse(response);
+            responseProcessor.processAsyncResponse((RESPONSE_TYPE) response);
         } catch (final Exception e) {
             oldMessage.processException(sourceMessageProcessor, e);
         }
@@ -402,12 +407,13 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     public void processException(final ReactorStImpl _activeReactor,
             final Exception _e) {
         final ReactorStImpl activeMessageProcessor = _activeReactor;
-        final ExceptionHandler<RESPONSE_TYPE> exceptionHandler = activeMessageProcessor
+        @SuppressWarnings("unchecked")
+        final ExceptionHandler<RESPONSE_TYPE> exceptionHandler = (ExceptionHandler<RESPONSE_TYPE>) activeMessageProcessor
                 .getExceptionHandler();
         if (exceptionHandler != null) {
             try {
                 exceptionHandler.processException(_e,
-                        new AsyncResponseProcessor() {
+                        new AsyncResponseProcessor<RESPONSE_TYPE>() {
                             @Override
                             public void processAsyncResponse(
                                     final Object _response) {
@@ -449,28 +455,5 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
                 + ", target=" + getTargetReactor().asReactorImpl() + ", this="
                 + super.toString()
                 + (oldMessage == null ? "" : "\n" + oldMessage.toString());
-    }
-
-    /**
-     * A subclass of AsyncResponseProcessor that is used as a place holder when the RequestStImpl.call
-     * method is used.
-     */
-    final private static class CallResponseProcessor implements
-            AsyncResponseProcessor<Object> {
-        /**
-         * The singleton.
-         */
-        public static final CallResponseProcessor SINGLETON = new CallResponseProcessor();
-
-        /**
-         * Restrict the use of this class to being a singleton.
-         */
-        private CallResponseProcessor() {
-        }
-
-        @Override
-        public void processAsyncResponse(final Object response) {
-            throw new UnsupportedOperationException();
-        }
     }
 }

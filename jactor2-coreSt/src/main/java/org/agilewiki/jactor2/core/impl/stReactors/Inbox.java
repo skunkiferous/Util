@@ -38,7 +38,7 @@ public abstract class Inbox implements AutoCloseable {
      *
      * @param msg The message to be added.
      */
-    protected abstract void offerLocal(final RequestStImpl msg);
+    protected abstract void offerLocal(final RequestStImpl<?> msg);
 
     /**
      * Retrieves and removes from the inbox the next message to be processed, or returns
@@ -47,19 +47,19 @@ public abstract class Inbox implements AutoCloseable {
      * @return The next message to be processed, or null if there are no messages to be
      * processed.
      */
-    abstract public RequestStImpl poll();
+    abstract public RequestStImpl<?> poll();
 
     /**
      * Signals the start of a request.
      */
-    public void requestBegin(final RequestStImpl _requestImpl) {
+    public void requestBegin(final RequestStImpl<?> _requestImpl) {
 
     }
 
     /**
      * Signals that the result of a request has been assigned.
      */
-    public void requestEnd(final RequestStImpl _message) {
+    public void requestEnd(final RequestStImpl<?> _message) {
 
     }
 
@@ -69,7 +69,7 @@ public abstract class Inbox implements AutoCloseable {
     @Override
     public void close() {
         while (true) {
-            final RequestStImpl message = poll();
+            final RequestStImpl<?> message = poll();
             if (message == null) {
                 return;
             }
