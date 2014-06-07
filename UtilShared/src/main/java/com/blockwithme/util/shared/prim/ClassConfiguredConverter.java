@@ -18,8 +18,8 @@ package com.blockwithme.util.shared.prim;
 import com.blockwithme.util.base.SystemUtils;
 
 /**
- * <code>EnumByteConverter</code> implements a ByteConverter for some enum type.
- * It is assumed that there are no more then 256 values for this enum.
+ * <code>ClassConfiguredConverter</code> is an abstract base class for configured
+ * converters, which are configured with a Class instance.
  *
  * @author monster
  *

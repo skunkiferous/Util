@@ -18,6 +18,7 @@ package com.blockwithme.util.proto;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.shared.PropertiesHelper;
 
 /**
@@ -46,6 +47,15 @@ import com.blockwithme.util.shared.PropertiesHelper;
 public class GenericObject {
     public static final Object[] NO_OBJECTS = new Object[0];
     public static final long[] NO_DATA = new long[0];
+
+    private static final int MIN_ARRAY_SIZE = 8;
+
+    /** Returns a power of two, bigger or equal to the input. */
+    private static int powerOfTwo(final int i) {
+        // Don't create too small arrays
+        return (i < MIN_ARRAY_SIZE) ? MIN_ARRAY_SIZE : SystemUtils
+                .powerOfTwo(i);
+    }
 
     /** The object values. Never null. */
     private Object[] objects;
@@ -98,9 +108,9 @@ public class GenericObject {
      */
     public GenericObject(final int minObjectsCapacity, final int minDataCapacity) {
         this.objects = (minObjectsCapacity <= 0) ? NO_OBJECTS
-                : new Object[PropertiesHelper.powerOfTwo(minObjectsCapacity)];
+                : new Object[powerOfTwo(minObjectsCapacity)];
         this.data = (minDataCapacity <= 0) ? NO_DATA
-                : new long[PropertiesHelper.powerOfTwo(minDataCapacity)];
+                : new long[powerOfTwo(minDataCapacity)];
         properties = NO_OBJECTS;
     }
 
@@ -176,8 +186,7 @@ public class GenericObject {
             final int minObjectsCapacity) {
         final int oldCapacity = getObjectsCapacity();
         if (minObjectsCapacity > oldCapacity) {
-            final int capacity = PropertiesHelper
-                    .powerOfTwo(minObjectsCapacity);
+            final int capacity = powerOfTwo(minObjectsCapacity);
             if (oldCapacity == 0) {
                 objects = new Object[capacity];
             } else {
@@ -191,8 +200,7 @@ public class GenericObject {
     public final GenericObject ensureTotalDataCapacity(final int minDataCapacity) {
         final int oldCapacity = getDataCapacity();
         if (minDataCapacity > oldCapacity) {
-            final int newCapacity = PropertiesHelper
-                    .powerOfTwo(minDataCapacity);
+            final int newCapacity = powerOfTwo(minDataCapacity);
             if (oldCapacity == 0) {
                 data = new long[newCapacity];
             } else {

@@ -20,34 +20,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import com.blockwithme.util.base.SystemUtils;
-
 /**
  * PropertiesHelper contains static methods, to simulate a map of properties on
  * a small single array.
  *
- * TODO test!
+ * The array is kept as small as possible. Null value properties are interpreted
+ * as a "remove" call. Since a new array is always returned, the array can
+ * effectively be treated like a thread-safe immutable object (if not otherwise
+ * modified).
  *
  * @author monster
  */
 public class PropertiesHelper {
     private static final String[] NO_PROPS = new String[0];
 
-    public static final int MIN_ARRAY_SIZE = 8;
+    private static final Object[] NO_VALUES = new Object[0];
 
-    /** Returns a power of two, bigger or equal to the input. */
-    public static int powerOfTwo(final int i) {
-        // Don't create too small arrays
-        return (i < MIN_ARRAY_SIZE) ? MIN_ARRAY_SIZE : SystemUtils
-                .powerOfTwo(i);
-    }
-
-    /** Returns the count of non-null properties. */
+    /** Returns the count of properties. */
     public static int getPropertiesCount(final Object[] properties) {
         return properties.length / 2;
     }
 
-    /** Returns the non-null property keyes. */
+    /** Returns the property keyes. */
     public static String[] getPropertyKeyes(final Object[] properties) {
         final int propertiesCount = getPropertiesCount(properties);
         if (propertiesCount == 0) {
@@ -60,51 +54,67 @@ public class PropertiesHelper {
         return result;
     }
 
-    /** Returns one property if present, otherwise null. */
+    /** Returns the property values. */
+    public static Object[] getPropertyValues(final Object[] properties) {
+        final int propertiesCount = getPropertiesCount(properties);
+        if (propertiesCount == 0) {
+            return NO_VALUES;
+        }
+        final Object[] result = new Object[propertiesCount];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = properties[(i * 2) + 1];
+        }
+        return result;
+    }
+
+    /** Returns one property value if present, otherwise null. */
     public static Object getProperty(final Object[] properties,
             final String name) {
         final int propertiesCount = getPropertiesCount(properties);
         for (int i = 0; i < propertiesCount; i++) {
-            if (name.equals(properties[i * 2])) {
-                return properties[(i * 2) + 1];
+            final int index = i * 2;
+            if (name.equals(properties[index])) {
+                return properties[index + 1];
             }
         }
         return null;
     }
 
+    /** Returns one property value if present, otherwise defaultValue. */
+    public static Object getProperty(final Object[] properties,
+            final String name, final Object defaultValue) {
+        final Object result = getProperty(properties, name);
+        return (result == null) ? defaultValue : result;
+    }
+
     /**
-     * Sets one property. Null means "remove".
-     * Returns the updated array.
+     * Sets one property. Null value means "remove" property.
+     * Returns the unchanged array, or a new updated array.
      */
-    public static Object[] setProperty(Object[] properties, final String name,
-            final Object newValue) {
+    public static Object[] setProperty(final Object[] properties,
+            final String name, final Object newValue) {
         if (newValue == null) {
             return removeProperty(properties, name);
         }
         final int propertiesCount = getPropertiesCount(properties);
         for (int i = 0; i < propertiesCount; i++) {
-            if (name.equals(properties[i * 2])) {
-                properties[(i * 2) + 1] = newValue;
-                return properties;
+            final int index = i * 2;
+            if (name.equals(properties[index])) {
+                final Object[] result = properties.clone();
+                result[index + 1] = newValue;
+                return result;
             }
         }
-        if (propertiesCount == properties.length) {
-            final int capacity = powerOfTwo(propertiesCount + 1);
-            if (propertiesCount == 0) {
-                properties = new Object[capacity];
-            } else {
-                final Object[] old = properties;
-                properties = new Object[capacity];
-                System.arraycopy(old, 0, properties, 0, propertiesCount);
-            }
-        }
-        properties[propertiesCount] = newValue;
-        return properties;
+        final Object[] result = new Object[properties.length + 2];
+        System.arraycopy(properties, 0, result, 0, properties.length);
+        result[properties.length] = name;
+        result[properties.length + 1] = newValue;
+        return result;
     }
 
     /**
      * Removes one property.
-     * Returns the updated array.
+     * Returns the unchanged array, or a new updated array.
      */
     public static Object[] removeProperty(final Object[] properties,
             final String name) {
@@ -122,37 +132,52 @@ public class PropertiesHelper {
         return properties;
     }
 
-    /** Set all the properties. */
+    /**
+     * Set all the properties. Null value means "remove" property.
+     * Returns the unchanged array, or a new updated array.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public static Object[] setProperties(final Object[] properties,
-            final Map<String, Object> newProperties) {
+            final Map<String, ?> newProperties) {
         Objects.requireNonNull(newProperties);
         if (newProperties.isEmpty()) {
             return properties;
         }
-        Map<String, Object> oldProperties = getProperties(properties);
+        Map<String, ?> oldProperties = getProperties(properties);
         if (oldProperties.isEmpty()) {
             oldProperties = newProperties;
         } else {
-            oldProperties.putAll(newProperties);
+            oldProperties.putAll((Map) newProperties);
         }
-        final Object[] result = new Object[oldProperties.size() * 2];
+        Object[] result = new Object[oldProperties.size() * 2];
         int index = 0;
         for (final String name : oldProperties.keySet()) {
-            properties[index++] = name;
-            properties[index++] = oldProperties.get(name);
+            final Object value = oldProperties.get(name);
+            if (value != null) {
+                result[index++] = name;
+                result[index++] = value;
+            }
+            // else: null means "remove"
+        }
+        if (index < result.length) {
+            // We had at least one "null" value property
+            final Object[] tmp = result;
+            result = new Object[index];
+            System.arraycopy(tmp, 0, result, 0, index);
         }
         return result;
     }
 
     /** Returns all properties. */
-    public static Map<String, Object> getProperties(final Object[] properties) {
+    public static Map<String, ?> getProperties(final Object[] properties) {
         Map<String, Object> result = Collections.emptyMap();
         final int propertiesCount = getPropertiesCount(properties);
         if (propertiesCount > 0) {
             result = new HashMap<String, Object>();
             for (int i = 0; i < propertiesCount; i++) {
-                final String key = (String) properties[i * 2];
-                result.put(key, properties[(i * 2) + 1]);
+                final int index = i * 2;
+                final String key = (String) properties[index];
+                result.put(key, properties[index + 1]);
             }
         }
         return result;
