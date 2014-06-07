@@ -14,13 +14,13 @@ import java.util.Map;
 
 import org.junit.Test;
 
-/** Test class for PropertiesHelper.
+/** Test class for MiniMap.
  *
  * @author monster
  *
  */
 @SuppressWarnings("all")
-public class PropertiesHelperTest {
+public class MiniMapTest {
     private static final String ONE_KEY = "one";
     private static final Integer ONE_VALUE = 1;
     private static final String TWO_KEY = "two";
@@ -40,17 +40,17 @@ public class PropertiesHelperTest {
     @Test
     public void testEmpty() {
         final Object[] empty = new Object[0];
-        assertEquals(0, PropertiesHelper.getPropertiesCount(empty));
+        assertEquals(0, MiniMap.getPropertiesCount(empty));
         assertEquals(Collections.emptyMap(),
-                PropertiesHelper.getProperties(empty));
-        assertArrayEquals(empty, PropertiesHelper.getPropertyKeyes(empty));
-        assertArrayEquals(empty, PropertiesHelper.getPropertyValues(empty));
-        assertEquals(null, PropertiesHelper.getProperty(empty, "empty"));
+                MiniMap.getProperties(empty));
+        assertArrayEquals(empty, MiniMap.getPropertyKeyes(empty));
+        assertArrayEquals(empty, MiniMap.getPropertyValues(empty));
+        assertEquals(null, MiniMap.getProperty(empty, "empty"));
         assertEquals("empty",
-                PropertiesHelper.getProperty(empty, "empty", "empty"));
+                MiniMap.getProperty(empty, "empty", "empty"));
         assertArrayEquals(empty,
-                PropertiesHelper.removeProperty(empty, "missing"));
-        final Object[] oneValue = PropertiesHelper
+                MiniMap.removeProperty(empty, "missing"));
+        final Object[] oneValue = MiniMap
                 .setProperty(empty, "zero", 0);
         assertEquals(2, oneValue.length);
         assertEquals("zero", oneValue[0]);
@@ -62,40 +62,40 @@ public class PropertiesHelperTest {
         Object[] properties = new Object[0];
         final Map<String, Integer> map = new HashMap<String, Integer>();
         for (int i = 0; i < KEYS.length; i++) {
-            properties = PropertiesHelper.setProperty(properties, KEYS[i],
+            properties = MiniMap.setProperty(properties, KEYS[i],
                     VALUES[i]);
             map.put(KEYS[i], VALUES[i]);
         }
 
         assertEquals(KEYS.length,
-                PropertiesHelper.getPropertiesCount(properties));
+                MiniMap.getPropertiesCount(properties));
         for (int i = 0; i < KEYS.length; i++) {
             assertEquals(VALUES[i],
-                    PropertiesHelper.getProperty(properties, KEYS[i]));
+                    MiniMap.getProperty(properties, KEYS[i]));
         }
 
         for (int i = 0; i < KEYS.length; i++) {
-            properties = PropertiesHelper.removeProperty(properties, KEYS[i]);
+            properties = MiniMap.removeProperty(properties, KEYS[i]);
         }
-        assertEquals(0, PropertiesHelper.getPropertiesCount(properties));
+        assertEquals(0, MiniMap.getPropertiesCount(properties));
 
-        properties = PropertiesHelper.setProperties(properties, map);
+        properties = MiniMap.setProperties(properties, map);
         assertEquals(KEYS.length,
-                PropertiesHelper.getPropertiesCount(properties));
+                MiniMap.getPropertiesCount(properties));
         for (int i = 0; i < KEYS.length; i++) {
             assertEquals(VALUES[i],
-                    PropertiesHelper.getProperty(properties, KEYS[i]));
+                    MiniMap.getProperty(properties, KEYS[i]));
         }
 
-        assertEquals(map, PropertiesHelper.getProperties(properties));
+        assertEquals(map, MiniMap.getProperties(properties));
 
         assertEquals(
                 new HashSet(Arrays.asList(KEYS)),
-                new HashSet(Arrays.asList(PropertiesHelper
+                new HashSet(Arrays.asList(MiniMap
                         .getPropertyKeyes(properties))));
         assertEquals(
                 new HashSet(Arrays.asList(VALUES)),
-                new HashSet(Arrays.asList(PropertiesHelper
+                new HashSet(Arrays.asList(MiniMap
                         .getPropertyValues(properties))));
     }
 }

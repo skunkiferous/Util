@@ -19,6 +19,7 @@ package com.blockwithme.util.shared;
 import com.blockwithme.util.shared.prim.BooleanConverter;
 import com.blockwithme.util.shared.prim.ByteConverter;
 import com.blockwithme.util.shared.prim.CharConverter;
+import com.blockwithme.util.shared.prim.Converter;
 import com.blockwithme.util.shared.prim.DoubleConverter;
 import com.blockwithme.util.shared.prim.FloatConverter;
 import com.blockwithme.util.shared.prim.IntConverter;
@@ -32,14 +33,15 @@ import com.blockwithme.util.shared.prim.StringConverter;
  * It is thread-safe, and can delegate/fallback to another registry.
  */
 public class ConverterRegistry {
+    /** The singleton */
+    private static final ConverterRegistry GLOBAL = new ConverterRegistry();
 
     /** Registered converters. */
     private final RegistryImpl<Class<?>, Object> registry;
 
     /** Returns the global registry. */
     public static final ConverterRegistry instance() {
-        return ProviderFactory.providerFor(ConverterRegistry.class,
-                ConverterRegistry.class).get();
+        return GLOBAL;
     }
 
     /** Creates a new ConverterRegistry, without a parent. */
@@ -55,88 +57,98 @@ public class ConverterRegistry {
     }
 
     /** Returns a registered converter, if any. */
-    public Object find(final Class<?> type) {
-        return registry.find(type);
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> find(final Class<E> type) {
+        return (Converter<E>) registry.find(type);
     }
 
     /**
      * Registers a boolean converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final BooleanConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final BooleanConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a byte converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final ByteConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final ByteConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a char converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final CharConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final CharConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a short converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final ShortConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final ShortConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a int converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final IntConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final IntConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a long converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final LongConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final LongConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a float converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final FloatConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final FloatConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a double converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final DoubleConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final DoubleConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 
     /**
      * Registers a String converter. Returns the old converter.
      * The result is untyped, because the previous converter might have been to another type.
      */
-    public <E> Object register(final StringConverter<E> converter,
+    @SuppressWarnings("unchecked")
+    public <E> Converter<E> register(final StringConverter<E> converter,
             final Class<E> type) {
-        return registry.register(type, converter, true);
+        return (Converter<E>) registry.register(type, converter, true);
     }
 }

@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * PropertiesHelper contains static methods, to simulate a map of properties on
+ * MiniMap contains static methods, to simulate a map of properties on
  * a small single array.
  *
  * The array is kept as small as possible. Null value properties are interpreted
@@ -31,7 +31,7 @@ import java.util.Objects;
  *
  * @author monster
  */
-public class PropertiesHelper {
+public class MiniMap {
     private static final String[] NO_PROPS = new String[0];
 
     private static final Object[] NO_VALUES = new Object[0];

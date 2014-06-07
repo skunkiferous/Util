@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared;
+package com.blockwithme.util.proto;
 
 import javax.inject.Provider;
 
 import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.shared.Registry;
+import com.blockwithme.util.shared.RegistryImpl;
+import com.blockwithme.util.shared.Statics;
 
 /**
  * Simple class allowing the use of singleton,

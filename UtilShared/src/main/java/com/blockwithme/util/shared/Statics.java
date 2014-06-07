@@ -52,17 +52,20 @@ public class Statics {
             throw new NullPointerException("key");
         }
         if (newValue == null) {
-            throw new NullPointerException("newValue");
+            cache.remove(key);
+            return null;
         }
         if (oldValue == null) {
-            if (cache.putIfAbsent(key, newValue) == null) {
+            final E current = (E) cache.putIfAbsent(key, newValue);
+            if (current == null) {
                 return newValue;
             }
+            return current;
         } else {
             if (cache.replace(key, oldValue, newValue)) {
                 return newValue;
             }
+            return (E) cache.get(key);
         }
-        return (E) cache.get(key);
     }
 }

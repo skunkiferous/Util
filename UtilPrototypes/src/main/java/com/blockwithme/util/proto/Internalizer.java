@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared;
+package com.blockwithme.util.proto;
 
 /** Perform internalization of some type. */
 public interface Internalizer<E> extends Iterable<E> {

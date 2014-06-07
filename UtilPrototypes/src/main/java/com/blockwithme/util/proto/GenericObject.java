@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 import com.blockwithme.util.base.SystemUtils;
-import com.blockwithme.util.shared.PropertiesHelper;
+import com.blockwithme.util.shared.MiniMap;
 
 /**
  * A generic object that can contain anything.
@@ -116,17 +116,17 @@ public class GenericObject {
 
     /** Returns the count of non-null properties. */
     public final int getPropertiesCount() {
-        return PropertiesHelper.getPropertiesCount(properties);
+        return MiniMap.getPropertiesCount(properties);
     }
 
     /** Returns the non-null property keyes. */
     public final String[] getPropertyKeyes() {
-        return PropertiesHelper.getPropertyKeyes(properties);
+        return MiniMap.getPropertyKeyes(properties);
     }
 
     /** Returns one property if present, otherwise null. */
     public final Object getProperty(final String name) {
-        return PropertiesHelper.getProperty(properties, name);
+        return MiniMap.getProperty(properties, name);
     }
 
     /**
@@ -135,26 +135,26 @@ public class GenericObject {
      */
     public final GenericObject setProperty(final String name,
             final Object newValue) {
-        properties = PropertiesHelper.setProperty(properties, name, newValue);
+        properties = MiniMap.setProperty(properties, name, newValue);
         return this;
     }
 
     /** Removes one property. Returns the old value. */
     public final GenericObject removeProperty(final String name) {
-        properties = PropertiesHelper.removeProperty(properties, name);
+        properties = MiniMap.removeProperty(properties, name);
         return this;
     }
 
     /** Set all the properties. */
     public final GenericObject setProperties(
             final Map<String, Object> newProperties) {
-        properties = PropertiesHelper.setProperties(properties, newProperties);
+        properties = MiniMap.setProperties(properties, newProperties);
         return this;
     }
 
     /** Returns all properties. */
-    public final Map<String, Object> getProperties() {
-        return PropertiesHelper.getProperties(properties);
+    public final Map<String, ?> getProperties() {
+        return MiniMap.getProperties(properties);
     }
 
     /** Clears the generic object. */

@@ -27,7 +27,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 
 /**
- * Guice module for Util-Server.
+ * Guice module for Util-Client.
  *
  * WARNING: This code is ONLY EXECUTED IN THE COMPILER.
  *

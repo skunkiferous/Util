@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared;
+package com.blockwithme.util.proto;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

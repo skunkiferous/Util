@@ -16,8 +16,7 @@
 
 package com.blockwithme.util.shared;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <code>Registry</code> is a generic registry.
@@ -26,7 +25,7 @@ import java.util.Map;
  */
 public class RegistryImpl<K, V> implements Registry<K, V> {
     /** Registered converters. */
-    private final Map<K, V> registry = new HashMap<K, V>();
+    private final ConcurrentHashMap<K, V> registry = new ConcurrentHashMap<K, V>();
 
     /** Parent registry. */
     private final RegistryImpl<K, V> parent;
@@ -112,26 +111,23 @@ public class RegistryImpl<K, V> implements Registry<K, V> {
         return register2(key, value, update);
     }
 
-    private synchronized V register2(final K key, final V value,
-            final boolean update) {
-        final V result = find2(key);
-        if ((result == null) || update) {
+    private V register2(final K key, final V value, final boolean update) {
+        V result = find(key);
+        if (update) {
             registry.put(key, value);
-        }
-        return result;
-    }
-
-    private V find2(final K key) {
-        V result = registry.get(key);
-        if ((result == null) && (parent != null)) {
-            result = parent.find(key);
+        } else if (result == null) {
+            result = registry.putIfAbsent(key, value);
         }
         return result;
     }
 
     @Override
-    public synchronized V find(final K key) {
-        return find2(key);
+    public V find(final K key) {
+        V result = registry.get(key);
+        if ((result == null) && (parent != null)) {
+            result = parent.find(key);
+        }
+        return result;
     }
 
     @Override
