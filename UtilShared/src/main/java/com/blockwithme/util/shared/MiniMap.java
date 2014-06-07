@@ -100,7 +100,9 @@ public class MiniMap {
         for (int i = 0; i < propertiesCount; i++) {
             final int index = i * 2;
             if (name.equals(properties[index])) {
-                final Object[] result = properties.clone();
+                // GWT doesn't like clone() ...
+                final Object[] result = new Object[properties.length];
+                System.arraycopy(properties, 0, result, 0, properties.length);
                 result[index + 1] = newValue;
                 return result;
             }
