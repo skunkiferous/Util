@@ -3,7 +3,7 @@
 <module>
     <inherits name="com.google.gwt.user.User"/>
     <!-- This one is not really needed; tries to fix warnings in unit tests -->
-    <inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
+    <inherits name='com.google.gwt.user.theme.clean.Clean'/>
     <inherits name="com.google.gwt.inject.Inject"/>
     <inherits name="com.blockwithme.util.UtilBase"/>
 	<super-source path="shared/emu" />

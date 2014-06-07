@@ -23,7 +23,6 @@ import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.base.TimeSource;
 import com.blockwithme.util.base.WeakKeyMap;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.TimeZone;
 
@@ -76,14 +75,6 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }-*/;
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#isGWTClientImpl()
-     */
-    @Override
-    protected boolean isGWTClientImpl() {
-        return true;
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.base.SystemUtils#forNameImpl(java.lang.String, java.lang.Class)
      */
     @Override
@@ -106,7 +97,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     /* (non-Javadoc)
      * @see com.blockwithme.util.SystemUtils#isAssignableFromImpl(java.lang.Class, java.lang.Class)
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({ "rawtypes" })
     @Override
     protected boolean isAssignableFromImpl(final Class c1, final Class c2) {
         final Type c1Type = ReflectionCache.getType(c1);
@@ -157,7 +148,7 @@ public class GWTSystemUtilsImpl extends SystemUtils {
      */
     @Override
     protected void reportUncaughtExceptionImpl(final Throwable e) {
-        GWT.reportUncaughtException(e);
+        com.google.gwt.core.client.GWT.reportUncaughtException(e);
     }
 
     /* (non-Javadoc)

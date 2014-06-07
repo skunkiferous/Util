@@ -83,8 +83,8 @@ public class GwtTestSystemUtilsTest extends BaseGWTTestCase {
         }
     }
 
-    public void testIsGWTClient() {
-        assertTrue("isGWTClient()", SystemUtils.isGWTClient());
+    public void testGWT() {
+        assertTrue("GWT", SystemUtils.GWT);
     }
 
     public void testPowerOfTwo() {

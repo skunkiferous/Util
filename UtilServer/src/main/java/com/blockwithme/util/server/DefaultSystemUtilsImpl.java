@@ -197,14 +197,6 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#isGWTClientImpl()
-     */
-    @Override
-    protected boolean isGWTClientImpl() {
-        return false;
-    }
-
-    /* (non-Javadoc)
      * @see com.blockwithme.util.base.SystemUtils#reportUncaughtExceptionImpl(java.lang.Throwable)
      */
     @Override

@@ -57,6 +57,9 @@ public abstract class SystemUtils {
     /** Minimum integer value in a double. */
     public static final double MIN_DOUBLE_INT_VALUE = -MAX_DOUBLE_INT_VALUE;
 
+    /** True if we are in the GWT client. */
+    public static final boolean GWT = isGWT();
+
     /** Random instance. */
     private static volatile Random random;
 
@@ -72,9 +75,6 @@ public abstract class SystemUtils {
     /** The source of time. */
     private static volatile TimeSource timeSource;
 
-    /** True if we are in the GWT client. */
-    private static volatile boolean isGWTClient;
-
     /**
      * The approximate current time, in milliseconds.
      */
@@ -83,6 +83,21 @@ public abstract class SystemUtils {
 
     /** Returns the Class object associated with the class or interface with the supplied string name. */
     protected abstract Class<?> forNameImpl(String name);
+
+    /** True if we are in the GWT client. */
+    private static native boolean isGWTJS()
+    /*-{
+        return true;
+    }-*/;
+
+    /** True if we are in the GWT client. */
+    private static boolean isGWT() {
+        try {
+            return isGWTJS();
+        } catch (final Throwable t) {
+            return false;
+        }
+    }
 
     /**
      * Returns the Class object associated with the class or interface with
@@ -106,9 +121,6 @@ public abstract class SystemUtils {
 
     /** Returns the local time of the Date, in the format yyyy-MM-dd HH:mm:ss.SSS. */
     protected abstract String localImpl(Date date);
-
-    /** Returns true if we are in the GWT client. */
-    protected abstract boolean isGWTClientImpl();
 
     /**
      * Reports an exception caught at the "top level". This is
@@ -153,7 +165,6 @@ public abstract class SystemUtils {
             final SystemUtils systemUtils) {
         SystemUtils.systemUtils = setInstance("SystemUtils",
                 SystemUtils.systemUtils, systemUtils);
-        isGWTClient = systemUtils.isGWTClientImpl();
     }
 
     /** Returns the implementation. */
@@ -375,11 +386,6 @@ public abstract class SystemUtils {
      */
     public static String localTime() {
         return local().substring(11);
-    }
-
-    /** Returns true if we are in the GWT client. */
-    public static boolean isGWTClient() {
-        return isGWTClient;
     }
 
     /**
