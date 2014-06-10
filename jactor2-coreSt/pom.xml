@@ -12,7 +12,7 @@
 	<parent>
 		<groupId>com.blockwithme</groupId>
 		<artifactId>UtilParent</artifactId>
-		<version>0.3.0</version>
+		<version>0.4.0</version>
 		<relativePath>../UtilParent</relativePath>
 	</parent>
 
@@ -20,7 +20,7 @@
 		<gwt.genParam>false</gwt.genParam>
 		<runTarget>http://localhost:8080/</runTarget>
 		<util-groupId>com.blockwithme</util-groupId>
-		<util-version>0.3.0</util-version>
+		<util-version>0.4.0</util-version>
 	</properties>
 
     <dependencies>
