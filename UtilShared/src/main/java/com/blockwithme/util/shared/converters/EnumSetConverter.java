@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 import java.util.EnumSet;
 
@@ -26,8 +26,8 @@ import java.util.EnumSet;
  * @param <E>
  */
 public class EnumSetConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<EnumSet<E>, E> implements
-        LongConverter<EnumSet<E>> {
+        ClassConfiguredConverter<Object, EnumSet<E>, E> implements
+        LongConverter<Object, EnumSet<E>> {
 
     /** The Enum constants. */
     private E[] constants;
@@ -61,7 +61,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public long fromObject(final EnumSet<E> theSet) {
+    public long fromObject(final Object context, final EnumSet<E> theSet) {
         long result = 0;
         if (theSet != null) {
             for (final E e : theSet) {
@@ -73,7 +73,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public final EnumSet<E> toObject(final long theValue) {
+    public final EnumSet<E> toObject(final Object context, final long theValue) {
         final EnumSet<E> result = EnumSet.noneOf(type);
         for (int i = 0; i < constants.length; i++) {
             if ((theValue & 1L << i) != 0) {

@@ -16,16 +16,16 @@
 
 package com.blockwithme.util.shared;
 
-import com.blockwithme.util.shared.prim.BooleanConverter;
-import com.blockwithme.util.shared.prim.ByteConverter;
-import com.blockwithme.util.shared.prim.CharConverter;
-import com.blockwithme.util.shared.prim.Converter;
-import com.blockwithme.util.shared.prim.DoubleConverter;
-import com.blockwithme.util.shared.prim.FloatConverter;
-import com.blockwithme.util.shared.prim.IntConverter;
-import com.blockwithme.util.shared.prim.LongConverter;
-import com.blockwithme.util.shared.prim.ShortConverter;
-import com.blockwithme.util.shared.prim.StringConverter;
+import com.blockwithme.util.shared.converters.BooleanConverter;
+import com.blockwithme.util.shared.converters.ByteConverter;
+import com.blockwithme.util.shared.converters.CharConverter;
+import com.blockwithme.util.shared.converters.Converter;
+import com.blockwithme.util.shared.converters.DoubleConverter;
+import com.blockwithme.util.shared.converters.FloatConverter;
+import com.blockwithme.util.shared.converters.IntConverter;
+import com.blockwithme.util.shared.converters.LongConverter;
+import com.blockwithme.util.shared.converters.ShortConverter;
+import com.blockwithme.util.shared.converters.StringConverter;
 
 /**
  * <code>ConverterRegistry</code> is a registry for primitive converters.
@@ -67,7 +67,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final BooleanConverter<E> converter,
+    public <E> Converter<E> register(final BooleanConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -77,7 +77,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final ByteConverter<E> converter,
+    public <E> Converter<E> register(final ByteConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -87,7 +87,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final CharConverter<E> converter,
+    public <E> Converter<E> register(final CharConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -97,7 +97,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final ShortConverter<E> converter,
+    public <E> Converter<E> register(final ShortConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -107,7 +107,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final IntConverter<E> converter,
+    public <E> Converter<E> register(final IntConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -117,7 +117,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final LongConverter<E> converter,
+    public <E> Converter<E> register(final LongConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -127,7 +127,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final FloatConverter<E> converter,
+    public <E> Converter<E> register(final FloatConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -137,7 +137,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final DoubleConverter<E> converter,
+    public <E> Converter<E> register(final DoubleConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }
@@ -147,7 +147,7 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final StringConverter<E> converter,
+    public <E> Converter<E> register(final StringConverter<?, E> converter,
             final Class<E> type) {
         return (Converter<E>) registry.register(type, converter, true);
     }

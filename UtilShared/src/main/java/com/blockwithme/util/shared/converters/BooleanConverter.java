@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
  * <code>BooleanConverter</code> implements the conversion of some object type,
  * to and from Java primitive boolean values.
  */
-public interface BooleanConverter<E> extends Converter<E> {
+public interface BooleanConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
     int DEFAULT_BITS = 1;
 
     /** The default BooleanConverter<E>. */
-    BooleanConverter<Boolean> DEFAULT = new BooleanConverter<Boolean>() {
+    BooleanConverter<?, Boolean> DEFAULT = new BooleanConverter<Object, Boolean>() {
         @Override
         public Class<Boolean> type() {
             return Boolean.class;
@@ -37,12 +37,12 @@ public interface BooleanConverter<E> extends Converter<E> {
         }
 
         @Override
-        public boolean fromObject(final Boolean obj) {
+        public boolean fromObject(final Object context, final Boolean obj) {
             return (obj == null) ? Boolean.FALSE : obj;
         }
 
         @Override
-        public Boolean toObject(final boolean value) {
+        public Boolean toObject(final Object context, final boolean value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface BooleanConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    boolean fromObject(final E obj);
+    boolean fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final boolean value);
+    E toObject(CONTEXT context, final boolean value);
 }

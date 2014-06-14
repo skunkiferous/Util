@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
- * <code>ByteConverter</code> implements the conversion of some object type,
- * to and from Java primitive byte values.
+ * <code>CharConverter</code> implements the conversion of some object type,
+ * to and from Java primitive char values.
  */
-public interface ByteConverter<E> extends Converter<E> {
+public interface CharConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
-    int DEFAULT_BITS = 8;
+    int DEFAULT_BITS = 16;
 
-    /** The default ByteConverter<E>. */
-    ByteConverter<Byte> DEFAULT = new ByteConverter<Byte>() {
+    /** The default CharConverter<E>. */
+    CharConverter<?, Character> DEFAULT = new CharConverter<Object, Character>() {
         @Override
-        public Class<Byte> type() {
-            return Byte.class;
+        public Class<Character> type() {
+            return Character.class;
         }
 
         @Override
@@ -37,12 +37,12 @@ public interface ByteConverter<E> extends Converter<E> {
         }
 
         @Override
-        public byte fromObject(final Byte obj) {
+        public char fromObject(final Object context, final Character obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Byte toObject(final byte value) {
+        public Character toObject(final Object context, final char value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface ByteConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    byte fromObject(final E obj);
+    char fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final byte value);
+    E toObject(CONTEXT context, final char value);
 }

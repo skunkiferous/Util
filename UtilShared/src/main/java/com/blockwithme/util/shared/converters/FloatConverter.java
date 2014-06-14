@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
- * <code>LongConverter</code> implements the conversion of some object type,
- * to and from Java primitive long values.
+ * <code>FloatConverter</code> implements the conversion of some object type,
+ * to and from Java primitive float values.
  */
-public interface LongConverter<E> extends Converter<E> {
+public interface FloatConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
-    int DEFAULT_BITS = 64;
+    int DEFAULT_BITS = 32;
 
-    /** The default LongConverter<E>. */
-    LongConverter<Long> DEFAULT = new LongConverter<Long>() {
+    /** The default FloatConverter<E>. */
+    FloatConverter<?, Float> DEFAULT = new FloatConverter<Object, Float>() {
         @Override
-        public Class<Long> type() {
-            return Long.class;
+        public Class<Float> type() {
+            return Float.class;
         }
 
         @Override
@@ -37,24 +37,24 @@ public interface LongConverter<E> extends Converter<E> {
         }
 
         @Override
-        public long fromObject(final Long obj) {
+        public float fromObject(final Object context, final Float obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Long toObject(final long value) {
+        public Float toObject(final Object context, final float value) {
             return value;
         }
     };
 
     /**
-    * Converts from object instance.
-    *
-    * The expected behavior when receiving null is left on purpose unspecified,
-    * as it depends on your application needs.
-    */
-    long fromObject(final E obj);
+     * Converts from object instance.
+     *
+     * The expected behavior when receiving null is left on purpose unspecified,
+     * as it depends on your application needs.
+     */
+    float fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final long value);
+    E toObject(CONTEXT context, final float value);
 }

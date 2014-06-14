@@ -19,8 +19,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.blockwithme.util.shared.prim.ClassConfiguredConverter;
-import com.blockwithme.util.shared.prim.LongConverter;
+import com.blockwithme.util.shared.converters.ClassConfiguredConverter;
+import com.blockwithme.util.shared.converters.LongConverter;
 
 /**
  * <code>EnumLongConverter</code> implements a LongConverter for some enum type.
@@ -31,7 +31,8 @@ import com.blockwithme.util.shared.prim.LongConverter;
  * @param <E>
  */
 public class EnumLongConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<E, E> implements LongConverter<E> {
+        ClassConfiguredConverter<Object, E, E> implements
+        LongConverter<Object, E> {
 
     /** The Long to Enum map. */
     private final Map<Long, E> mapLongToEnum = new HashMap<>();
@@ -84,14 +85,14 @@ public class EnumLongConverter<E extends Enum<E>> extends
     /** {@inheritDoc} */
     @SuppressWarnings("boxing")
     @Override
-    public long fromObject(final E obj) {
+    public long fromObject(final Object context, final E obj) {
         return mapEnumToLong.get(obj);
     }
 
     /** {@inheritDoc} */
     @SuppressWarnings("boxing")
     @Override
-    public E toObject(final long value) {
+    public E toObject(final Object context, final long value) {
         return mapLongToEnum.get(value);
     }
 

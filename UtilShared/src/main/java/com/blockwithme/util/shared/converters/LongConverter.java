@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
- * <code>CharConverter</code> implements the conversion of some object type,
- * to and from Java primitive char values.
+ * <code>LongConverter</code> implements the conversion of some object type,
+ * to and from Java primitive long values.
  */
-public interface CharConverter<E> extends Converter<E> {
+public interface LongConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
-    int DEFAULT_BITS = 16;
+    int DEFAULT_BITS = 64;
 
-    /** The default CharConverter<E>. */
-    CharConverter<Character> DEFAULT = new CharConverter<Character>() {
+    /** The default LongConverter<E>. */
+    LongConverter<?, Long> DEFAULT = new LongConverter<Object, Long>() {
         @Override
-        public Class<Character> type() {
-            return Character.class;
+        public Class<Long> type() {
+            return Long.class;
         }
 
         @Override
@@ -37,24 +37,24 @@ public interface CharConverter<E> extends Converter<E> {
         }
 
         @Override
-        public char fromObject(final Character obj) {
+        public long fromObject(final Object context, final Long obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Character toObject(final char value) {
+        public Long toObject(final Object context, final long value) {
             return value;
         }
     };
 
     /**
-     * Converts from object instance.
-     *
-     * The expected behavior when receiving null is left on purpose unspecified,
-     * as it depends on your application needs.
-     */
-    char fromObject(final E obj);
+    * Converts from object instance.
+    *
+    * The expected behavior when receiving null is left on purpose unspecified,
+    * as it depends on your application needs.
+    */
+    long fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final char value);
+    E toObject(CONTEXT context, final long value);
 }

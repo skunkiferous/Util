@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
  * <code>EnumByteConverter</code> implements a ByteConverter for some enum type.
@@ -24,7 +24,8 @@ package com.blockwithme.util.shared.prim;
  * @param <E>
  */
 public class EnumByteConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<E, E> implements ByteConverter<E> {
+        ClassConfiguredConverter<Object, E, E> implements
+        ByteConverter<Object, E> {
 
     /** The Enum constants. */
     private final E[] constants;
@@ -54,12 +55,12 @@ public class EnumByteConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public byte fromObject(final E obj) {
+    public byte fromObject(final Object context, final E obj) {
         return (byte) obj.ordinal();
     }
 
     @Override
-    public E toObject(final byte value) {
+    public E toObject(final Object context, final byte value) {
         final int ordinal = value & 0xFF;
         return constants[ordinal];
     }

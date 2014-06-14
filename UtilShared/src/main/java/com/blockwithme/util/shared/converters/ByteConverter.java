@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
- * <code>ShortConverter</code> implements the conversion of some object type,
- * to and from Java primitive short values.
+ * <code>ByteConverter</code> implements the conversion of some object type,
+ * to and from Java primitive byte values.
  */
-public interface ShortConverter<E> extends Converter<E> {
+public interface ByteConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
-    int DEFAULT_BITS = 16;
+    int DEFAULT_BITS = 8;
 
-    /** The default ShortConverter<E>. */
-    ShortConverter<Short> DEFAULT = new ShortConverter<Short>() {
+    /** The default ByteConverter<E>. */
+    ByteConverter<?, Byte> DEFAULT = new ByteConverter<Object, Byte>() {
         @Override
-        public Class<Short> type() {
-            return Short.class;
+        public Class<Byte> type() {
+            return Byte.class;
         }
 
         @Override
@@ -37,12 +37,12 @@ public interface ShortConverter<E> extends Converter<E> {
         }
 
         @Override
-        public short fromObject(final Short obj) {
+        public byte fromObject(final Object context, final Byte obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Short toObject(final short value) {
+        public Byte toObject(final Object context, final byte value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface ShortConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    short fromObject(final E obj);
+    byte fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final short value);
+    E toObject(CONTEXT context, final byte value);
 }

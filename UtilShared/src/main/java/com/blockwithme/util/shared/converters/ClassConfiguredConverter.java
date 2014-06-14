@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 import com.blockwithme.util.base.SystemUtils;
 
@@ -25,8 +25,8 @@ import com.blockwithme.util.base.SystemUtils;
  *
  * @param <E>
  */
-public abstract class ClassConfiguredConverter<E, C> implements
-        ConfiguredConverter<E> {
+public abstract class ClassConfiguredConverter<CONTEXT, E, C> implements
+        ConfiguredConverter<CONTEXT, E> {
 
     /** The type. */
     protected final Class<C> type;

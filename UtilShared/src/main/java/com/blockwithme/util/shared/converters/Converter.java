@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 import java.util.Collections;
 import java.util.HashMap;

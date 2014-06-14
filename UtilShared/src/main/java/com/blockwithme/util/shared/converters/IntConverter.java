@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
  * <code>IntConverter</code> implements the conversion of some object type,
  * to and from Java primitive int values.
  */
-public interface IntConverter<E> extends Converter<E> {
+public interface IntConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
     int DEFAULT_BITS = 32;
 
     /** The default IntConverter<E>. */
-    IntConverter<Integer> DEFAULT = new IntConverter<Integer>() {
+    IntConverter<?, Integer> DEFAULT = new IntConverter<Object, Integer>() {
         @Override
         public Class<Integer> type() {
             return Integer.class;
@@ -37,12 +37,12 @@ public interface IntConverter<E> extends Converter<E> {
         }
 
         @Override
-        public int fromObject(final Integer obj) {
+        public int fromObject(final Object context, final Integer obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Integer toObject(final int value) {
+        public Integer toObject(final Object context, final int value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface IntConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    int fromObject(final E obj);
+    int fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final int value);
+    E toObject(CONTEXT context, final int value);
 }

@@ -16,14 +16,14 @@
 package com.blockwithme.util.proto.base40;
 
 import com.blockwithme.util.shared.ConverterRegistry;
-import com.blockwithme.util.shared.prim.ConfiguredConverter;
-import com.blockwithme.util.shared.prim.LongConverter;
+import com.blockwithme.util.shared.converters.ConfiguredConverter;
+import com.blockwithme.util.shared.converters.LongConverter;
 
 /**
  * <code>Base40Converter</code> converts Base40 to and from Java long.
  */
-public class Base40Converter implements LongConverter<Base40>,
-        ConfiguredConverter<Base40> {
+public class Base40Converter implements LongConverter<Object, Base40>,
+        ConfiguredConverter<Object, Base40> {
 
     /** Marker character for lower-case character set. */
     private static final char LOWER = 'l';
@@ -77,12 +77,12 @@ public class Base40Converter implements LongConverter<Base40>,
     }
 
     @Override
-    public long fromObject(final Base40 obj) {
+    public long fromObject(final Object context, final Base40 obj) {
         return obj == null ? 0L : obj.asLong();
     }
 
     @Override
-    public Base40 toObject(final long value) {
+    public Base40 toObject(final Object context, final long value) {
         return new Base40(characterSet, value);
     }
 

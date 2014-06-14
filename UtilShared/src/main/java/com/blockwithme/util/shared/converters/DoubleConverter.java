@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
  * <code>DoubleConverter</code> implements the conversion of some object type,
  * to and from Java primitive double values.
  */
-public interface DoubleConverter<E> extends Converter<E> {
+public interface DoubleConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
     int DEFAULT_BITS = 64;
 
     /** The default DoubleConverter<E>. */
-    DoubleConverter<Double> DEFAULT = new DoubleConverter<Double>() {
+    DoubleConverter<?, Double> DEFAULT = new DoubleConverter<Object, Double>() {
         @Override
         public Class<Double> type() {
             return Double.class;
@@ -37,12 +37,12 @@ public interface DoubleConverter<E> extends Converter<E> {
         }
 
         @Override
-        public double fromObject(final Double obj) {
+        public double fromObject(final Object context, final Double obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Double toObject(final double value) {
+        public Double toObject(final Object context, final double value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface DoubleConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    double fromObject(final E obj);
+    double fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final double value);
+    E toObject(CONTEXT context, final double value);
 }

@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
- * <code>FloatConverter</code> implements the conversion of some object type,
- * to and from Java primitive float values.
+ * <code>ShortConverter</code> implements the conversion of some object type,
+ * to and from Java primitive short values.
  */
-public interface FloatConverter<E> extends Converter<E> {
+public interface ShortConverter<CONTEXT, E> extends Converter<E> {
     /** The default bits. */
-    int DEFAULT_BITS = 32;
+    int DEFAULT_BITS = 16;
 
-    /** The default FloatConverter<E>. */
-    FloatConverter<Float> DEFAULT = new FloatConverter<Float>() {
+    /** The default ShortConverter<E>. */
+    ShortConverter<?, Short> DEFAULT = new ShortConverter<Object, Short>() {
         @Override
-        public Class<Float> type() {
-            return Float.class;
+        public Class<Short> type() {
+            return Short.class;
         }
 
         @Override
@@ -37,12 +37,12 @@ public interface FloatConverter<E> extends Converter<E> {
         }
 
         @Override
-        public float fromObject(final Float obj) {
+        public short fromObject(final Object context, final Short obj) {
             return (obj == null) ? 0 : obj;
         }
 
         @Override
-        public Float toObject(final float value) {
+        public Short toObject(final Object context, final short value) {
             return value;
         }
     };
@@ -53,8 +53,8 @@ public interface FloatConverter<E> extends Converter<E> {
      * The expected behavior when receiving null is left on purpose unspecified,
      * as it depends on your application needs.
      */
-    float fromObject(final E obj);
+    short fromObject(CONTEXT context, final E obj);
 
     /** Converts to an object instance. */
-    E toObject(final float value);
+    E toObject(CONTEXT context, final short value);
 }

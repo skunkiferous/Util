@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared.prim;
+package com.blockwithme.util.shared.converters;
 
 /**
  * <code>ConfiguredConverter</code> is a <code>Converter</code>, that requires
  * some additional configuration, in the form of a String. The converter must
  * also, then, have a constructor taking this String as parameter.
  */
-public interface ConfiguredConverter<E> extends Converter<E> {
+public interface ConfiguredConverter<CONTEXT, E> extends Converter<E> {
     /** Returns the converter's configuration. */
     String getConfiguration();
 }
