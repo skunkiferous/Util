@@ -6,8 +6,8 @@ import java.util.Set;
 
 import org.agilewiki.jactor2.core.blades.BladeBase;
 import org.agilewiki.jactor2.core.closeable.Closeable;
-import org.agilewiki.jactor2.core.closeable.CloseableImpl;
-import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
+import org.agilewiki.jactor2.core.closeable.impl.CloseableImpl;
+import org.agilewiki.jactor2.core.closeable.impl.CloseableImplImpl;
 import org.agilewiki.jactor2.core.impl.stPlant.PlantConfiguration;
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.impl.stPlant.Recovery;
@@ -17,10 +17,10 @@ import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
-import org.agilewiki.jactor2.core.reactors.ReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 
 abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
     private Recovery recovery;
@@ -77,7 +77,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      * @param _parentReactor         The parent reactor, or null.
      */
     public ReactorStImpl(final NonBlockingReactor _parentReactor) {
-        closeableImpl = new CloseableStImpl(this);
+        closeableImpl = new CloseableImplImpl(this);
         plantConfiguration = PlantStImpl.getSingleton().getPlantConfiguration();
         @SuppressWarnings("resource")
         final NonBlockingReactorStImpl parentReactorImpl = _parentReactor == null ? null
