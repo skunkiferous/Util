@@ -24,11 +24,44 @@ import java.io.Serializable;
  * Note that it also supports the AnyType.Empty, which allows us to represent
  * "no data", for example, when querying the value of a non-existent property.
  *
- * TODO Test!
+ * It will usually consume 12 bytes of memory, plus the standard Object overhead.
  *
  * @author monster
  */
-public class Any implements Serializable {
+public class Any implements Serializable, Cloneable {
+    /** Wrapper for long values */
+    private static final class LongValue implements Serializable {
+        /** serialVersionUID */
+        private static final long serialVersionUID = 0;
+
+        public LongValue(final long v) {
+            value = v;
+        }
+
+        public final long value;
+
+        @Override
+        public boolean equals(final Object obj) {
+            return (obj instanceof LongValue)
+                    && (((LongValue) obj).value == value);
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode() {
+            return (int) (value ^ (value >>> 32));
+        }
+
+        /* (non-Javadoc)
+         * @see java.lang.Object#toString()
+         */
+        @Override
+        public String toString() {
+            return String.valueOf(value);
+        }
+    }
 
     /** serialVersionUID */
     private static final long serialVersionUID = -2510171712544971710L;
@@ -41,6 +74,16 @@ public class Any implements Serializable {
     /** Default empty Any. */
     public Any() {
         object = AnyType.Empty;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @throws NullPointerException if other is null.
+     */
+    public Any(final Any other) {
+        primitive = other.primitive;
+        object = other.object;
     }
 
     /** Any with Object. */
@@ -91,6 +134,16 @@ public class Any implements Serializable {
         setDouble(value);
     }
 
+    /** Returns a copy. */
+    @Override
+    public Any clone() {
+        try {
+            return (Any) super.clone();
+        } catch (final CloneNotSupportedException e) {
+            throw new InternalError("Could not clone()!");
+        }
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -98,6 +151,7 @@ public class Any implements Serializable {
     public String toString() {
         final long l = (long) primitive;
         if (l == primitive) {
+            // primitive is an integral value, so don't show decimals.
             return "Any [primitive=" + l + ", object=" + object + "]";
         }
         return "Any [primitive=" + primitive + ", object=" + object + "]";
@@ -151,7 +205,7 @@ public class Any implements Serializable {
             // Not an object
             return (AnyType) object;
         }
-        if (object instanceof Long) {
+        if (object instanceof LongValue) {
             return AnyType.Long;
         }
         // Must be an object, including null
@@ -162,6 +216,16 @@ public class Any implements Serializable {
     public final void clear() {
         object = AnyType.Empty;
         primitive = 0;
+    }
+
+    /**
+     * Copy method.
+     *
+     * @throws NullPointerException if other is null.
+     */
+    public void copyFrom(final Any other) {
+        primitive = other.primitive;
+        object = other.object;
     }
 
     /** Sets the Any with an Object. */
@@ -181,7 +245,7 @@ public class Any implements Serializable {
      * @return the Object.
      */
     public final Object getObject() {
-        if (object instanceof AnyType) {
+        if ((object instanceof AnyType) || (object instanceof LongValue)) {
             throw new IllegalStateException("Not an Object: " + object);
         }
         return object;
@@ -327,7 +391,7 @@ public class Any implements Serializable {
 
     /** Sets the Any with a long. */
     public final void setLong(final long value) {
-        object = value;
+        object = new LongValue(value);
         primitive = 0;
     }
 
@@ -337,18 +401,18 @@ public class Any implements Serializable {
      * @return the long.
      */
     public final long getLong() {
-        if (!(object instanceof Long)) {
+        if (!(object instanceof LongValue)) {
             throw new IllegalStateException("Not a long: " + object);
         }
-        return (Long) object;
+        return ((LongValue) object).value;
     }
 
     /**
-     * Return the long, without validation.
+     * Return the long.
      * @return the long.
      */
     public final long getLongUnsafe() {
-        return (Long) object;
+        return ((LongValue) object).value;
     }
 
     /** Sets the Any with a float. */
