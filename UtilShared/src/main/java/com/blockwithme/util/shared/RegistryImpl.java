@@ -61,9 +61,9 @@ public class RegistryImpl<K, V> implements Registry<K, V> {
             final RegistryImpl<K, V> theParent) {
         final Validator<?> any = Validators.any();
         keyValidator = (theKeyType == null) ? (Validator<K>) any
-                : new ExactyTypeValidator<K>(theKeyType);
+                : new ExactTypeValidator<K>(theKeyType);
         valueValidator = (theValueType == null) ? (Validator<V>) any
-                : new ExactyTypeValidator<V>(theValueType);
+                : new ExactTypeValidator<V>(theValueType);
         parent = theParent;
     }
 

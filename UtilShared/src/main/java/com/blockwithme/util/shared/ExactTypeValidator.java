@@ -17,20 +17,20 @@
 package com.blockwithme.util.shared;
 
 /**
- * <code>ExactyTypeValidator</code> validates that the values are of the
+ * <code>ExactTypeValidator</code> validates that the values are of the
  * exact given type.
  *
  * @author monster
  *
  * @param <E>
  */
-public class ExactyTypeValidator<E> implements Validator<E> {
+public class ExactTypeValidator<E> implements Validator<E> {
 
     /** The expected type. */
     private final Class<E> type;
 
     /** Creates an ExactyTypeValidator */
-    public ExactyTypeValidator(final Class<E> theType) {
+    public ExactTypeValidator(final Class<E> theType) {
         if (theType == null) {
             throw new NullPointerException("theType");
         }
