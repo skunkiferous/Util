@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/target/classes" />
+    <output-test url="file://$MODULE_DIR$/target/test-classes" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="UtilBase" scope="PROVIDED" />
+    <orderEntry type="library" name="Maven: com.google.inject:guice:3.0" level="project" />
+    <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
+    <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.google.inject.extensions:guice-assistedinject:3.0" level="project" />
+    <orderEntry type="module" module-name="UtilBase" scope="PROVIDED" />
+    <orderEntry type="module" module-name="UtilShared" scope="PROVIDED" />
+    <orderEntry type="module" module-name="UtilShared" scope="PROVIDED" />
+    <orderEntry type="module" module-name="UtilClient" scope="PROVIDED" />
+    <orderEntry type="library" name="Maven: com.google.gwt.inject:gin:2.1.2" level="project" />
+    <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.5" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.slf4j:slf4j-api:sources:1.7.5" level="project" />
+    <orderEntry type="library" name="Maven: de.benediktmeurer.gwt-slf4j:gwt-slf4j:0.0.2" level="project" />
+    <orderEntry type="library" name="Maven: de.benediktmeurer.gwt-slf4j:gwt-slf4j:sources:0.0.2" level="project" />
+    <orderEntry type="module" module-name="UtilClient" scope="PROVIDED" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:1.0.0.GA" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: javax.validation:validation-api:sources:1.0.0.GA" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.json:json:20090211" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-user:sources:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-elemental:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-elemental:sources:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-dev:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.google.gwt:gwt-dev:sources:2.6.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.badlogicgames.gdx:gdx:1.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.badlogicgames.gdx:gdx:sources:1.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.badlogicgames.gdx:gdx-backend-gwt:1.0.0" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: com.badlogicgames.gdx:gdx-backend-gwt:sources:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-core:3.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.codahale.metrics:metrics-core:sources:3.0.0" level="project" />
+  </component>
+</module>
+

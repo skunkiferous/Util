@@ -5,10 +5,10 @@ import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
-import org.agilewiki.jactor2.core.reactors.ReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.GwtIncompatible;
 
 /**

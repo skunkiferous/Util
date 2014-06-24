@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.agilewiki.jactor2.core.closeable.Closeable;
-import org.agilewiki.jactor2.core.closeable.CloseableImpl;
+import org.agilewiki.jactor2.core.closeable.impl.CloseableImpl;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
-import org.agilewiki.jactor2.core.reactors.ReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 
 /**
  * Implements multiple dependencies.
