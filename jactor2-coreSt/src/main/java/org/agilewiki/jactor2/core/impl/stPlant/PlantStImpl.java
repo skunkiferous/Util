@@ -6,23 +6,23 @@ import java.util.concurrent.LinkedBlockingQueue;
 
 import org.agilewiki.jactor2.core.blades.transactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
-import org.agilewiki.jactor2.core.closeable.CloseableImpl;
+import org.agilewiki.jactor2.core.closeable.impl.CloseableImpl;
 import org.agilewiki.jactor2.core.impl.DefaultPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.IsolationReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.NonBlockingReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stRequests.AsyncRequestStImpl;
 import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImpl;
-import org.agilewiki.jactor2.core.plant.PlantImpl;
+import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
 import org.agilewiki.jactor2.core.reactors.Facility;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.reactors.PoolThreadReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.Reactor;
-import org.agilewiki.jactor2.core.reactors.ReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncRequest;
-import org.agilewiki.jactor2.core.requests.AsyncRequestImpl;
-import org.agilewiki.jactor2.core.requests.RequestImpl;
+import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 
 public class PlantStImpl extends PlantImpl {
