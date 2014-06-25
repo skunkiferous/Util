@@ -2,7 +2,7 @@ package org.agilewiki.jactor2.core.impl.stReactors;
 
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.reactors.PoolThreadReactorImpl;
+import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 
 abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements
         PoolThreadReactorImpl {
