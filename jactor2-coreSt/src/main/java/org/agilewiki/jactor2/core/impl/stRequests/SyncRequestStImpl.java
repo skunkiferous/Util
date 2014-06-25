@@ -1,6 +1,7 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
 import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 import org.agilewiki.jactor2.core.util.Timer;
 
@@ -38,7 +39,7 @@ public class SyncRequestStImpl<RESPONSE_TYPE> extends
         boolean success = false;
         final RESPONSE_TYPE result;
         try {
-            result = syncRequest.processSyncRequest();
+            result = syncRequest.processSyncOperation(this);
             success = true;
         } finally {
             timer.updateNanos(timer.nanos() - start, success);

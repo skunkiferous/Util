@@ -8,11 +8,10 @@ import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
 import org.agilewiki.jactor2.core.requests.Request;
-import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
-import org.agilewiki.jactor2.core.requests.impl.OneWayResponseProcessor;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.Timer;
 
@@ -108,7 +107,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     @Override
     protected void processRequestMessage() throws Exception {
         start = asyncRequest.getTimer().nanos();
-        asyncRequest.processAsyncRequest();
+        asyncRequest.processAsyncOperation(this, this);
         pendingCheck();
     }
 
@@ -230,7 +229,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             it.next().cancel();
         }
         super.close();
-        asRequest().onClose();
+        asRequest().onClose(this);
     }
 
     /**
@@ -271,7 +270,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             return;
         }
         canceled = true;
-        asRequest().onCancel();
+        asRequest().onCancel(this);
     }
 
     @Override

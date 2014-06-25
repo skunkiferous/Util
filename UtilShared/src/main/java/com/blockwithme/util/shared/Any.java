@@ -135,6 +135,7 @@ public class Any implements Serializable, Cloneable {
     }
 
     /** Returns a copy. */
+    @GwtIncompatible
     @Override
     public Any clone() {
         try {
