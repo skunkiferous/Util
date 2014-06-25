@@ -23,14 +23,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="AsyncRequestStImpl.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="AsyncRequestStImpl.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/AsyncRequestStImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5405405" vertical-offset="4020" max-vertical-offset="4760">
-              <caret line="272" column="20" selection-start-line="272" selection-start-column="20" selection-end-line="272" selection-end-column="20" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1486" max-vertical-offset="4760">
+              <caret line="109" column="53" selection-start-line="109" selection-start-column="53" selection-end-line="109" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SyncRequestStImpl.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/SyncRequestStImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.6554054" vertical-offset="127" max-vertical-offset="867">
+              <caret line="40" column="58" selection-start-line="40" selection-start-column="58" selection-end-line="40" selection-end-column="58" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -54,6 +64,7 @@
         <option value="$PROJECT_DIR$/jactor2-coreSt/src/test/java/org/agilewiki/jactor2/core/impl/reactors/GwtTestCloseableSetTest.java" />
         <option value="$PROJECT_DIR$/UtilShared/src/main/resources/emu/com/blockwithme/util/shared/emu/java/util/concurrent/ConcurrentHashMap.java" />
         <option value="$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/AsyncRequestStImpl.java" />
+        <option value="$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/SyncRequestStImpl.java" />
       </list>
     </option>
   </component>
@@ -432,7 +443,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="4624" max-vertical-offset="4964">
           <caret line="272" column="23" selection-start-line="272" selection-start-column="23" selection-end-line="272" selection-end-column="23" />
           <folding>
-            <element signature="e#9109#9125#0" expanded="false" />
+            <element signature="e#9121#9137#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -620,7 +631,7 @@
         <state vertical-scroll-proportion="0.34324324" vertical-offset="732" max-vertical-offset="3689">
           <caret line="58" column="46" selection-start-line="58" selection-start-column="46" selection-end-line="58" selection-end-column="46" />
           <folding>
-            <element signature="e#0#5851#0" expanded="true" />
+            <element signature="e#0#5851#0" expanded="false" />
             <element signature="e#1971#1972#0" expanded="false" />
             <element signature="e#2024#2025#0" expanded="false" />
             <element signature="e#2193#2194#0" expanded="false" />
@@ -641,11 +652,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/AsyncRequestStImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5405405" vertical-offset="4020" max-vertical-offset="4760">
-          <caret line="272" column="20" selection-start-line="272" selection-start-column="20" selection-end-line="272" selection-end-column="20" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1486" max-vertical-offset="4760">
+          <caret line="109" column="53" selection-start-line="109" selection-start-column="53" selection-end-line="109" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/SyncRequestStImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6554054" vertical-offset="127" max-vertical-offset="867">
+          <caret line="40" column="58" selection-start-line="40" selection-start-column="58" selection-end-line="40" selection-end-column="58" />
+          <folding />
         </state>
       </provider>
     </entry>
