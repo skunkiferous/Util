@@ -8,6 +8,7 @@ import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.GwtIncompatible;
 
@@ -455,5 +456,11 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
                 + ", target=" + getTargetReactor().asReactorImpl() + ", this="
                 + super.toString()
                 + (oldMessage == null ? "" : "\n" + oldMessage.toString());
+    }
+
+    public <RT> RT syncDirect(final SOp<RT> _sOp)
+            throws Exception {
+        _sOp.targetReactor.directCheck(getTargetReactor());
+        return _sOp.processSyncOperation(this);
     }
 }

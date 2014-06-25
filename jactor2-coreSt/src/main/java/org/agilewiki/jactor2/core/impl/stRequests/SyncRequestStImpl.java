@@ -1,6 +1,7 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
 import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 import org.agilewiki.jactor2.core.util.Timer;
 
