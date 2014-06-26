@@ -5,13 +5,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
+import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
-import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.*;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
-import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
-import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.Request;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.Timer;
 
@@ -264,4 +262,15 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         super.setResponse(_response, _activeReactor);
     }
 
+    @Override
+    public <RT> void send(final SOp<RT> _sOp,
+                          final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT, RT2> void send(final SOp<RT> _sOp,
+                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _dis, _fixedResponse);
+    }
 }
