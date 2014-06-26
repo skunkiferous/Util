@@ -26,8 +26,8 @@
       <file leaf-file-name="AsyncRequestStImpl.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/AsyncRequestStImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.95405406" vertical-offset="4547" max-vertical-offset="5372">
-              <caret line="317" column="0" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.63243246" vertical-offset="4326" max-vertical-offset="5066">
+              <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1726#1727#0" expanded="true" />
@@ -40,10 +40,6 @@
                 <element signature="e#3918#3919#0" expanded="true" />
                 <element signature="e#6477#6507#0" expanded="true" />
                 <element signature="e#6873#6903#0" expanded="true" />
-                <element signature="e#9719#9720#0" expanded="true" />
-                <element signature="e#9800#9801#0" expanded="true" />
-                <element signature="e#9862#9863#0" expanded="true" />
-                <element signature="e#9916#9917#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -429,7 +425,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1616" height="876" extended-state="1" />
+    <frame x="-8" y="-8" width="1616" height="876" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -492,10 +488,6 @@
             <element signature="e#3918#3919#0" expanded="true" />
             <element signature="e#6477#6507#0" expanded="true" />
             <element signature="e#6873#6903#0" expanded="true" />
-            <element signature="e#9719#9720#0" expanded="true" />
-            <element signature="e#9800#9801#0" expanded="true" />
-            <element signature="e#9862#9863#0" expanded="true" />
-            <element signature="e#9916#9917#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -516,10 +508,6 @@
             <element signature="e#3918#3919#0" expanded="true" />
             <element signature="e#6477#6507#0" expanded="true" />
             <element signature="e#6873#6903#0" expanded="true" />
-            <element signature="e#9719#9720#0" expanded="true" />
-            <element signature="e#9800#9801#0" expanded="true" />
-            <element signature="e#9862#9863#0" expanded="true" />
-            <element signature="e#9916#9917#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -711,8 +699,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/jactor2-coreSt/src/main/java/org/agilewiki/jactor2/core/impl/stRequests/AsyncRequestStImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.95405406" vertical-offset="4547" max-vertical-offset="5372">
-          <caret line="317" column="0" selection-start-line="317" selection-start-column="0" selection-end-line="317" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.63243246" vertical-offset="4326" max-vertical-offset="5066">
+          <caret line="286" column="0" selection-start-line="286" selection-start-column="0" selection-end-line="286" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1726#1727#0" expanded="true" />
@@ -725,10 +713,6 @@
             <element signature="e#3918#3919#0" expanded="true" />
             <element signature="e#6477#6507#0" expanded="true" />
             <element signature="e#6873#6903#0" expanded="true" />
-            <element signature="e#9719#9720#0" expanded="true" />
-            <element signature="e#9800#9801#0" expanded="true" />
-            <element signature="e#9862#9863#0" expanded="true" />
-            <element signature="e#9916#9917#0" expanded="true" />
           </folding>
         </state>
       </provider>
