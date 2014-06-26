@@ -3,7 +3,9 @@ package org.agilewiki.jactor2.core.impl.stRequests;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.requests.SyncOperation;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.Timer;
+import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 
 /**
  * Internal implementation of a SyncRequest.
@@ -11,7 +13,7 @@ import org.agilewiki.jactor2.core.util.Timer;
  * @param <RESPONSE_TYPE> The response value type.
  */
 public class SyncRequestStImpl<RESPONSE_TYPE> extends
-        RequestStImpl<RESPONSE_TYPE> {
+        RequestStImpl<RESPONSE_TYPE> implements SyncOperation<RESPONSE_TYPE> {
 
     private final SyncOperation<RESPONSE_TYPE> syncOperation;
 
@@ -46,5 +48,12 @@ public class SyncRequestStImpl<RESPONSE_TYPE> extends
         }
 
         processObjectResponse(result);
+    }
+
+    @Override
+    public RESPONSE_TYPE processSyncOperation(final RequestImpl _requestImpl) throws Exception {
+        if (this == syncOperation)
+            throw new IllegalStateException();
+        return syncOperation.processSyncOperation(_requestImpl);
     }
 }

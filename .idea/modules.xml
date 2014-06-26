@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/UtilServer/UtilServer.iml" filepath="$PROJECT_DIR$/UtilServer/UtilServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/UtilShared/UtilShared.iml" filepath="$PROJECT_DIR$/UtilShared/UtilShared.iml" />
       <module fileurl="file://$PROJECT_DIR$/UtilWWTest/UtilWWTest.iml" filepath="$PROJECT_DIR$/UtilWWTest/UtilWWTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/UtilXtend/UtilXtend.iml" filepath="$PROJECT_DIR$/UtilXtend/UtilXtend.iml" />
       <module fileurl="file://$PROJECT_DIR$/jactor2-coreSt/jactor2-coreSt.iml" filepath="$PROJECT_DIR$/jactor2-coreSt/jactor2-coreSt.iml" />
     </modules>
   </component>
