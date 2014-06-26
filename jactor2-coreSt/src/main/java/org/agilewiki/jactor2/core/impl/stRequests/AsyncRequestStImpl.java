@@ -5,13 +5,11 @@ import java.util.Iterator;
 import java.util.Set;
 
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
+import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
-import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.*;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
-import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
-import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.Request;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.Timer;
 
@@ -27,7 +25,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
 
     private boolean noHungRequestCheck;
 
-    private final AsyncRequest<RESPONSE_TYPE> asyncRequest;
+    private final AsyncOperation<RESPONSE_TYPE> asyncOperation;
 
     /** Used by the Timer. */
     private volatile long start;
@@ -35,19 +33,19 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     /**
      * Create an AsyncRequestMtImpl and bind it to its target targetReactor.
      *
-     * @param _asyncRequest  The request being implemented.
+     * @param _asyncOperation  The request being implemented.
      * @param _targetReactor The targetReactor where this AsyncRequest Objects is passed for processing.
      *                       The thread owned by this targetReactor will process this AsyncRequest.
      */
-    public AsyncRequestStImpl(final AsyncRequest<RESPONSE_TYPE> _asyncRequest,
+    public AsyncRequestStImpl(final AsyncOperation<RESPONSE_TYPE> _asyncOperation,
             final Reactor _targetReactor) {
         super(_targetReactor);
-        asyncRequest = _asyncRequest;
+        asyncOperation = _asyncOperation;
     }
 
     @Override
-    public AsyncRequest<RESPONSE_TYPE> asRequest() {
-        return asyncRequest;
+    public AsyncOperation<RESPONSE_TYPE> asOperation() {
+        return asyncOperation;
     }
 
     /**
@@ -76,7 +74,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      */
     @Override
     public void processAsyncResponse(final RESPONSE_TYPE _response) {
-        final Timer timer = asyncRequest.getTimer();
+        final Timer timer = asyncOperation.getTimer();
         timer.updateNanos(timer.nanos() - start, true);
         processObjectResponse(_response);
     }
@@ -90,7 +88,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      */
     @Override
     public void processAsyncException(final Exception _response) {
-        final Timer timer = asyncRequest.getTimer();
+        final Timer timer = asyncOperation.getTimer();
         timer.updateNanos(timer.nanos() - start, false);
         processObjectResponse(_response);
     }
@@ -106,8 +104,8 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
 
     @Override
     protected void processRequestMessage() throws Exception {
-        start = asyncRequest.getTimer().nanos();
-        asyncRequest.processAsyncOperation(this, this);
+        start = asyncOperation.getTimer().nanos();
+        asyncOperation.processAsyncOperation(this, this);
         pendingCheck();
     }
 
@@ -125,15 +123,8 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         }
     }
 
-    /**
-     * Send a subordinate request, providing the originating request is not canceled.
-     *
-     * @param _request           The subordinate request.
-     * @param _responseProcessor A callback to handle the result value from the subordinate request.
-     * @param <RT>               The type of result value.
-     */
     @Override
-    public <RT> void send(final Request<RT> _request,
+    public <RT> void send(final RequestImpl<RT> _requestImpl,
             final AsyncResponseProcessor<RT> _responseProcessor) {
         if (canceled && (_responseProcessor != null)) {
             return;
@@ -142,26 +133,15 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             throw new UnsupportedOperationException(
                     "send called on inactive request");
         }
-        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request
-                .asRequestImpl();
+        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _requestImpl;
         if (_responseProcessor != OneWayResponseProcessor.SINGLETON) {
             pendingRequests.add(requestImpl);
         }
         requestImpl.doSend(targetReactorImpl, _responseProcessor);
     }
 
-    /**
-     * Send a subordinate request, providing the originating request is not canceled.
-     *
-     * @param _request       The subordinate request.
-     * @param _dis           The callback to handle a fixed response when the result of
-     *                       the subordinate request is received.
-     * @param _fixedResponse The fixed response to be used.
-     * @param <RT>           The response value type of the subordinate request.
-     * @param <RT2>          The fixed response type.
-     */
     @Override
-    public <RT, RT2> void send(final Request<RT> _request,
+    public <RT, RT2> void send(final RequestImpl<RT> _requestImpl,
             final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
         if (canceled) {
             return;
@@ -170,8 +150,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             throw new UnsupportedOperationException(
                     "send called on inactive request");
         }
-        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _request
-                .asRequestImpl();
+        final RequestStImpl<RT> requestImpl = (RequestStImpl<RT>) _requestImpl;
         pendingRequests.add(requestImpl);
         requestImpl.doSend(targetReactorImpl, new AsyncResponseProcessor<RT>() {
             @Override
@@ -229,7 +208,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             it.next().cancel();
         }
         super.close();
-        asRequest().onClose(this);
+        asOperation().onClose(this);
     }
 
     /**
@@ -270,7 +249,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             return;
         }
         canceled = true;
-        asRequest().onCancel(this);
+        asOperation().onCancel(this);
     }
 
     @Override
@@ -283,4 +262,57 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         super.setResponse(_response, _activeReactor);
     }
 
+    @Override
+    public <RT> void send(final SOp<RT> _sOp,
+                          final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT, RT2> void send(final SOp<RT> _sOp,
+                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _dis, _fixedResponse);
+    }
+
+    @Override
+    public <RT> void send(final AOp<RT> _aOp,
+                          final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
+        AsyncRequest<RT> asyncRequest = new AsyncRequest<RT>(_aOp.targetReactor) {
+            @Override
+            public void processAsyncRequest() throws Exception {
+                _aOp.processAsyncOperation(asRequestImpl(), this);
+            }
+
+            @Override
+            public String toString() {
+                return _aOp.toString();
+            }
+        };
+        send(asyncRequest.asRequestImpl(), _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT, RT2> void send(final AOp<RT> _aOp,
+                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        AsyncRequest<RT> asyncRequest = new AsyncRequest<RT>(_aOp.targetReactor) {
+            @Override
+            public void processAsyncRequest() throws Exception {
+                _aOp.processAsyncOperation(asRequestImpl(), this);
+            }
+
+            @Override
+            public String toString() {
+                return _aOp.toString();
+            }
+        };
+        send(asyncRequest.asRequestImpl(), _dis, _fixedResponse);
+    }
+
+    @Override
+    public <RT> void asyncDirect(final AOp<RT> _aOp,
+                                 final AsyncResponseProcessor<RT> _asyncResponseProcessor)
+            throws Exception {
+        _aOp.targetReactor.directCheck(getTargetReactor());
+        _aOp.processAsyncOperation(this, _asyncResponseProcessor);
+    }
 }
