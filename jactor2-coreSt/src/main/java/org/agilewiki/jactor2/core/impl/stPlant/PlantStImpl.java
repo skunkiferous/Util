@@ -20,6 +20,7 @@ import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
+import org.agilewiki.jactor2.core.requests.AsyncOperation;
 import org.agilewiki.jactor2.core.requests.AsyncRequest;
 import org.agilewiki.jactor2.core.requests.SyncOperation;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
@@ -124,9 +125,9 @@ public class PlantStImpl extends PlantImpl {
 
     @Override
     public <RESPONSE_TYPE> AsyncRequestImpl<RESPONSE_TYPE> createAsyncRequestImpl(
-            final AsyncRequest<RESPONSE_TYPE> _asyncRequest,
+            final AsyncOperation<RESPONSE_TYPE> _asyncOperation,
             final Reactor _targetReactor) {
-        return new AsyncRequestStImpl<RESPONSE_TYPE>(_asyncRequest,
+        return new AsyncRequestStImpl<RESPONSE_TYPE>(_asyncOperation,
                 _targetReactor);
     }
 
