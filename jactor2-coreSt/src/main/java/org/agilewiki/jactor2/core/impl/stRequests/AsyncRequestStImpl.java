@@ -307,4 +307,12 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
         };
         send(asyncRequest.asRequestImpl(), _dis, _fixedResponse);
     }
+
+    @Override
+    public <RT> void asyncDirect(final AOp<RT> _aOp,
+                                 final AsyncResponseProcessor<RT> _asyncResponseProcessor)
+            throws Exception {
+        _aOp.targetReactor.directCheck(getTargetReactor());
+        _aOp.processAsyncOperation(this, _asyncResponseProcessor);
+    }
 }
