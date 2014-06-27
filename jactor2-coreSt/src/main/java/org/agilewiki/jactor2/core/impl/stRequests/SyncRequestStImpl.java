@@ -18,7 +18,7 @@ public class SyncRequestStImpl<RESPONSE_TYPE> extends
     private final SyncOperation<RESPONSE_TYPE> syncOperation;
 
     /**
-     * Create a SyncRequestStImpl and bind it to its target reactor.
+     * Create a SyncRequestStImpl and bind it to its operation and target reactor.
      *
      * @param _syncOperation   The request being implemented.
      * @param _targetReactor The target reactor.
