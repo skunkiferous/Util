@@ -8,3 +8,8 @@
 gwt-unitCache
 www-test
 /war
+.settings
+.classpath
+.project
+*.iml
+MANIFEST.MF

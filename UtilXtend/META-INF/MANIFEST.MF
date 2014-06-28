@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1403817424909
+Bnd-LastModified: 1403975934914
 Build-Jdk: 1.7.0_55
 Built-By: monster
 Bundle-Description: The Xtend part of the Util project.
@@ -14,7 +14,8 @@ Export-Package: com.blockwithme.util.xtend.annotations;uses:="org.eclips
  e.xtend.core.macro.declaration,org.eclipse.xtend.core.xtend,org.eclipse
  .xtend.lib.macro,org.eclipse.xtend.lib.macro.declaration,org.eclipse.xt
  end.lib.macro.services,org.eclipse.xtext.xbase.lib";version="0.5.0",com
- .blockwithme.util.xtend;version="0.5.0"
+ .blockwithme.util.xtend;uses:="org.eclipse.xtend.lib,org.eclipse.xtext.
+ xbase.lib";version="0.5.0"
 FuncGenerated012-dependency-version: 1.2.0
 Import-Package: com.google.common.base;version="[15.0,16)",com.google.co
  mmon.collect;version="[15.0,16)",org.eclipse.emf.common.notify,org.ecli

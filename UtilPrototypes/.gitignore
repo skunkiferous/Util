@@ -5,3 +5,9 @@
 *.war
 *.ear
 /target
+
+.settings
+.classpath
+.project
+*.iml
+MANIFEST.MF

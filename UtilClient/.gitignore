@@ -7,3 +7,9 @@
 /target
 gwt-unitCache
 www-test
+
+.settings
+.classpath
+.project
+*.iml
+MANIFEST.MF
