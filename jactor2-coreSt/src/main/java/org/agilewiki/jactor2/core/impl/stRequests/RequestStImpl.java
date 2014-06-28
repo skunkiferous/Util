@@ -8,9 +8,11 @@ import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.Operation;
 import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.GwtIncompatible;
+import org.agilewiki.jactor2.core.util.Timer;
 
 /**
  * Base class for internal reactor implementations.
@@ -18,7 +20,7 @@ import org.agilewiki.jactor2.core.util.GwtIncompatible;
  * @param <RESPONSE_TYPE>
  */
 public abstract class RequestStImpl<RESPONSE_TYPE> implements
-        RequestImpl<RESPONSE_TYPE> {
+        RequestImpl<RESPONSE_TYPE>, Operation<RESPONSE_TYPE> {
 
     /**
      * Assigned to current time when Facility.DEBUG.
@@ -463,4 +465,11 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         _sOp.targetReactor.directCheck(getTargetReactor());
         return _sOp.processSyncOperation(this);
     }
+
+    /** Returns the default Timer. */
+    @Override
+    public Timer getTimer() {
+        return Timer.DEFAULT;
+    }
 }
+

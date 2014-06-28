@@ -45,7 +45,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static boolean attempt(Runnable code) {
 		try {
@@ -60,7 +60,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <E> attempt(Callable<E> code, E onError) {
 		try {
@@ -74,7 +74,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, null)")
 	def static <E> attempt(Callable<E> code) {
@@ -84,7 +84,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static boolean attempt(Procedure0 code) {
 		try {
@@ -99,7 +99,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1> boolean attempt(Procedure1<E1> code, E1 p1) {
 		try {
@@ -114,7 +114,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1,E2> boolean attempt(Procedure2<E1,E2> code, E1 p1, E2 p2) {
 		try {
@@ -129,7 +129,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1,E2,E3> boolean attempt(Procedure3<E1,E2,E3> code, E1 p1, E2 p2, E3 p3) {
 		try {
@@ -144,7 +144,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1,E2,E3,E4> boolean attempt(Procedure4<E1,E2,E3,E4> code, E1 p1, E2 p2, E3 p3, E4 p4) {
 		try {
@@ -159,7 +159,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1,E2,E3,E4,E5> boolean attempt(Procedure5<E1,E2,E3,E4,E5> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5) {
 		try {
@@ -174,7 +174,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Runs some code safely.
 	 * Never throws an Exception.
-	 * @returns true on success.
+	 * @return true on success.
 	 */
 	def static <E1,E2,E3,E4,E5,E6> boolean attempt(Procedure6<E1,E2,E3,E4,E5,E6> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5, E6 p6) {
 		try {
@@ -189,7 +189,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R> attempt(Function0<R> code, R onError) {
 		try {
@@ -203,7 +203,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, null)")
 	def static <R> attempt(Function0<R> code) {
@@ -213,7 +213,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1> attempt(Function1<E1,R> code, E1 p1, R onError) {
 		try {
@@ -227,7 +227,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, null)")
 	def static <R,E1> attempt(Function1<E1,R> code, E1 p1) {
@@ -237,7 +237,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1,E2> attempt(Function2<E1,E2,R> code, E1 p1, E2 p2, R onError) {
 		try {
@@ -251,7 +251,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, $3, null)")
 	def static <R,E1,E2> attempt(Function2<E1,E2,R> code, E1 p1, E2 p2) {
@@ -261,7 +261,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1,E2,E3> attempt(Function3<E1,E2,E3,R> code, E1 p1, E2 p2, E3 p3, R onError) {
 		try {
@@ -275,7 +275,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, $3, null)")
 	def static <R,E1,E2,E3> attempt(Function3<E1,E2,E3,R> code, E1 p1, E2 p2, E3 p3) {
@@ -285,7 +285,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1,E2,E3,E4> attempt(Function4<E1,E2,E3,E4,R> code, E1 p1, E2 p2, E3 p3, E4 p4, R onError) {
 		try {
@@ -299,7 +299,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, $3, $4, null)")
 	def static <R,E1,E2,E3,E4> attempt(Function4<E1,E2,E3,E4,R> code, E1 p1, E2 p2, E3 p3, E4 p4) {
@@ -309,7 +309,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1,E2,E3,E4,E5> attempt(Function5<E1,E2,E3,E4,E5,R> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5, R onError) {
 		try {
@@ -323,7 +323,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, $3, $4, $5, null)")
 	def static <R,E1,E2,E3,E4,E5> attempt(Function5<E1,E2,E3,E4,E5,R> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5) {
@@ -333,7 +333,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns onError if the code fails, otherwise the return value of call().
+	 * @return onError if the code fails, otherwise the return value of call().
 	 */
 	def static <R,E1,E2,E3,E4,E5,E6> attempt(Function6<E1,E2,E3,E4,E5,E6,R> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5, E6 p6, R onError) {
 		try {
@@ -347,7 +347,7 @@ class SafeCallExtension extends TupleExtension {
 	/**
 	 * Calls some code safely.
 	 * Never throws an Exception.
-	 * @returns null if the code fails, otherwise the return value of call().
+	 * @return null if the code fails, otherwise the return value of call().
 	 */
 	@Inline("com.blockwithme.util.xtend.SafeCallExtension.attempt($1, $2, $3, $4, $5, $6, null)")
 	def static <R,E1,E2,E3,E4,E5, E6> attempt(Function6<E1,E2,E3,E4,E5,E6,R> code, E1 p1, E2 p2, E3 p3, E4 p4, E5 p5, E6 p6) {

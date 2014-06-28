@@ -29,6 +29,7 @@
         <module name="UtilServer" />
         <module name="UtilShared" />
         <module name="UtilWWTest" />
+        <module name="UtilXtend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -39,6 +40,7 @@
       <module name="UtilServer" target="1.7" />
       <module name="UtilShared" target="1.7" />
       <module name="UtilWWTest" target="1.7" />
+      <module name="UtilXtend" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
