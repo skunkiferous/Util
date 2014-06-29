@@ -16,11 +16,13 @@
 package com.blockwithme.util.base;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Timer;
 import java.util.logging.Logger;
 
 import javax.inject.Inject;
+import javax.inject.Provider;
 
 /**
  * <code>SystemUtils</code> is a gateway abstracting System/platform functionality
@@ -81,6 +83,14 @@ public abstract class SystemUtils {
     private static volatile double currentTimeMillis = System
             .currentTimeMillis();
 
+    /** No Provider! */
+    @SuppressWarnings("rawtypes")
+    protected static final Provider[] NO_PROVIDER = new Provider[0];
+
+    /** The cached Providers. */
+    @SuppressWarnings("rawtypes")
+    private static final HashMap<Class, Provider[]> PROVIDERS = new HashMap<>();
+
     /** Returns the Class object associated with the class or interface with the supplied string name. */
     protected abstract Class<?> forNameImpl(String name);
 
@@ -113,8 +123,11 @@ public abstract class SystemUtils {
     @SuppressWarnings("rawtypes")
     protected abstract boolean isInstanceImpl(Class c, Object obj);
 
-    /** Creates a new instance of the class represented by the supplied Class. */
-    protected abstract <T> T newInstanceImpl(Class<T> c);
+    /**
+     * Returns all known Providers for the supplied Class.
+     * The Providers might return a subclass too.
+     */
+    protected abstract <T> Provider<T>[] providersForImpl(Class<T> clazz);
 
     /** Returns the UTC/GMT time of the Date, in the format yyyy-MM-dd HH:mm:ss.SSS. */
     protected abstract String utcImpl(Date date);
@@ -275,12 +288,46 @@ public abstract class SystemUtils {
         return systemUtils.isInstanceImpl(clazz, obj);
     }
 
-    /** Creates a new instance of the class represented by the supplied Class. */
-    public static <T> T newInstance(final Class<T> clazz) {
+    /**
+     * Returns all known Providers for the supplied Class.
+     * The Providers might return a subclass too.
+     * Do NOT modify the content of the array!
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> Provider<T>[] providersFor(final Class<T> clazz) {
         if (clazz == null) {
             throw new NullPointerException("clazz");
         }
-        return systemUtils.newInstanceImpl(clazz);
+        Provider<T>[] result;
+        synchronized (PROVIDERS) {
+            result = PROVIDERS.get(clazz);
+            if (result == null) {
+                try {
+                    result = systemUtils.providersForImpl(clazz);
+                } catch (final Throwable t) {
+                    // NOP
+                }
+                if (result == null) {
+                    result = NO_PROVIDER;
+                }
+                PROVIDERS.put(clazz, result);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Creates a new instance of the class represented by the supplied Class.
+     * Delegates to providersFor(clazz)[0].
+     * Will fail if no provider is found.
+     */
+    public static <T> T newInstance(final Class<T> clazz) {
+        final Provider<T>[] providers = providersFor(clazz);
+        if (providers.length > 0) {
+            return providers[0].get();
+        }
+        throw new IllegalArgumentException("No Provider found for "
+                + clazz.getName());
     }
 
     /**

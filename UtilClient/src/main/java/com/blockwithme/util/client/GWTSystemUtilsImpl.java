@@ -18,6 +18,8 @@ package com.blockwithme.util.client;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.Date;
 
+import javax.inject.Provider;
+
 import com.badlogic.gwtref.client.ReflectionCache;
 import com.badlogic.gwtref.client.Type;
 import com.blockwithme.util.base.SystemUtils;
@@ -115,16 +117,22 @@ public class GWTSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newInstanceImpl(java.lang.Class)
+     * @see com.blockwithme.util.SystemUtils#providersForImpl(java.lang.Class)
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    protected <T> T newInstanceImpl(final Class<T> c) {
-        try {
-            return (T) ReflectionCache.getType(c).newInstance();
-        } catch (final NoSuchMethodException e) {
-            throw new RuntimeException("Could not instansiate " + c, e);
-        }
+    protected <T> Provider<T>[] providersForImpl(final Class<T> clazz) {
+        return new Provider[] { new Provider() {
+            @Override
+            public Object get() {
+                try {
+                    return ReflectionCache.getType(clazz).newInstance();
+                } catch (final NoSuchMethodException e) {
+                    throw new RuntimeException(
+                            "Could not instansiate " + clazz, e);
+                }
+            }
+        } };
     }
 
     /* (non-Javadoc)

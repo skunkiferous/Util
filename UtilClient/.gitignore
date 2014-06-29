@@ -13,3 +13,4 @@ www-test
 .project
 *.iml
 MANIFEST.MF
+.externalToolBuilders

@@ -24,6 +24,8 @@ import java.util.WeakHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.inject.Provider;
+
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.base.WeakKeyMap;
 
@@ -165,15 +167,26 @@ public class DefaultSystemUtilsImpl extends SystemUtils {
     }
 
     /* (non-Javadoc)
-     * @see com.blockwithme.util.SystemUtils#newInstanceImpl(java.lang.Class)
+     * @see com.blockwithme.util.SystemUtils#providersForImpl(java.lang.Class)
      */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    protected <T> T newInstanceImpl(final Class<T> c) {
+    protected <T> Provider<T>[] providersForImpl(final Class<T> clazz) {
         try {
-            return c.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new UndeclaredThrowableException(e);
+            clazz.newInstance();
+        } catch (final Throwable t) {
+            return NO_PROVIDER;
         }
+        return new Provider[] { new Provider() {
+            @Override
+            public Object get() {
+                try {
+                    return clazz.newInstance();
+                } catch (InstantiationException | IllegalAccessException e) {
+                    throw new UndeclaredThrowableException(e);
+                }
+            }
+        } };
     }
 
     /* (non-Javadoc)
