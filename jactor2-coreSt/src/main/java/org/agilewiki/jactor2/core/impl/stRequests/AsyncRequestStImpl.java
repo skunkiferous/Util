@@ -19,7 +19,7 @@ import org.agilewiki.jactor2.core.util.Timer;
  * @param <RESPONSE_TYPE> The type of response.
  */
 public class AsyncRequestStImpl<RESPONSE_TYPE> extends
-        RequestStImpl<RESPONSE_TYPE> implements AsyncRequestImpl<RESPONSE_TYPE>, AsyncOperation<RESPONSE_TYPE> {
+        RequestStImpl<RESPONSE_TYPE> implements AsyncNativeRequest<RESPONSE_TYPE> {
 
     private final Set<RequestStImpl<?>> pendingRequests = new HashSet<RequestStImpl<?>>();
 
@@ -292,11 +292,48 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
+    public <RT> void send(final SyncNativeRequest<RT> _syncNativeRequest,
+                          final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_syncNativeRequest, _syncNativeRequest.getTargetReactor()),
+                _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT, RT2> void send(final SyncNativeRequest<RT> _syncNativeRequest,
+                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        send(PlantImpl.getSingleton().createSyncRequestImpl(_syncNativeRequest, _syncNativeRequest.getTargetReactor()),
+                _dis, _fixedResponse);
+    }
+
+    @Override
+    public <RT> void send(final AsyncNativeRequest<RT> _asyncNativeRequest,
+                          final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
+        send(PlantImpl.getSingleton().createAsyncRequestImpl(_asyncNativeRequest, _asyncNativeRequest.getTargetReactor()),
+                _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT, RT2> void send(final AsyncNativeRequest<RT> _asyncNativeRequest,
+                               final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
+        send(PlantImpl.getSingleton().createAsyncRequestImpl(_asyncNativeRequest, _asyncNativeRequest.getTargetReactor()),
+                _dis, _fixedResponse);
+    }
+
+    @Override
     public <RT> void asyncDirect(final AOp<RT> _aOp,
                                  final AsyncResponseProcessor<RT> _asyncResponseProcessor)
             throws Exception {
         _aOp.targetReactor.directCheck(getTargetReactor());
         _aOp.processAsyncOperation(this, _asyncResponseProcessor);
+    }
+
+    @Override
+    public <RT> void asyncDirect(final AsyncNativeRequest<RT> _asyncNativeRequest,
+                                 final AsyncResponseProcessor<RT> _asyncResponseProcessor)
+            throws Exception {
+        ReactorStImpl reactorMtImpl = (ReactorStImpl) _asyncNativeRequest.getTargetReactor();
+        reactorMtImpl.directCheck(getTargetReactor());
+        _asyncNativeRequest.processAsyncOperation(this, _asyncResponseProcessor);
     }
 
     @Override

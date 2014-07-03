@@ -1,6 +1,7 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
 import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.requests.SyncNativeRequest;
 import org.agilewiki.jactor2.core.requests.SyncOperation;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
@@ -13,7 +14,7 @@ import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
  * @param <RESPONSE_TYPE> The response value type.
  */
 public class SyncRequestStImpl<RESPONSE_TYPE> extends
-        RequestStImpl<RESPONSE_TYPE> implements SyncOperation<RESPONSE_TYPE> {
+        RequestStImpl<RESPONSE_TYPE> implements SyncNativeRequest<RESPONSE_TYPE> {
 
     private final SyncOperation<RESPONSE_TYPE> syncOperation;
 
