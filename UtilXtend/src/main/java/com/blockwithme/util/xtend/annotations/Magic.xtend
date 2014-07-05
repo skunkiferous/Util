@@ -66,6 +66,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 		Procedure3<Map<String,Object>, Processor, String> lambdaAfter) {
 		val compilationUnit = ProcessorUtil.getCompilationUnit(annotatedSourceElements)
 		if (compilationUnit !== null) {
+			val clazz = class
 			// Must be called first, for logging correctly
 			processorUtil.setElement(phase, annotatedSourceElements.get(0))
 			// Manage "persistent" cache
@@ -83,7 +84,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 				AntiClassLoaderCache.clear(pathName+".generate.")
 			}
 			// Lookup processors
-			val processors = getProcessors(annotatedSourceElements)
+			val processors = getProcessors(class, annotatedSourceElements)
 			val allProcessors = newArrayList(processors)
 			// Extract types to process from compilation unit (file)
 			val allTypes = (if (transform) processorUtil.allMutableTypes else processorUtil.allXtendTypes).toList
@@ -91,7 +92,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 			val types = allTypes.toArray(<TypeDeclaration>newArrayOfSize(allTypes.size + 1))
 			val todoTypes = new ArrayList(allTypes)
 			val doneTypes = <TypeDeclaration>newArrayList()
-			processorUtil.warn(MagicAnnotationProcessor, "loop", null,
+			processorUtil.warn(clazz, "loop", null,
 					"Top-Level Types: "+ProcessorUtil.qualifiedNames(allTypes))
 			val processingContext = new HashMap<String,Object>()
 			processingContext.put(Processor.PC_ALL_FILE_TYPES, allTypes)
@@ -104,7 +105,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 				qn.substring(0, dot)
 			} else ""
 			processingContext.put(Processor.PC_PACKAGE, pkgName)
-			processorUtil.debug(MagicAnnotationProcessor, "loop", null,
+			processorUtil.debug(clazz, "loop", null,
 				"IMPORTS: "+compilationUnit.xtendFile.importSection.importDeclarations.map[importedTypeName])
 			for (t : compilationUnit.xtendFile.importSection.importDeclarations.map[importedTypeName]) {
 				if (processorUtil.findTypeGlobally(t) === null) {
@@ -115,7 +116,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 						// NOP
 					}
 
-					processorUtil.error(MagicAnnotationProcessor, "loop", null,
+					processorUtil.error(clazz, "loop", null,
 						"Import "+t+" cannot be resolved! (As Class: "+found+")")
 				}
 			}
@@ -144,22 +145,22 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 								accept = p.accept(processingContext, td)
 								ACCEPT.put(acceptKey, accept)
 								if (!accept) {
-									processorUtil.debug(MagicAnnotationProcessor, "loop", td,
+									processorUtil.debug(clazz, "loop", td,
 											"NOT Calling: "+p+"."+phase+"("+qualifiedName+")")
 								}
 							}
 							if (accept) {
-								processorUtil.debug(MagicAnnotationProcessor, "loop", td,
+								processorUtil.debug(clazz, "loop", td,
 										"Calling: "+p+"."+phase+"("+qualifiedName+")")
 								// Yes? Then call processor.
 								lambda.apply(processingContext, p, td as TD)
 							}
 						}
 					} catch (MissingTypeException ex) {
-						processorUtil.error(MagicAnnotationProcessor, "loop", td, p+": "
+						processorUtil.error(clazz, "loop", td, p+": "
 						+qualifiedName+" "+ex)
 					} catch (Throwable t) {
-						processorUtil.error(MagicAnnotationProcessor, "loop", td, p+": "
+						processorUtil.error(clazz, "loop", td, p+": "
 						+qualifiedName, t)
 					}
 					doneProcessors.add(p)
@@ -196,6 +197,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 	/** Returns the list of processors. */
 
 	private static synchronized def Processor<?,?>[] getProcessors(
+		Class<?> magicClass,
 		List<? extends NamedElement> annotatedSourceElements) {
 		val cache = AntiClassLoaderCache.getCache()
 		if (PROCESSORS == null) {
@@ -204,14 +206,20 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 			val element = annotatedSourceElements.get(0)
 			var String[] names = cache.get(PROCESSORS_NAMES) as String[]
 			if (names == null) {
-				names = findProcessorNames(compilationUnit, element)
+				names = findProcessorNames(magicClass, compilationUnit, element)
 				cache.put(PROCESSORS_NAMES, names)
 			}
 			for (name : names) {
 				try {
-					list.add(Class.forName(name).newInstance as Processor<?,?>)
+					var Class<?> cls = null
+					try {
+						cls = Class.forName(name)
+					} catch (Exception e) {
+						cls = Class.forName(name, true, magicClass.classLoader)
+					}
+					list.add(cls.newInstance as Processor<?,?>)
 				} catch(Exception ex) {
-					processorUtil.error(MagicAnnotationProcessor, "getProcessors", null,
+					processorUtil.error(magicClass, "getProcessors", null,
 						"Could not instantiate processor for '"+name+"'",ex)
 				}
 			}
@@ -220,7 +228,7 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 //			}
 			PROCESSORS = list.toArray(<Processor>newArrayOfSize(list.size))
 			if (PROCESSORS.length === 0) {
-				processorUtil.error(MagicAnnotationProcessor, "getProcessors", null,
+				processorUtil.error(magicClass, "getProcessors", null,
 					"No processor defined.")
 			}
 		}
@@ -229,10 +237,12 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 
 	/** Returns the list of processor names */
 	private static def String[] findProcessorNames(
+		Class<?> magicClass,
 		CompilationUnitImpl compilationUnit, Element element) {
 		val list = <String>newArrayList()
 		val root = compilationUnit.fileLocations.getProjectFolder(compilationUnit.filePath)
 		val file = root.append(PROCESSORS_NAMES_FILE)
+		val fileURI = compilationUnit.fileSystemSupport.toURI(file)
 		if (compilationUnit.fileSystemSupport.exists(file)) {
 			try {
 				val content = compilationUnit.fileSystemSupport.getContents(file)
@@ -245,32 +255,38 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 					}
 				}
 				if (list.empty) {
-					processorUtil.warn(MagicAnnotationProcessor, "findProcessorNames", null,
-						"Could not find processors in '"+file+"'")
+					processorUtil.error(magicClass, "findProcessorNames", null,
+						"Could not find processors in '"+fileURI+"'")
 				} else {
 					// Test values once:
 					for (name : list.toArray(newArrayOfSize(list.size))) {
 						try {
-							// We test both the type and the ability to create them
-							if (!(Class.forName(name).newInstance instanceof Processor)) {
-								throw new ClassCastException(name+" is not a "+Processor.name)
+							var Class<?> cls = null
+							try {
+								cls = Class.forName(name)
+							} catch (Exception e) {
+								cls = Class.forName(name, true, magicClass.classLoader)
 							}
-						} catch(Exception ex) {
-							processorUtil.error(MagicAnnotationProcessor, "findProcessorNames", null,
-								"Could not instantiate processor for '"+name+"'",ex)
+							// We test both the type and the ability to create them
+							if (!(cls.newInstance instanceof Processor)) {
+								throw new ClassCastException(name+" from "+fileURI+" is not a "+Processor.name)
+							}
+						} catch(Throwable t) {
+							processorUtil.error(magicClass, "findProcessorNames", null,
+								"Could not instantiate processor for '"+name+"' from "+fileURI,t)
 							list.remove(name)
 						}
 					}
-					processorUtil.warn(MagicAnnotationProcessor, "findProcessorNames", null,
-						"Processors found in file '"+file+"': "+list)
+					processorUtil.warn(magicClass, "findProcessorNames", null,
+						"Processors found in file '"+fileURI+"': "+list)
 				}
-			} catch(Exception ex) {
-				processorUtil.error(MagicAnnotationProcessor, "findProcessorNames", null,
-					"Could not read/process '"+file+"'",ex)
+			} catch(Throwable t) {
+				processorUtil.error(magicClass, "findProcessorNames", null,
+					"Could not read/process '"+fileURI+"'",t)
 			}
 		} else {
-			processorUtil.warn(MagicAnnotationProcessor, "findProcessorNames", null,
-				"Could not find file '"+file+"'")
+			processorUtil.error(magicClass, "findProcessorNames", null,
+				"Could not find file '"+fileURI+"'")
 		}
 		list.toArray(newArrayOfSize(list.size))
 	}

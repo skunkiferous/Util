@@ -20,12 +20,14 @@ import java.util.logging.Logger;
 
 import org.eclipse.xtext.xbase.lib.Inline;
 
+import com.blockwithme.util.shared.Preconditions;
+
 /**
  * Xtend Extension related to JUL.
  *
  * @author monster
  */
-public class JavaUtilLoggingExtension {
+public class JavaUtilLoggingExtension extends Preconditions {
 
     /** What Level to use for debug? */
     public static final Level JUL_DEBUG = Level.FINE;
