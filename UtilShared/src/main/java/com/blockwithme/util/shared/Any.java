@@ -17,6 +17,8 @@ package com.blockwithme.util.shared;
 
 import java.io.Serializable;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * Smallest possible mutable class that could contain anything,
  * without requiring "boxing" of primitive values (except long!).
@@ -29,42 +31,14 @@ import java.io.Serializable;
  * @author monster
  */
 public class Any implements Serializable, Cloneable {
-    /** Wrapper for long values */
-    private static final class LongValue implements Serializable {
-        /** serialVersionUID */
-        private static final long serialVersionUID = 0;
-
-        public LongValue(final long v) {
-            value = v;
-        }
-
-        public final long value;
-
-        @Override
-        public boolean equals(final Object obj) {
-            return (obj instanceof LongValue)
-                    && (((LongValue) obj).value == value);
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#hashCode()
-         */
-        @Override
-        public int hashCode() {
-            return (int) (value ^ (value >>> 32));
-        }
-
-        /* (non-Javadoc)
-         * @see java.lang.Object#toString()
-         */
-        @Override
-        public String toString() {
-            return String.valueOf(value);
-        }
-    }
-
     /** serialVersionUID */
     private static final long serialVersionUID = -2510171712544971710L;
+
+    /** Maximum integer value in a double. */
+    private static final long MAX_LONG_VALUE = (long) SystemUtils.MAX_DOUBLE_INT_VALUE;
+
+    /** Minimum integer value in a double. */
+    private static final long MIN_LONG_VALUE = (long) SystemUtils.MIN_DOUBLE_INT_VALUE;
 
     /** The primitive data. */
     private double primitive;
@@ -88,10 +62,7 @@ public class Any implements Serializable, Cloneable {
 
     /** Any with Object. */
     public Any(final Object obj) {
-        if (obj instanceof AnyType) {
-            throw new IllegalArgumentException("Cannot contain AnyType!");
-        }
-        object = obj;
+        setObject(obj);
     }
 
     /** Any with boolean. */
@@ -149,7 +120,7 @@ public class Any implements Serializable, Cloneable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
+    public final String toString() {
         final long l = (long) primitive;
         if (l == primitive) {
             // primitive is an integral value, so don't show decimals.
@@ -224,7 +195,7 @@ public class Any implements Serializable, Cloneable {
      *
      * @throws NullPointerException if other is null.
      */
-    public void copyFrom(final Any other) {
+    public final void copyFrom(final Any other) {
         primitive = other.primitive;
         object = other.object;
     }
@@ -339,7 +310,7 @@ public class Any implements Serializable, Cloneable {
     }
 
     /** Sets the Any with a short. */
-    public void setShort(final short value) {
+    public final void setShort(final short value) {
         object = AnyType.Short;
         primitive = value;
     }
@@ -392,8 +363,13 @@ public class Any implements Serializable, Cloneable {
 
     /** Sets the Any with a long. */
     public final void setLong(final long value) {
-        object = new LongValue(value);
-        primitive = 0;
+        if ((value < MIN_LONG_VALUE) || (value > MAX_LONG_VALUE)) {
+            object = new LongValue(value);
+            primitive = 0;
+        } else {
+            object = AnyType.Long;
+            primitive = value;
+        }
     }
 
     /**
@@ -402,6 +378,9 @@ public class Any implements Serializable, Cloneable {
      * @return the long.
      */
     public final long getLong() {
+        if (object == AnyType.Long) {
+            return (long) primitive;
+        }
         if (!(object instanceof LongValue)) {
             throw new IllegalStateException("Not a long: " + object);
         }
@@ -413,6 +392,9 @@ public class Any implements Serializable, Cloneable {
      * @return the long.
      */
     public final long getLongUnsafe() {
+        if (object == AnyType.Long) {
+            return (long) primitive;
+        }
         return ((LongValue) object).value;
     }
 
@@ -431,7 +413,7 @@ public class Any implements Serializable, Cloneable {
         if (object != AnyType.Float) {
             throw new IllegalStateException("Not a float: " + object);
         }
-        return getFloatUnsafe();
+        return (float) primitive;
     }
 
     /**
@@ -457,7 +439,7 @@ public class Any implements Serializable, Cloneable {
         if (object != AnyType.Double) {
             throw new IllegalStateException("Not a double: " + object);
         }
-        return getDoubleUnsafe();
+        return primitive;
     }
 
     /**
