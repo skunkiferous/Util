@@ -43,34 +43,56 @@
 		<relativePath>../UtilParent</relativePath>
 	</parent>
 
+	<properties>
+		<func-generated>1.2.0</func-generated>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilBase</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilBase</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
 			<version>${project.version}</version>
-			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>UtilShared</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
-			<scope>provided</scope>
 		</dependency>
- 		<dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>PrimitiveFuncUtil</artifactId>
+			<version>${func-generated}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>PrimitiveFuncUtil</artifactId>
+			<version>${func-generated}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>FuncGenerated012</artifactId>
+			<version>${func-generated}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>FuncGenerated012</artifactId>
+			<version>${func-generated}</version>
+			<classifier>sources</classifier>
+		</dependency>
+				<dependency>
 			<groupId>org.eclipse.xtend</groupId>
 			<artifactId>org.eclipse.xtend.lib</artifactId>
 		</dependency>

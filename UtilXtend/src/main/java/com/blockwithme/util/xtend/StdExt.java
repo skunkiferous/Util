@@ -24,5 +24,5 @@ package com.blockwithme.util.xtend;
  *
  * @author monster
  */
-public class StdExt extends SafeCallExtension {
+public class StdExt extends ConstantsExtension {
 }
