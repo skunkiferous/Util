@@ -205,4 +205,65 @@ public class ScalarExtension extends JavaUtilLoggingExtension {
     public static int operator_plus(final Dictionary<?, ?> value) {
         return (value == null) ? 0 : value.size();
     }
+
+    /** Converts a String to an boolean (null == false, otherwise Boolean.parseBoolean(value)). */
+    @Pure
+    @Inline("(($1 == null) ? false : Boolean.parseBoolean($1.toString()))")
+    public static boolean booleanValue(final CharSequence value) {
+        return (value == null) ? false : Boolean.parseBoolean(value.toString());
+    }
+
+    /** Converts a String to a byte (null == 0, otherwise Byte.parseByte(value)). */
+    @Pure
+    @Inline("(($1 == null) ? (byte) 0 : Byte.parseByte($1.toString()))")
+    public static byte byteValue(final CharSequence value) {
+        return (value == null) ? (byte) 0 : Byte.parseByte(value.toString());
+    }
+
+    /** Converts a String to a char (null == 0, otherwise value.charAt(0)). */
+    @Pure
+    public static char charValue(final CharSequence value) {
+        if (value == null) {
+            return (char) 0;
+        }
+        if (value.length() == 1) {
+            return value.charAt(0);
+        }
+        throw new NumberFormatException("Bad char: '" + value + "'");
+    }
+
+    /** Converts a String to a short (null == 0, otherwise Short.parseShort(value)). */
+    @Pure
+    @Inline("(($1 == null) ? (short) 0 : Short.parseShort($1.toString()))")
+    public static short shortValue(final CharSequence value) {
+        return (value == null) ? (short) 0 : Short.parseShort(value.toString());
+    }
+
+    /** Converts a String to a int (null == 0, otherwise Integer.parseInt(value)). */
+    @Pure
+    @Inline("(($1 == null) ? 0 : Integer.parseInt($1.toString()))")
+    public static int intValue(final CharSequence value) {
+        return (value == null) ? 0 : Integer.parseInt(value.toString());
+    }
+
+    /** Converts a String to a float (null == 0, otherwise Float.parseFloat(value)). */
+    @Pure
+    @Inline("(($1 == null) ? 0 : Float.parseFloat($1.toString()))")
+    public static float floatValue(final CharSequence value) {
+        return (value == null) ? 0 : Float.parseFloat(value.toString());
+    }
+
+    /** Converts a String to a long (null == 0, otherwise Long.parseLong(value)). */
+    @Pure
+    @Inline("(($1 == null) ? 0 : Long.parseLong($1.toString()))")
+    public static long longValue(final CharSequence value) {
+        return (value == null) ? 0 : Long.parseLong(value.toString());
+    }
+
+    /** Converts a String to a double (null == 0, otherwise Double.parseDouble(value)). */
+    @Pure
+    @Inline("(($1 == null) ? 0 : Double.parseDouble($1.toString()))")
+    public static double doubleValue(final CharSequence value) {
+        return (value == null) ? 0 : Double.parseDouble(value.toString());
+    }
 }
