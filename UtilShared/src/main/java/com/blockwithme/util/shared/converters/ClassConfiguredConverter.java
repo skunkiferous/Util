@@ -46,6 +46,9 @@ public abstract class ClassConfiguredConverter<CONTEXT, E, C> implements
             throw new IllegalArgumentException(theType + " is null");
         }
         type = (Class<C>) SystemUtils.forName(theType);
+        if (type == null) {
+            throw new IllegalArgumentException(theType + " is unknown");
+        }
     }
 
     /** {@inheritDoc} */

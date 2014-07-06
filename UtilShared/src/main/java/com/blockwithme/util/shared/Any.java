@@ -15,9 +15,17 @@
  */
 package com.blockwithme.util.shared;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.logging.Logger;
 
 import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.shared.converters.BooleanConverter;
+import com.blockwithme.util.shared.converters.Converter;
+import com.blockwithme.util.shared.converters.LongConverter;
+import com.blockwithme.util.shared.converters.StringConverter;
 
 /**
  * Smallest possible mutable class that could contain anything,
@@ -30,7 +38,10 @@ import com.blockwithme.util.base.SystemUtils;
  *
  * @author monster
  */
-public class Any implements Serializable, Cloneable {
+public class Any implements Serializable {
+    /** Logger */
+    private static final Logger LOG = Logger.getLogger(Any.class.getName());
+
     /** serialVersionUID */
     private static final long serialVersionUID = -2510171712544971710L;
 
@@ -41,9 +52,9 @@ public class Any implements Serializable, Cloneable {
     private static final long MIN_LONG_VALUE = (long) SystemUtils.MIN_DOUBLE_INT_VALUE;
 
     /** The primitive data. */
-    private double primitive;
+    double primitive;
     /** The object data. */
-    private Object object;
+    Object object;
 
     /** Default empty Any. */
     public Any() {
@@ -52,12 +63,10 @@ public class Any implements Serializable, Cloneable {
 
     /**
      * Copy constructor.
-     *
-     * @throws NullPointerException if other is null.
      */
-    public Any(final Any other) {
-        primitive = other.primitive;
-        object = other.object;
+    Any(final double _primitive, final Object _object) {
+        primitive = _primitive;
+        object = _object;
     }
 
     /** Any with Object. */
@@ -105,17 +114,6 @@ public class Any implements Serializable, Cloneable {
         setDouble(value);
     }
 
-    /** Returns a copy. */
-    @GwtIncompatible
-    @Override
-    public Any clone() {
-        try {
-            return (Any) super.clone();
-        } catch (final CloneNotSupportedException e) {
-            throw new InternalError("Could not clone()!");
-        }
-    }
-
     /* (non-Javadoc)
      * @see java.lang.Object#toString()
      */
@@ -155,15 +153,18 @@ public class Any implements Serializable, Cloneable {
             return false;
         final Any other = (Any) obj;
         if (object == null) {
-            if (other.object != null) {
-                return false;
-            }
+            return (other.object == null);
         } else if (!object.equals(other.object)) {
             return false;
         }
         if (primitive != other.primitive)
             return false;
         return true;
+    }
+
+    /** Returns a copy. */
+    public final Any copy() {
+        return new Any(primitive, object);
     }
 
     /** Is this any empty? Empty mean no value set; it is different from having set "null" as object. */
@@ -173,15 +174,12 @@ public class Any implements Serializable, Cloneable {
 
     /** Returns the current type of the data. */
     public final AnyType type() {
-        if (object instanceof AnyType) {
-            // Not an object
-            return (AnyType) object;
-        }
-        if (object instanceof LongValue) {
-            return AnyType.Long;
-        }
-        // Must be an object, including null
-        return AnyType.Object;
+        return type(object);
+    }
+
+    /** Returns the current JSON type of the data. */
+    public final JSONType jsonType() {
+        return jsonType(object);
     }
 
     /**  Clears this Any. */
@@ -200,15 +198,27 @@ public class Any implements Serializable, Cloneable {
         object = other.object;
     }
 
+    /**
+     * Internal Copy method.
+     */
+    final void copyFrom(final double _primitive, final Object _object) {
+        primitive = _primitive;
+        object = _object;
+    }
+
     /** Sets the Any with an Object. */
     public final void setObject(final Object obj) {
         if (obj instanceof AnyType) {
             throw new IllegalArgumentException("Cannot contain AnyType!");
         }
-        object = obj;
-        // This is important, so that equals of two Any works,
-        // when at least one of them contained a primitive value before.
-        primitive = 0;
+        if (obj instanceof Any) {
+            final Any other = (Any) obj;
+            object = other.object;
+            primitive = other.primitive;
+        } else {
+            object = obj;
+            primitive = 0;
+        }
     }
 
     /**
@@ -217,8 +227,11 @@ public class Any implements Serializable, Cloneable {
      * @return the Object.
      */
     public final Object getObject() {
-        if ((object instanceof AnyType) || (object instanceof LongValue)) {
+        if (object instanceof AnyType) {
             throw new IllegalStateException("Not an Object: " + object);
+        }
+        if (object instanceof BigLongValue) {
+            throw new IllegalStateException("Not an Object: " + AnyType.Long);
         }
         return object;
     }
@@ -364,7 +377,7 @@ public class Any implements Serializable, Cloneable {
     /** Sets the Any with a long. */
     public final void setLong(final long value) {
         if ((value < MIN_LONG_VALUE) || (value > MAX_LONG_VALUE)) {
-            object = new LongValue(value);
+            object = new BigLongValue(value);
             primitive = 0;
         } else {
             object = AnyType.Long;
@@ -381,10 +394,10 @@ public class Any implements Serializable, Cloneable {
         if (object == AnyType.Long) {
             return (long) primitive;
         }
-        if (!(object instanceof LongValue)) {
+        if (!(object instanceof BigLongValue)) {
             throw new IllegalStateException("Not a long: " + object);
         }
-        return ((LongValue) object).value;
+        return ((BigLongValue) object).value;
     }
 
     /**
@@ -395,7 +408,7 @@ public class Any implements Serializable, Cloneable {
         if (object == AnyType.Long) {
             return (long) primitive;
         }
-        return ((LongValue) object).value;
+        return ((BigLongValue) object).value;
     }
 
     /** Sets the Any with a float. */
@@ -417,8 +430,8 @@ public class Any implements Serializable, Cloneable {
     }
 
     /**
-     * Return the int, without validation.
-     * @return the int.
+     * Return the float, without validation.
+     * @return the float.
      */
     public final float getFloatUnsafe() {
         return (float) primitive;
@@ -448,5 +461,83 @@ public class Any implements Serializable, Cloneable {
      */
     public final double getDoubleUnsafe() {
         return primitive;
+    }
+
+    /** Returns the current type of the data. */
+    static AnyType type(final Object object) {
+        if (object instanceof AnyType) {
+            // Not an object
+            return (AnyType) object;
+        }
+        if (object instanceof BigLongValue) {
+            return AnyType.Long;
+        }
+        // Must be an object, including null
+        return AnyType.Object;
+    }
+
+    /** Returns the current JSON type of the data. */
+    static JSONType jsonType(final Object object) {
+        if (object == null) {
+            return JSONType.Null;
+        }
+        if (object instanceof BigLongValue) {
+            return JSONType.String;
+        }
+        if (object instanceof AnyType) {
+            switch ((AnyType) object) {
+            case Empty:
+                return JSONType.Null;
+
+            case Boolean:
+                return JSONType.Boolean;
+
+            default:
+                // if at == Long, it means it's a 'small' long, so a Number
+                return JSONType.Number;
+            }
+        }
+        if ((object instanceof CharSequence) || (object instanceof Class<?>)
+                || (object instanceof File)) {
+            return JSONType.String;
+        }
+        if ((object instanceof Iterable<?>) || (object instanceof Iterator<?>)
+                || (object instanceof Enumeration<?>)) {
+            return JSONType.Array;
+        }
+        final Class<?> type = object.getClass();
+        if (type.isArray()) {
+            return JSONType.Array;
+        }
+        final Converter<?> c = ConverterRegistry.instance().find(type);
+        if (c != null) {
+            if (c instanceof BooleanConverter) {
+                return JSONType.Boolean;
+            }
+            if (c instanceof StringConverter) {
+                return JSONType.String;
+            }
+            if (c instanceof LongConverter) {
+                // We need to check ...
+                try {
+                    @SuppressWarnings({ "unchecked", "rawtypes" })
+                    final long value = ((LongConverter) c).fromObject(null,
+                            object);
+                    if ((value < MIN_LONG_VALUE) || (value > MAX_LONG_VALUE)) {
+                        return JSONType.String;
+                    }
+                    return JSONType.Number;
+                } catch (final Exception e) {
+                    // NOP (we still don't know)
+                }
+            }
+        }
+        if (type.isEnum()) {
+            LOG.warning("Enum type " + type
+                    + " has not been registered in the ConverterRegistry");
+            return JSONType.String;
+        }
+        // Unknown; assume Object
+        return JSONType.Object;
     }
 }

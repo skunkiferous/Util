@@ -43,6 +43,10 @@ public interface Converter<E> {
                     FloatConverter.DEFAULT);
             result.put(DoubleConverter.DEFAULT.getClass().getName(),
                     DoubleConverter.DEFAULT);
+            for (@SuppressWarnings("rawtypes")
+            final Converter c : Converters.ALL) {
+                result.put(c.getClass().getName(), c);
+            }
             return Collections.unmodifiableMap(result);
         }
     }

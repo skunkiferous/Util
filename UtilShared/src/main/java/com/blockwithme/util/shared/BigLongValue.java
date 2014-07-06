@@ -18,11 +18,11 @@ package com.blockwithme.util.shared;
 import java.io.Serializable;
 
 /** Wrapper for long values */
-final class LongValue implements Serializable {
+final class BigLongValue implements Serializable {
     /** serialVersionUID */
     private static final long serialVersionUID = 0;
 
-    public LongValue(final long v) {
+    public BigLongValue(final long v) {
         value = v;
     }
 
@@ -30,8 +30,8 @@ final class LongValue implements Serializable {
 
     @Override
     public boolean equals(final Object obj) {
-        return (obj instanceof LongValue)
-                && (((LongValue) obj).value == value);
+        return (obj instanceof BigLongValue)
+                && (((BigLongValue) obj).value == value);
     }
 
     /* (non-Javadoc)

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Collections;
+
 import org.junit.Test;
 
 /**
@@ -16,7 +18,8 @@ import org.junit.Test;
  */
 @SuppressWarnings("all")
 public class AnyTest {
-    private void standardChecks(final Any any, final AnyType type) {
+    private void standardChecks(final Any any, final AnyType type,
+            final JSONType jsonType) {
         if (type == AnyType.Empty) {
             assertTrue(any.isEmpty());
         } else {
@@ -24,11 +27,14 @@ public class AnyTest {
         }
 
         assertEquals(type, any.type());
-        final Any clone = any.clone();
+        assertEquals(jsonType, any.jsonType());
+        final Any clone = any.copy();
         assertEquals(type, clone.type());
+        assertEquals(jsonType, clone.jsonType());
         assertEquals(any, clone);
         final Any copy = new Any(any);
         assertEquals(type, copy.type());
+        assertEquals(jsonType, copy.jsonType());
         assertEquals(any, copy);
 
         boolean failed = false;
@@ -187,7 +193,7 @@ public class AnyTest {
     @Test
     public void testEmpty() {
         final Any any = new Any();
-        standardChecks(any, AnyType.Empty);
+        standardChecks(any, AnyType.Empty, JSONType.Null);
     }
 
     @Test
@@ -201,7 +207,35 @@ public class AnyTest {
         assertEquals(AnyType.Object, any.type());
         assertEquals("x", any.getObject());
         assertEquals("x", any.getObjectUnsafe());
-        standardChecks(any, AnyType.Object);
+        standardChecks(any, AnyType.Object, JSONType.String);
+
+        // Class maps to String
+        any.setObject(Integer.class);
+        assertEquals(JSONType.String, any.jsonType());
+        // CharacterSequence maps to String
+        any.setObject(new StringBuilder());
+        assertEquals(JSONType.String, any.jsonType());
+        // Array maps to Array
+        any.setObject(new int[0]);
+        assertEquals(JSONType.Array, any.jsonType());
+        // Iterable maps to Array
+        any.setObject(Collections.emptySet());
+        assertEquals(JSONType.Array, any.jsonType());
+        // Iterator maps to Array
+        any.setObject(Collections.emptySet().iterator());
+        assertEquals(JSONType.Array, any.jsonType());
+        // Enumeration maps to Array
+        any.setObject(System.getProperties().elements());
+        assertEquals(JSONType.Array, any.jsonType());
+        // null maps to Null
+        any.setObject(null);
+        assertEquals(JSONType.Null, any.jsonType());
+        // Unregistered Enum maps to String
+        any.setObject(JSONType.Boolean);
+        assertEquals(JSONType.String, any.jsonType());
+        // Anything else maps to Object
+        any.setObject(System.out);
+        assertEquals(JSONType.Object, any.jsonType());
     }
 
     @Test
@@ -215,7 +249,7 @@ public class AnyTest {
         assertEquals(AnyType.Boolean, any.type());
         assertFalse(any.getBoolean());
         assertFalse(any.getBooleanUnsafe());
-        standardChecks(any, AnyType.Boolean);
+        standardChecks(any, AnyType.Boolean, JSONType.Boolean);
     }
 
     @Test
@@ -229,7 +263,7 @@ public class AnyTest {
         assertEquals(AnyType.Byte, any.type());
         assertEquals((byte) 1, any.getByte());
         assertEquals((byte) 1, any.getByteUnsafe());
-        standardChecks(any, AnyType.Byte);
+        standardChecks(any, AnyType.Byte, JSONType.Number);
     }
 
     @Test
@@ -243,7 +277,7 @@ public class AnyTest {
         assertEquals(AnyType.Char, any.type());
         assertEquals((char) 1, any.getChar());
         assertEquals((char) 1, any.getCharUnsafe());
-        standardChecks(any, AnyType.Char);
+        standardChecks(any, AnyType.Char, JSONType.Number);
     }
 
     @Test
@@ -257,7 +291,7 @@ public class AnyTest {
         assertEquals(AnyType.Short, any.type());
         assertEquals((short) 1, any.getShort());
         assertEquals((short) 1, any.getShortUnsafe());
-        standardChecks(any, AnyType.Short);
+        standardChecks(any, AnyType.Short, JSONType.Number);
     }
 
     @Test
@@ -271,7 +305,7 @@ public class AnyTest {
         assertEquals(AnyType.Int, any.type());
         assertEquals(1, any.getInt());
         assertEquals(1, any.getIntUnsafe());
-        standardChecks(any, AnyType.Int);
+        standardChecks(any, AnyType.Int, JSONType.Number);
     }
 
     @Test
@@ -285,7 +319,7 @@ public class AnyTest {
         assertEquals(AnyType.Float, any.type());
         assertEquals(1f, any.getFloat(), 0f);
         assertEquals(1f, any.getFloatUnsafe(), 0f);
-        standardChecks(any, AnyType.Float);
+        standardChecks(any, AnyType.Float, JSONType.Number);
     }
 
     @Test
@@ -299,7 +333,16 @@ public class AnyTest {
         assertEquals(AnyType.Long, any.type());
         assertEquals(1l, any.getLong());
         assertEquals(1l, any.getLongUnsafe());
-        standardChecks(any, AnyType.Long);
+        standardChecks(any, AnyType.Long, JSONType.Number);
+
+        any.setLong(Long.MAX_VALUE);
+        assertEquals(JSONType.String, any.jsonType());
+        assertEquals(JSONType.String, any.copy().jsonType());
+        assertEquals(JSONType.String, new Any(any).jsonType());
+        any.setLong(Long.MIN_VALUE);
+        assertEquals(JSONType.String, any.jsonType());
+        assertEquals(JSONType.String, any.copy().jsonType());
+        assertEquals(JSONType.String, new Any(any).jsonType());
     }
 
     @Test
@@ -313,6 +356,6 @@ public class AnyTest {
         assertEquals(AnyType.Double, any.type());
         assertEquals(1.0, any.getDouble(), 0.0);
         assertEquals(1.0, any.getDoubleUnsafe(), 0.0);
-        standardChecks(any, AnyType.Double);
+        standardChecks(any, AnyType.Double, JSONType.Number);
     }
 }

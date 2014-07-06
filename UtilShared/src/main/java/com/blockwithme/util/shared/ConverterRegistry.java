@@ -30,11 +30,20 @@ import com.blockwithme.util.shared.converters.StringConverter;
 /**
  * <code>ConverterRegistry</code> is a registry for primitive converters.
  *
+ * Converters must match the type exactly, because otherwise the "toObject()"
+ * conversion would not usually return the correct type.
+ *
  * It is thread-safe, and can delegate/fallback to another registry.
  */
 public class ConverterRegistry {
     /** The singleton */
     private static final ConverterRegistry GLOBAL = new ConverterRegistry();
+
+    static {
+        for (final Converter<?> c : Converter.DEFAULTS.values()) {
+            GLOBAL.registry.register(c.type(), c, true);
+        }
+    }
 
     /** Registered converters. */
     private final RegistryImpl<Class<?>, Object> registry;
@@ -56,7 +65,12 @@ public class ConverterRegistry {
         registry = new RegistryImpl<Class<?>, Object>(parent);
     }
 
-    /** Returns a registered converter, if any. */
+    /**
+     * Returns a registered converter, if any.
+     *
+     * Converters must match the type exactly, because otherwise the "toObject()"
+     * conversion would not usually return the correct type.
+     */
     @SuppressWarnings("unchecked")
     public <E> Converter<E> find(final Class<E> type) {
         return (Converter<E>) registry.find(type);
