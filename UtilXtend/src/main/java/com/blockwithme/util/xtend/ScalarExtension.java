@@ -43,154 +43,154 @@ public class ScalarExtension extends JavaUtilLoggingExtension {
     /** Represents the boolean false value. */
     public static final int FALSE = 0;
 
-    /** Converts a boolean to a number (TRUE/FALSE). */
+    /** Converts a boolean to an int (true == 1, false == 0). */
     @Pure
     @Inline("($1 ? 1 : 0)")
     public static int operator_plus(final boolean value) {
         return value ? TRUE : FALSE;
     }
 
-    /** Converts a AtomicBoolean to a boolean (null == false). */
+    /** Converts a AtomicBoolean to an int (true == 1, null/false == 0). */
     @Pure
     @Inline("((($1 == null) || !$1.get()) ? 0 : 1)")
     public static int operator_plus(final AtomicBoolean value) {
         return ((value == null) || !value.get()) ? FALSE : TRUE;
     }
 
-    /** Converts any Long to a boolean (false means non-zero). */
+    /** Converts any Long to a long (null == 0). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.longValue())")
     public static long operator_plus(final Long value) {
         return (value == null) ? 0 : value.longValue();
     }
 
-    /** Converts any Number to a boolean (false means non-zero). */
+    /** Converts any Number to an int (null == 0). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.intValue())")
     public static int operator_plus(final Number value) {
         return (value == null) ? 0 : value.intValue();
     }
 
-    /** Converts a Character (because Character does not extend Number) to a boolean (false means non-zero). */
+    /** Converts a Character to an int (null == 0). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.charValue())")
     public static int operator_plus(final Character value) {
         return (value == null) ? 0 : value.charValue();
     }
 
-    /** Converts a Boolean to a boolean (null == false). */
+    /** Converts a Boolean to an int (true == 1, null/false == 0). */
     @Pure
     @Inline("((($1 == null) || !$1.booleanValue()) ? 0 : 1)")
     public static int operator_plus(final Boolean value) {
         return ((value == null) || !value.booleanValue()) ? FALSE : TRUE;
     }
 
-    /** Converts any Date to a boolean (false means non-zero). */
+    /** Converts any Date to a long (null == 0). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.getTime())")
     public static long operator_plus(final Date value) {
         return (value == null) ? 0 : value.getTime();
     }
 
-    /** Converts any Calendar to a boolean (false means non-zero). */
+    /** Converts any Calendar to a long (null == 0). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.getTimeInMillis())")
     public static long operator_plus(final Calendar value) {
         return (value == null) ? 0 : value.getTimeInMillis();
     }
 
-    /** Converts a boolean[] to a boolean (false means non-empty). */
+    /** Converts a boolean[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final boolean[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a byte[] to a boolean (false means non-empty). */
+    /** Converts a byte[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final byte[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a char[] to a boolean (false means non-empty). */
+    /** Converts a char[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final char[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a short[] to a boolean (false means non-empty). */
+    /** Converts a short[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final short[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a int[] to a boolean (false means non-empty). */
+    /** Converts a int[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final int[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a float[] to a boolean (false means non-empty). */
+    /** Converts a float[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final float[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a long[] to a boolean (false means non-empty). */
+    /** Converts a long[] to a an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final long[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a double[] to a boolean (false means non-empty). */
+    /** Converts a double[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final double[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a Object[] to a boolean (false means non-empty). */
+    /** Converts a Object[] to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length)")
     public static int operator_plus(final Object[] value) {
         return (value == null) ? 0 : value.length;
     }
 
-    /** Converts a Collection<?> to a boolean (false means non-empty). */
+    /** Converts a Collection<?> to an int (null == 0, otherwise size). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.size())")
     public static int operator_plus(final Collection<?> value) {
         return (value == null) ? 0 : value.size();
     }
 
-    /** Converts a Map<?,?> to a boolean (false means non-empty). */
+    /** Converts a Map<?,?> to an int (null == 0, otherwise size). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.size())")
     public static int operator_plus(final Map<?, ?> value) {
         return (value == null) ? 0 : value.size();
     }
 
-    /** Converts a CharSequence to a boolean (false means non-empty). */
+    /** Converts a CharSequence to an int (null == 0, otherwise length). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.length())")
     public static int operator_plus(final CharSequence value) {
         return (value == null) ? 0 : value.length();
     }
 
-    /** Converts a Enum<?> to a boolean (false means non-ordinal-0). */
+    /** Converts a Enum<?> to an int (null == 0, otherwise ordinal). */
     @Pure
     @Inline("(($1 == null) ? 0 : $1.ordinal())")
     public static int operator_plus(final Enum<?> value) {
         return (value == null) ? 0 : value.ordinal();
     }
 
-    /** Converts a Buffer to a boolean (false means hasRemaining()). */
+    /** Converts a Buffer to an int (null == 0, otherwise remaining). */
     @GwtIncompatible
     @Pure
     @Inline("(($1 == null) ? 0 : $1.remaining())")
@@ -198,7 +198,7 @@ public class ScalarExtension extends JavaUtilLoggingExtension {
         return (value == null) ? 0 : value.remaining();
     }
 
-    /** Converts a Dictionary to a boolean (false means non-empty). */
+    /** Converts a Dictionary to an int (null == 0, otherwise size). */
     @GwtIncompatible
     @Pure
     @Inline("(($1 == null) ? 0 : $1.size())")
