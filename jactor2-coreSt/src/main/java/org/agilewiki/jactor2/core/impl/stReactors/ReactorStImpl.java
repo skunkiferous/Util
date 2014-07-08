@@ -21,7 +21,6 @@ import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
 import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
-import org.agilewiki.jactor2.core.requests.SyncRequest;
 
 abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
     private Recovery recovery;
