@@ -19,6 +19,7 @@ import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.requests.SyncRequest;
 
@@ -433,10 +434,10 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      * @return null.
      */
     @Override
-    public SyncRequest<Void> nullSReq() {
-        return new SyncBladeRequest<Void>() {
+    public SOp<Void> nullSOp() {
+        return new SOp<Void>("null", getReactor()) {
             @Override
-            public Void processSyncRequest() throws Exception {
+            public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
                 return null;
             }
         };

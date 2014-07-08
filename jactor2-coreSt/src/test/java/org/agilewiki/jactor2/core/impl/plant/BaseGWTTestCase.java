@@ -15,12 +15,10 @@
  */
 package org.agilewiki.jactor2.core.impl.plant;
 
+import org.agilewiki.jactor2.core.blades.NonBlockingBlade;
 import org.agilewiki.jactor2.core.impl.JActorStTestInjector;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
-import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.Request;
-import org.agilewiki.jactor2.core.requests.SyncRequest;
+import org.agilewiki.jactor2.core.requests.*;
 
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.client.UtilEntryPoint;
@@ -139,6 +137,15 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
             throw (Exception) result;
         }
         return (RESPONSE_TYPE) result;
+    }
+
+    protected <RESPONSE_TYPE> RESPONSE_TYPE call(final SOp<RESPONSE_TYPE> sOp) throws Exception {
+        return call(new SyncRequest<RESPONSE_TYPE>(new NonBlockingReactor()) {
+            @Override
+            public RESPONSE_TYPE processSyncRequest() throws Exception {
+                return syncDirect(sOp);
+            }
+        });
     }
 
     protected <RESPONSE_TYPE> void call(final Request<RESPONSE_TYPE> request,
