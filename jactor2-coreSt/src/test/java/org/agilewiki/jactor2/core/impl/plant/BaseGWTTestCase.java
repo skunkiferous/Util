@@ -140,7 +140,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
     }
 
     protected <RESPONSE_TYPE> RESPONSE_TYPE call(final SOp<RESPONSE_TYPE> sOp) throws Exception {
-        return call(new SyncRequest<RESPONSE_TYPE>(new NonBlockingReactor()) {
+        return call(new SyncRequest<RESPONSE_TYPE>(sOp.targetReactor) {
             @Override
             public RESPONSE_TYPE processSyncRequest() throws Exception {
                 return syncDirect(sOp);
