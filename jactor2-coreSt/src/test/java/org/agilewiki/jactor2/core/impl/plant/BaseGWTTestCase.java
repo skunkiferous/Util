@@ -61,7 +61,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
 
     private static final CheckResult DEFAULT_CHECKER = new DefaultCheckResult();
 
-    private static class TestRunner<RESPONSE_TYPE> extends SyncRequest<Void> {
+    private static class TestRunner<RESPONSE_TYPE> extends SOp<Void> {
         private final RequestStImpl<RESPONSE_TYPE> request;
         private volatile Object result;
 
@@ -71,13 +71,13 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
 
         public TestRunner(final RequestImpl<RESPONSE_TYPE> request)
                 throws Exception {
-            super(new NonBlockingReactor());
+            super("testRunner", new NonBlockingReactor());
             this.request = (RequestStImpl) request;
         }
 
         @Override
-        public Void processSyncRequest() throws Exception {
-            getTargetReactor().asReactorImpl().setExceptionHandler(
+        public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
+            _requestImpl.getTargetReactor().asReactorImpl().setExceptionHandler(
                     new ExceptionHandler<RESPONSE_TYPE>() {
                         @Override
                         public RESPONSE_TYPE processException(final Exception e)
@@ -86,7 +86,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
                             return null;
                         }
                     });
-            request.doSend(getTargetReactor().asReactorImpl(),
+            request.doSend(_requestImpl.getTargetReactor().asReactorImpl(),
                     new AsyncResponseProcessor<RESPONSE_TYPE>() {
                         @Override
                         public void processAsyncResponse(
