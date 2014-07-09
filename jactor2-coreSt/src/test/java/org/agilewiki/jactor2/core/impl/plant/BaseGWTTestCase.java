@@ -153,6 +153,17 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         return (RESPONSE_TYPE) result;
     }
 
+    protected <RESPONSE_TYPE> RESPONSE_TYPE call(final AOp<RESPONSE_TYPE> aOp) throws Exception {
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                PlantImpl.getSingleton().createAsyncRequestImpl(aOp, aOp.targetReactor));
+        runner.signal();
+        final Object result = runner.getResult();
+        if (result instanceof Exception) {
+            throw (Exception) result;
+        }
+        return (RESPONSE_TYPE) result;
+    }
+
     protected <RESPONSE_TYPE> void call(final Request<RESPONSE_TYPE> request,
             final CheckResult checker, final int wait) throws Exception {
         final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
