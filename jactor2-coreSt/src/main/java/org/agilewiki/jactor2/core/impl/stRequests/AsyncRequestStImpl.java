@@ -281,9 +281,11 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
-    public <RT> void send(final AOp<RT> _aOp,
+    public <RT> AsyncRequestImpl<RT> send(final AOp<RT> _aOp,
                           final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
-        send(PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor), _asyncResponseProcessor);
+        AsyncRequestImpl<RT> ari = PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor);
+        send(ari, _asyncResponseProcessor);
+        return ari;
     }
 
     @Override
