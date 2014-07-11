@@ -6,7 +6,7 @@ import org.agilewiki.jactor2.core.blades.transactions.ImmutableSource;
 import org.agilewiki.jactor2.core.blades.transactions.SyncTransaction;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.impl.plant.BaseGWTTestCase;
-import org.agilewiki.jactor2.core.plant.DelayAReq;
+import org.agilewiki.jactor2.core.plant.DelayAOp;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 
 public class GwtTestAsyncTest extends BaseGWTTestCase {
@@ -19,7 +19,7 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
             protected void update(final ImmutableSource<String> source,
                     final AsyncResponseProcessor<Void> asyncResponseProcessor)
                     throws Exception {
-                applyAReq.send(new DelayAReq(100),
+                applyAReq.send(new DelayAOp(100),
                         new AsyncResponseProcessor<Void>() {
                             @Override
                             public void processAsyncResponse(

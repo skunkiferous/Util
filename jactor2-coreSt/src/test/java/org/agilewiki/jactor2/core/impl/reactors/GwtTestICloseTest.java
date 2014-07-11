@@ -4,7 +4,7 @@ import org.agilewiki.jactor2.core.blades.IsolationBladeBase;
 import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.impl.plant.BaseGWTTestCase;
-import org.agilewiki.jactor2.core.plant.DelayAReq;
+import org.agilewiki.jactor2.core.plant.DelayAOp;
 import org.agilewiki.jactor2.core.requests.AsyncRequest;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 
@@ -36,7 +36,7 @@ class IHang extends NonBlockingBladeBase {
                 final AsyncRequest<Void> noRspAReq = iHung.noRspAReq();
                 send(noRspAReq, dis);
                 send(iHung.getReactor().nullSOp(), dis);
-                send(new DelayAReq(50), new AsyncResponseProcessor<Void>() {
+                send(new DelayAOp(50), new AsyncResponseProcessor<Void>() {
                     @Override
                     public void processAsyncResponse(final Void _response) {
                         cancel(noRspAReq);
