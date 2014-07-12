@@ -4,15 +4,16 @@ import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
 import org.agilewiki.jactor2.core.impl.JActorStTestPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.AOp;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
+import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
 
 public class GwtTestAsyncTest extends BaseGWTTestCase {
     public void testa() throws Exception {
         new Plant(new JActorStTestPlantConfiguration());
         try {
             final Async1 async1 = new Async1();
-            async1.startAReq().signal();
+            async1.startAOp().signal();
         } finally {
             Plant.close();
         }
@@ -24,19 +25,19 @@ class Async1 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    AsyncRequest<Void> startAReq() {
-        return new AsyncBladeRequest<Void>() {
-            AsyncRequest<Void> dis = this;
-
+    AOp<Void> startAOp() {
+        return new AOp<Void>("start", getReactor()) {
             @Override
-            public void processAsyncRequest() throws Exception {
+            public void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
+                                              final AsyncResponseProcessor<Void> _asyncResponseProcessor)
+                    throws Exception {
                 final Async2 async2 = new Async2();
-                send(async2.getAReq(), new AsyncResponseProcessor<String>() {
+                _asyncRequestImpl.send(async2.getAOp(), new AsyncResponseProcessor<String>() {
                     @Override
                     public void processAsyncResponse(final String _response)
                             throws Exception {
                         System.out.println(_response);
-                        dis.processAsyncResponse(null);
+                        _asyncResponseProcessor.processAsyncResponse(null);
                     }
                 });
             }
@@ -49,11 +50,13 @@ class Async2 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    AsyncRequest<String> getAReq() {
-        return new AsyncBladeRequest<String>() {
+    AOp<String> getAOp() {
+        return new AOp<String>("get", getReactor()) {
             @Override
-            public void processAsyncRequest() throws Exception {
-                this.processAsyncResponse("Hi");
+            public void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
+                                              AsyncResponseProcessor<String> _asyncResponseProcessor)
+                    throws Exception {
+                _asyncResponseProcessor.processAsyncResponse("Hi");
             }
         };
     }
