@@ -11,6 +11,8 @@ import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.requests.AsyncRequest;
+import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
+import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
 
 public class GwtTestPubSubTest extends BaseGWTTestCase {
     public void testI() throws Exception {
@@ -19,20 +21,21 @@ public class GwtTestPubSubTest extends BaseGWTTestCase {
         try {
             final NonBlockingReactor reactor = new NonBlockingReactor();
             final RequestBus<Void> requestBus = new RequestBus<Void>(reactor);
-            call(requestBus.signalsContentSReq(null));
+            call(requestBus.signalsContentSOp(null));
             final Subscription<Void> s1 = call(new SubscribeAReq<Void>(
                     requestBus, reactor) {
                 @Override
                 protected void processContent(final Void _content,
-                        final AsyncRequest<Void> _asyncRequest)
+                                              AsyncRequestImpl _asyncRequestImpl,
+                                              AsyncResponseProcessor<Void> _asyncResponseProcessor)
                         throws Exception {
                     System.out.println("ping");
-                    _asyncRequest.processAsyncResponse(null);
+                    _asyncResponseProcessor.processAsyncResponse(null);
                 }
             });
-            call(requestBus.signalsContentSReq(null));
+            call(requestBus.signalsContentSOp(null));
             s1.unsubscribe();
-            call(requestBus.signalsContentSReq(null));
+            call(requestBus.signalsContentSOp(null));
         } finally {
             Plant.close();
         }
@@ -46,22 +49,24 @@ public class GwtTestPubSubTest extends BaseGWTTestCase {
             final NonBlockingReactor busReactor = new NonBlockingReactor();
             final CommonReactor subscriberReactor = new NonBlockingReactor();
             final RequestBus<Void> requestBus = new RequestBus<Void>(busReactor);
-            call(requestBus.sendsContentAReq(null));
+            call(requestBus.sendsContentAOp(null));
             assertEquals(counter.get(), 0);
             call(new SubscribeAReq<Void>(requestBus, subscriberReactor) {
                 @Override
                 protected void processContent(final Void _content,
-                        final AsyncRequest<Void> _asyncRequest) {
+                                              AsyncRequestImpl _asyncRequestImpl,
+                                              AsyncResponseProcessor<Void> _asyncResponseProcessor)
+                        throws Exception {
                     System.out.println("ping");
                     counter.incrementAndGet();
-                    _asyncRequest.processAsyncResponse(null);
+                    _asyncResponseProcessor.processAsyncResponse(null);
                 }
             });
-            call(requestBus.sendsContentAReq(null));
+            call(requestBus.sendsContentAOp(null));
             assertEquals(counter.get(), 1);
             subscriberReactor.close();
             try {
-                call(requestBus.sendsContentAReq(null));
+                call(requestBus.sendsContentAOp(null));
             } catch (final ReactorClosedException e) {
             }
             assertEquals(counter.get(), 1);

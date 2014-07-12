@@ -4,14 +4,15 @@ import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
 import org.agilewiki.jactor2.core.impl.JActorStTestPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.requests.SyncRequest;
+import org.agilewiki.jactor2.core.requests.SOp;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 
 public class GwtTestSyncTest extends BaseGWTTestCase {
     public void testa() throws Exception {
         new Plant(new JActorStTestPlantConfiguration());
         try {
             final Sync1 sync1 = new Sync1();
-            sync1.startSReq().signal();
+            sync1.startSOp().signal();
         } finally {
             Plant.close();
         }
@@ -23,10 +24,10 @@ class Sync1 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    SyncRequest<Void> startSReq() {
-        return new SyncBladeRequest<Void>() {
+    SOp<Void> startSOp() {
+        return new SOp<Void>("start", getReactor()) {
             @Override
-            public Void processSyncRequest() throws Exception {
+            public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
                 System.out.println("Hi");
                 return null;
             }

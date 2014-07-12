@@ -15,17 +15,18 @@
  */
 package org.agilewiki.jactor2.core.impl.plant;
 
+import org.agilewiki.jactor2.core.blades.NonBlockingBlade;
 import org.agilewiki.jactor2.core.impl.JActorStTestInjector;
+import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
+import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
-import org.agilewiki.jactor2.core.requests.ExceptionHandler;
-import org.agilewiki.jactor2.core.requests.Request;
-import org.agilewiki.jactor2.core.requests.SyncRequest;
+import org.agilewiki.jactor2.core.requests.*;
 
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.client.UtilEntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.junit.client.GWTTestCase;
+import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 
 /**
  * Base class for our tests.
@@ -60,23 +61,23 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
 
     private static final CheckResult DEFAULT_CHECKER = new DefaultCheckResult();
 
-    private static class TestRunner<RESPONSE_TYPE> extends SyncRequest<Void> {
-        private final Request<RESPONSE_TYPE> request;
+    private static class TestRunner<RESPONSE_TYPE> extends SOp<Void> {
+        private final RequestStImpl<RESPONSE_TYPE> request;
         private volatile Object result;
 
         public Object getResult() {
             return (result == TestRunner.class) ? null : result;
         }
 
-        public TestRunner(final Request<RESPONSE_TYPE> request)
+        public TestRunner(final RequestImpl<RESPONSE_TYPE> request)
                 throws Exception {
-            super(new NonBlockingReactor());
-            this.request = request;
+            super("testRunner", new NonBlockingReactor());
+            this.request = (RequestStImpl) request;
         }
 
         @Override
-        public Void processSyncRequest() throws Exception {
-            getTargetReactor().asReactorImpl().setExceptionHandler(
+        public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
+            _requestImpl.getTargetReactor().asReactorImpl().setExceptionHandler(
                     new ExceptionHandler<RESPONSE_TYPE>() {
                         @Override
                         public RESPONSE_TYPE processException(final Exception e)
@@ -85,7 +86,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
                             return null;
                         }
                     });
-            request.asRequestImpl().doSend(getTargetReactor().asReactorImpl(),
+            request.doSend(_requestImpl.getTargetReactor().asReactorImpl(),
                     new AsyncResponseProcessor<RESPONSE_TYPE>() {
                         @Override
                         public void processAsyncResponse(
@@ -132,7 +133,29 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
     protected <RESPONSE_TYPE> RESPONSE_TYPE call(
             final Request<RESPONSE_TYPE> request) throws Exception {
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
-                request);
+                request.asRequestImpl());
+        runner.signal();
+        final Object result = runner.getResult();
+        if (result instanceof Exception) {
+            throw (Exception) result;
+        }
+        return (RESPONSE_TYPE) result;
+    }
+
+    protected <RESPONSE_TYPE> RESPONSE_TYPE call(final SOp<RESPONSE_TYPE> sOp) throws Exception {
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                PlantImpl.getSingleton().createSyncRequestImpl(sOp, sOp.targetReactor));
+        runner.signal();
+        final Object result = runner.getResult();
+        if (result instanceof Exception) {
+            throw (Exception) result;
+        }
+        return (RESPONSE_TYPE) result;
+    }
+
+    protected <RESPONSE_TYPE> RESPONSE_TYPE call(final AOp<RESPONSE_TYPE> aOp) throws Exception {
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                PlantImpl.getSingleton().createAsyncRequestImpl(aOp, aOp.targetReactor));
         runner.signal();
         final Object result = runner.getResult();
         if (result instanceof Exception) {
@@ -146,7 +169,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
                 : checker;
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
-                request);
+                request.asRequestImpl());
         runner.signal();
         new com.google.gwt.user.client.Timer() {
             @Override

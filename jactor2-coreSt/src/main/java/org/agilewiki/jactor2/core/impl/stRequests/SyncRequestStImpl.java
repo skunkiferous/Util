@@ -3,10 +3,8 @@ package org.agilewiki.jactor2.core.impl.stRequests;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.requests.SyncNativeRequest;
 import org.agilewiki.jactor2.core.requests.SyncOperation;
-import org.agilewiki.jactor2.core.requests.SyncRequest;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.Timer;
-import org.omg.PortableServer.REQUEST_PROCESSING_POLICY_ID;
 
 /**
  * Internal implementation of a SyncRequest.

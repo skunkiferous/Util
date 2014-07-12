@@ -269,27 +269,35 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
-    public <RT> void send(final SOp<RT> _sOp,
+    public <RT> RequestImpl<RT> send(final SOp<RT> _sOp,
                           final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
-        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _asyncResponseProcessor);
+        RequestImpl<RT> ri = PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor);
+        send(ri, _asyncResponseProcessor);
+        return ri;
     }
 
     @Override
-    public <RT, RT2> void send(final SOp<RT> _sOp,
+    public <RT, RT2> RequestImpl<RT> send(final SOp<RT> _sOp,
                                final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
-        send(PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor), _dis, _fixedResponse);
+        RequestImpl<RT> ri = PlantImpl.getSingleton().createSyncRequestImpl(_sOp, _sOp.targetReactor);
+        send(ri, _dis, _fixedResponse);
+        return ri;
     }
 
     @Override
-    public <RT> void send(final AOp<RT> _aOp,
+    public <RT> AsyncRequestImpl<RT> send(final AOp<RT> _aOp,
                           final AsyncResponseProcessor<RT> _asyncResponseProcessor) {
-        send(PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor), _asyncResponseProcessor);
+        AsyncRequestImpl<RT> ari = PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor);
+        send(ari, _asyncResponseProcessor);
+        return ari;
     }
 
     @Override
-    public <RT, RT2> void send(final AOp<RT> _aOp,
+    public <RT, RT2> AsyncRequestImpl<RT> send(final AOp<RT> _aOp,
                                final AsyncResponseProcessor<RT2> _dis, final RT2 _fixedResponse) {
-        send(PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor), _dis, _fixedResponse);
+        AsyncRequestImpl<RT> ari = PlantImpl.getSingleton().createAsyncRequestImpl(_aOp, _aOp.targetReactor);
+        send(ari, _dis, _fixedResponse);
+        return ari;
     }
 
     @Override
@@ -321,6 +329,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
+    @Deprecated
     public <RT> void asyncDirect(final AOp<RT> _aOp,
                                  final AsyncResponseProcessor<RT> _asyncResponseProcessor)
             throws Exception {
@@ -336,6 +345,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     @Override
+    @Deprecated
     public <RT> void asyncDirect(final AsyncNativeRequest<RT> _asyncNativeRequest,
                                  final AsyncResponseProcessor<RT> _asyncResponseProcessor)
             throws Exception {
