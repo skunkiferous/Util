@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.blockwithme.util.shared.converters;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * <code>EnumStringConverter</code> implements a StringConverter for some enum type.
  *
@@ -23,8 +25,8 @@ package com.blockwithme.util.shared.converters;
  * @param <E>
  */
 public class EnumStringConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<Object, E, E> implements
-        StringConverter<Object, E> {
+        StringConverterBase<Object, E> implements
+        ConfiguredConverter<Object, E> {
 
     /** Constructor takes the enum type. */
     public EnumStringConverter(final Class<E> theEnumType) {
@@ -35,11 +37,9 @@ public class EnumStringConverter<E extends Enum<E>> extends
     }
 
     /** Constructor takes the enum type name. */
+    @SuppressWarnings("unchecked")
     public EnumStringConverter(final String theEnumType) {
-        super(theEnumType);
-        if (!type.isEnum()) {
-            throw new IllegalArgumentException(theEnumType + " is not an Enum");
-        }
+        this((Class<E>) SystemUtils.forName(theEnumType));
     }
 
     @Override
@@ -52,11 +52,9 @@ public class EnumStringConverter<E extends Enum<E>> extends
         return Enum.valueOf(type, value);
     }
 
-    /* (non-Javadoc)
-     * @see com.blockwithme.prim.Converter#bits()
-     */
+    /** {@inheritDoc} */
     @Override
-    public int bits() {
-        return 0;
+    public String getConfiguration() {
+        return type.getName();
     }
 }

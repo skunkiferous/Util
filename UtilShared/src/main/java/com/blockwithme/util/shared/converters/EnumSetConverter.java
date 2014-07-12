@@ -17,6 +17,8 @@ package com.blockwithme.util.shared.converters;
 
 import java.util.EnumSet;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * <code>EnumSetConverter</code> implements a LongConverter for some enum type.
  * It is assumed that there are no more then 64 values for this enum.
@@ -26,45 +28,47 @@ import java.util.EnumSet;
  * @param <E>
  */
 public class EnumSetConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<Object, EnumSet<E>, E> implements
-        LongConverter<Object, EnumSet<E>> {
+        LongConverterBase<Object, EnumSet<E>> implements
+        ConfiguredConverter<Object, EnumSet<E>> {
+
+    /** Real enum type. */
+    private final Class<E> enumType;
 
     /** The Enum constants. */
-    private E[] constants;
+    private final E[] constants;
 
-    /** Real type. */
-    private Class<EnumSet<E>> realType;
-
-    /** Initialize */
+    /** Constructor takes the enum type. */
     @SuppressWarnings("unchecked")
-    private void init() {
-        if (!type.isEnum()) {
-            throw new IllegalArgumentException(type + " is not an Enum");
-        }
-        constants = type.getEnumConstants();
+    public EnumSetConverter(final Class<E> theEnumType) {
+        super((Class<EnumSet<E>>) EnumSet.noneOf(theEnumType).getClass());
+        // theEnumType must be a valid enum type if we get here.
+        enumType = theEnumType;
+        constants = theEnumType.getEnumConstants();
         if (constants.length > 64) {
             throw new IllegalArgumentException(type + " has too many constants");
         }
-        realType = (Class<EnumSet<E>>) EnumSet.noneOf(type).getClass();
-    }
-
-    /** Constructor takes the enum type. */
-    public EnumSetConverter(final Class<E> theEnumType) {
-        super(theEnumType);
-        init();
     }
 
     /** Constructor takes the enum type name. */
+    @SuppressWarnings("unchecked")
     public EnumSetConverter(final String theEnumType) {
-        super(theEnumType);
-        init();
+        this((Class<E>) SystemUtils.forName(theEnumType));
     }
 
     @Override
     public long fromObject(final Object context, final EnumSet<E> theSet) {
         long result = 0;
-        if (theSet != null) {
+        if ((theSet != null) && !theSet.isEmpty()) {
+            boolean check = true;
             for (final E e : theSet) {
+                if (check) {
+                    check = false;
+                    if (!enumType.equals(e.getDeclaringClass())) {
+                        throw new IllegalArgumentException("Wrong enum type: "
+                                + e.getDeclaringClass() + " should be "
+                                + enumType);
+                    }
+                }
                 // TODO ordinal() is evil, and should never be used for serialization
                 result |= 1L << e.ordinal();
             }
@@ -74,7 +78,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
 
     @Override
     public final EnumSet<E> toObject(final Object context, final long theValue) {
-        final EnumSet<E> result = EnumSet.noneOf(type);
+        final EnumSet<E> result = EnumSet.noneOf(enumType);
         for (int i = 0; i < constants.length; i++) {
             if ((theValue & 1L << i) != 0) {
                 result.add(constants[i]);
@@ -85,15 +89,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
 
     /** {@inheritDoc} */
     @Override
-    public Class<EnumSet<E>> type() {
-        return realType;
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.prim.Converter#bits()
-     */
-    @Override
-    public int bits() {
-        return 64;
+    public String getConfiguration() {
+        return enumType.getName();
     }
 }

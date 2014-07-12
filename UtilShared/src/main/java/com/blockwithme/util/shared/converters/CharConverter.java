@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>CharConverter</code> implements the conversion of some object type,
  * to and from Java primitive char values.
  */
-public interface CharConverter<CONTEXT, E> extends Converter<E> {
+public interface CharConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 16;
 
     /** The default CharConverter<E>. */
-    CharConverter<?, Character> DEFAULT = new CharConverter<Object, Character>() {
-        @Override
-        public Class<Character> type() {
-            return Character.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    CharConverter<?, Character> DEFAULT = new CharConverterBase<Object, Character>(
+            Character.class) {
         @Override
         public char fromObject(final Object context, final Character obj) {
             return (obj == null) ? 0 : obj;

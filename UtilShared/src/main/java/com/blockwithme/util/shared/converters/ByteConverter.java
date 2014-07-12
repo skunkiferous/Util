@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>ByteConverter</code> implements the conversion of some object type,
  * to and from Java primitive byte values.
  */
-public interface ByteConverter<CONTEXT, E> extends Converter<E> {
+public interface ByteConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 8;
 
     /** The default ByteConverter<E>. */
-    ByteConverter<?, Byte> DEFAULT = new ByteConverter<Object, Byte>() {
-        @Override
-        public Class<Byte> type() {
-            return Byte.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    ByteConverter<?, Byte> DEFAULT = new ByteConverterBase<Object, Byte>(
+            Byte.class) {
         @Override
         public byte fromObject(final Object context, final Byte obj) {
             return (obj == null) ? 0 : obj;

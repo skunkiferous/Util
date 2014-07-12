@@ -19,14 +19,17 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.blockwithme.util.shared.Any;
+import com.blockwithme.util.shared.AnyArray;
+
 /**
  * The Base Interface for all the converter interfaces.
  */
-public interface Converter<E> {
+public interface Converter<CONTEXT, E> {
 
     final class Helper {
-        private static Map<String, Converter<?>> init() {
-            final Map<String, Converter<?>> result = new HashMap<String, Converter<?>>();
+        private static Map<String, Converter<?, ?>> init() {
+            final HashMap<String, Converter<?, ?>> result = new HashMap<String, Converter<?, ?>>();
             result.put(BooleanConverter.DEFAULT.getClass().getName(),
                     BooleanConverter.DEFAULT);
             result.put(ByteConverter.DEFAULT.getClass().getName(),
@@ -52,7 +55,7 @@ public interface Converter<E> {
     }
 
     /** Maps class names of default converters to instances. */
-    Map<String, Converter<?>> DEFAULTS = Helper.init();
+    Map<String, Converter<?, ?>> DEFAULTS = Helper.init();
 
     /**
      * The type of Object being converted.
@@ -68,5 +71,28 @@ public interface Converter<E> {
      * Use 0 or -1 if not a primitive type converter.
      */
     int bits();
+
+    /**
+     * Converts from object instance.
+     *
+     * The expected behavior when receiving null is left on purpose unspecified,
+     * as it depends on your application needs.
+     */
+    void objectToAny(CONTEXT context, final E obj, final Any any);
+
+    /** Converts to an object instance. */
+    E anyToObject(CONTEXT context, final Any any);
+
+    /**
+     * Converts from object instance.
+     *
+     * The expected behavior when receiving null is left on purpose unspecified,
+     * as it depends on your application needs.
+     */
+    void objectToAny(CONTEXT context, final E obj, final AnyArray anyArray,
+            final int index);
+
+    /** Converts to an object instance. */
+    E anyToObject(CONTEXT context, final AnyArray anyArray, final int index);
 
 }

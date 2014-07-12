@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>FloatConverter</code> implements the conversion of some object type,
  * to and from Java primitive float values.
  */
-public interface FloatConverter<CONTEXT, E> extends Converter<E> {
+public interface FloatConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 32;
 
     /** The default FloatConverter<E>. */
-    FloatConverter<?, Float> DEFAULT = new FloatConverter<Object, Float>() {
-        @Override
-        public Class<Float> type() {
-            return Float.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    FloatConverter<?, Float> DEFAULT = new FloatConverterBase<Object, Float>(
+            Float.class) {
         @Override
         public float fromObject(final Object context, final Float obj) {
             return (obj == null) ? 0 : obj;

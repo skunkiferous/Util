@@ -18,6 +18,7 @@ package com.blockwithme.util.shared;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -50,6 +51,22 @@ public class Any implements Serializable {
 
     /** Minimum integer value in a double. */
     private static final long MIN_LONG_VALUE = (long) SystemUtils.MIN_DOUBLE_INT_VALUE;
+
+    /** Maps array types to corresponding AnyType. */
+    private static final HashMap<Class<?>, AnyType> ARRAY_TYPE_TO_ANY_TYPE = new HashMap<>(
+            32);
+
+    static {
+        ARRAY_TYPE_TO_ANY_TYPE.put(boolean[].class, AnyType.BooleanArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(byte[].class, AnyType.ByteArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(char[].class, AnyType.CharArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(short[].class, AnyType.ShortArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(int[].class, AnyType.IntArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(float[].class, AnyType.FloatArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(long[].class, AnyType.LongArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(double[].class, AnyType.DoubleArray);
+        ARRAY_TYPE_TO_ANY_TYPE.put(String[].class, AnyType.StringArray);
+    }
 
     /** The primitive data. */
     double primitive;
@@ -118,7 +135,7 @@ public class Any implements Serializable {
      * @see java.lang.Object#toString()
      */
     @Override
-    public final String toString() {
+    public String toString() {
         final long l = (long) primitive;
         if (l == primitive) {
             // primitive is an integral value, so don't show decimals.
@@ -131,7 +148,7 @@ public class Any implements Serializable {
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((object == null) ? 0 : object.hashCode());
@@ -144,7 +161,7 @@ public class Any implements Serializable {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -211,14 +228,8 @@ public class Any implements Serializable {
         if (obj instanceof AnyType) {
             throw new IllegalArgumentException("Cannot contain AnyType!");
         }
-        if (obj instanceof Any) {
-            final Any other = (Any) obj;
-            object = other.object;
-            primitive = other.primitive;
-        } else {
-            object = obj;
-            primitive = 0;
-        }
+        object = obj;
+        primitive = 0;
     }
 
     /**
@@ -465,12 +476,22 @@ public class Any implements Serializable {
 
     /** Returns the current type of the data. */
     static AnyType type(final Object object) {
-        if (object instanceof AnyType) {
-            // Not an object
-            return (AnyType) object;
-        }
-        if (object instanceof BigLongValue) {
-            return AnyType.Long;
+        if (object != null) {
+            if (object instanceof AnyType) {
+                // Not an object
+                return (AnyType) object;
+            }
+            if (object instanceof BigLongValue) {
+                return AnyType.Long;
+            }
+            if (object instanceof String) {
+                return AnyType.String;
+            }
+            final Class<?> clazz = object.getClass();
+            if (clazz.isArray()) {
+                final AnyType result = ARRAY_TYPE_TO_ANY_TYPE.get(clazz);
+                return (result == null) ? AnyType.ObjectArray : result;
+            }
         }
         // Must be an object, including null
         return AnyType.Object;
@@ -509,7 +530,7 @@ public class Any implements Serializable {
         if (type.isArray()) {
             return JSONType.Array;
         }
-        final Converter<?> c = ConverterRegistry.instance().find(type);
+        final Converter<?, ?> c = ConverterRegistry.instance().find(type);
         if (c != null) {
             if (c instanceof BooleanConverter) {
                 return JSONType.Boolean;

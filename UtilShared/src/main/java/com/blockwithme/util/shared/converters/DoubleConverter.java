@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>DoubleConverter</code> implements the conversion of some object type,
  * to and from Java primitive double values.
  */
-public interface DoubleConverter<CONTEXT, E> extends Converter<E> {
+public interface DoubleConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 64;
 
     /** The default DoubleConverter<E>. */
-    DoubleConverter<?, Double> DEFAULT = new DoubleConverter<Object, Double>() {
-        @Override
-        public Class<Double> type() {
-            return Double.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    DoubleConverter<?, Double> DEFAULT = new DoubleConverterBase<Object, Double>(
+            Double.class) {
         @Override
         public double fromObject(final Object context, final Double obj) {
             return (obj == null) ? 0 : obj;

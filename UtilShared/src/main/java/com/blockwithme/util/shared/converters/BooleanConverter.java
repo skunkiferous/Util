@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>BooleanConverter</code> implements the conversion of some object type,
  * to and from Java primitive boolean values.
  */
-public interface BooleanConverter<CONTEXT, E> extends Converter<E> {
+public interface BooleanConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 1;
 
     /** The default BooleanConverter<E>. */
-    BooleanConverter<?, Boolean> DEFAULT = new BooleanConverter<Object, Boolean>() {
-        @Override
-        public Class<Boolean> type() {
-            return Boolean.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    BooleanConverter<?, Boolean> DEFAULT = new BooleanConverterBase<Object, Boolean>(
+            Boolean.class) {
         @Override
         public boolean fromObject(final Object context, final Boolean obj) {
             return (obj == null) ? Boolean.FALSE : obj;

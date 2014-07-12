@@ -15,6 +15,8 @@
  ******************************************************************************/
 package com.blockwithme.util.shared.converters;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * <code>EnumByteConverter</code> implements a ByteConverter for some enum type.
  * It is assumed that there are no more then 256 values for this enum.
@@ -24,8 +26,7 @@ package com.blockwithme.util.shared.converters;
  * @param <E>
  */
 public class EnumByteConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<Object, E, E> implements
-        ByteConverter<Object, E> {
+        ByteConverterBase<Object, E> implements ConfiguredConverter<Object, E> {
 
     /** The Enum constants. */
     private final E[] constants;
@@ -49,8 +50,9 @@ public class EnumByteConverter<E extends Enum<E>> extends
     }
 
     /** Constructor takes the enum type name. */
+    @SuppressWarnings("unchecked")
     public EnumByteConverter(final String theEnumType) {
-        super(theEnumType);
+        super((Class<E>) SystemUtils.forName(theEnumType));
         constants = init();
     }
 
@@ -65,11 +67,9 @@ public class EnumByteConverter<E extends Enum<E>> extends
         return constants[ordinal];
     }
 
-    /* (non-Javadoc)
-     * @see com.blockwithme.prim.Converter#bits()
-     */
+    /** {@inheritDoc} */
     @Override
-    public int bits() {
-        return 8;
+    public String getConfiguration() {
+        return type.getName();
     }
 }

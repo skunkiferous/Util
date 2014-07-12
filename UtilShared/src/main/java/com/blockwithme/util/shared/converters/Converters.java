@@ -29,17 +29,8 @@ public interface Converters {
 
     /** The default StringConverter<E>. */
     @SuppressWarnings("rawtypes")
-    StringConverter<?, Class> CLASS = new StringConverter<Object, Class>() {
-        @Override
-        public Class<Class> type() {
-            return Class.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    StringConverter<?, Class> CLASS = new StringConverterBase<Object, Class>(
+            Class.class) {
         @Override
         public String fromObject(final Object context, final Class obj) {
             return (obj == null) ? "" : obj.getName();

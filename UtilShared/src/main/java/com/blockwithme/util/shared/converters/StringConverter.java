@@ -23,22 +23,13 @@ package com.blockwithme.util.shared.converters;
  * OK, String is not a primitive type, but it's still one that is normally
  * supported in most serialization APIs.
  */
-public interface StringConverter<CONTEXT, E> extends Converter<E> {
+public interface StringConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = -1;
 
     /** The default StringConverter<E>. */
-    StringConverter<?, String> DEFAULT = new StringConverter<Object, String>() {
-        @Override
-        public Class<String> type() {
-            return String.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    StringConverter<?, String> DEFAULT = new StringConverterBase<Object, String>(
+            String.class) {
         @Override
         public String fromObject(final Object context, final String obj) {
             return obj;

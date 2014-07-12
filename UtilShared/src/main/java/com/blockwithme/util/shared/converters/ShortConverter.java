@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>ShortConverter</code> implements the conversion of some object type,
  * to and from Java primitive short values.
  */
-public interface ShortConverter<CONTEXT, E> extends Converter<E> {
+public interface ShortConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 16;
 
     /** The default ShortConverter<E>. */
-    ShortConverter<?, Short> DEFAULT = new ShortConverter<Object, Short>() {
-        @Override
-        public Class<Short> type() {
-            return Short.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    ShortConverter<?, Short> DEFAULT = new ShortConverterBase<Object, Short>(
+            Short.class) {
         @Override
         public short fromObject(final Object context, final Short obj) {
             return (obj == null) ? 0 : obj;

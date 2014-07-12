@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>LongConverter</code> implements the conversion of some object type,
  * to and from Java primitive long values.
  */
-public interface LongConverter<CONTEXT, E> extends Converter<E> {
+public interface LongConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 64;
 
     /** The default LongConverter<E>. */
-    LongConverter<?, Long> DEFAULT = new LongConverter<Object, Long>() {
-        @Override
-        public Class<Long> type() {
-            return Long.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    LongConverter<?, Long> DEFAULT = new LongConverterBase<Object, Long>(
+            Long.class) {
         @Override
         public long fromObject(final Object context, final Long obj) {
             return (obj == null) ? 0 : obj;

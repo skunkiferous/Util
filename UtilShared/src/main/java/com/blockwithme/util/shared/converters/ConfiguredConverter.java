@@ -21,7 +21,7 @@ package com.blockwithme.util.shared.converters;
  * some additional configuration, in the form of a String. The converter must
  * also, then, have a constructor taking this String as parameter.
  */
-public interface ConfiguredConverter<CONTEXT, E> extends Converter<E> {
+public interface ConfiguredConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** Returns the converter's configuration. */
     String getConfiguration();
 }

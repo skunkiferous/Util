@@ -95,16 +95,9 @@ public class AnyArray implements Serializable, Iterable<Any> {
             for (int i = 0; i < size; i++) {
                 buf.append(prefix);
                 prefix = ", ";
-                final double p = primitive[i];
-                final long l = (long) p;
-                buf.append("(primitive=");
-                if (l == p) {
-                    // primitive is an integral value, so don't show decimals.
-                    buf.append(l);
-                } else {
-                    buf.append(p);
-                }
-                buf.append(", object=").append(object[i]).append(')');
+                buf.append('(');
+                toString(buf, i);
+                buf.append(')');
             }
         } else {
             buf.append(prefix);
@@ -113,11 +106,25 @@ public class AnyArray implements Serializable, Iterable<Any> {
         return buf.toString();
     }
 
+    /** Allows adding additional data in toString for each index. */
+    protected void toString(final StringBuilder buf, final int index) {
+        final double p = primitive[index];
+        final long l = (long) p;
+        buf.append("primitive=");
+        if (l == p) {
+            // primitive is an integral value, so don't show decimals.
+            buf.append(l);
+        } else {
+            buf.append(p);
+        }
+        buf.append(", object=").append(object[index]);
+    }
+
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
     @Override
-    public final int hashCode() {
+    public int hashCode() {
         final int prime = 31;
         final int size = this.size;
         int result = 1;
@@ -134,7 +141,7 @@ public class AnyArray implements Serializable, Iterable<Any> {
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public final boolean equals(final Object obj) {
+    public boolean equals(final Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

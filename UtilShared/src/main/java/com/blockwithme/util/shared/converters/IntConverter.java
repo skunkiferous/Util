@@ -20,22 +20,13 @@ package com.blockwithme.util.shared.converters;
  * <code>IntConverter</code> implements the conversion of some object type,
  * to and from Java primitive int values.
  */
-public interface IntConverter<CONTEXT, E> extends Converter<E> {
+public interface IntConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
     /** The default bits. */
     int DEFAULT_BITS = 32;
 
     /** The default IntConverter<E>. */
-    IntConverter<?, Integer> DEFAULT = new IntConverter<Object, Integer>() {
-        @Override
-        public Class<Integer> type() {
-            return Integer.class;
-        }
-
-        @Override
-        public int bits() {
-            return DEFAULT_BITS;
-        }
-
+    IntConverter<?, Integer> DEFAULT = new IntConverterBase<Object, Integer>(
+            Integer.class) {
         @Override
         public int fromObject(final Object context, final Integer obj) {
             return (obj == null) ? 0 : obj;

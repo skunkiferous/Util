@@ -32,13 +32,14 @@ public class AnyTest {
         assertEquals(type, clone.type());
         assertEquals(jsonType, clone.jsonType());
         assertEquals(any, clone);
-        final Any copy = new Any(any);
+        final Any copy = new Any();
+        copy.copyFrom(any);
         assertEquals(type, copy.type());
         assertEquals(jsonType, copy.jsonType());
         assertEquals(any, copy);
 
         boolean failed = false;
-        if (type != AnyType.Object) {
+        if (!type.object) {
             try {
                 any.getObject();
             } catch (final RuntimeException e) {
@@ -198,16 +199,16 @@ public class AnyTest {
 
     @Test
     public void testObject() {
-        final Any any = new Any("");
+        final Any any = new Any(Object.class);
         assertEquals(AnyType.Object, any.type());
-        assertEquals("", any.getObject());
-        assertEquals("", any.getObjectUnsafe());
+        assertEquals(Object.class, any.getObject());
+        assertEquals(Object.class, any.getObjectUnsafe());
         any.clear();
         any.setObject("x");
-        assertEquals(AnyType.Object, any.type());
+        assertEquals(AnyType.String, any.type());
         assertEquals("x", any.getObject());
         assertEquals("x", any.getObjectUnsafe());
-        standardChecks(any, AnyType.Object, JSONType.String);
+        standardChecks(any, AnyType.String, JSONType.String);
 
         // Class maps to String
         any.setObject(Integer.class);
@@ -338,11 +339,13 @@ public class AnyTest {
         any.setLong(Long.MAX_VALUE);
         assertEquals(JSONType.String, any.jsonType());
         assertEquals(JSONType.String, any.copy().jsonType());
-        assertEquals(JSONType.String, new Any(any).jsonType());
+        final Any copy = new Any();
+        copy.copyFrom(any);
+        assertEquals(JSONType.String, copy.jsonType());
         any.setLong(Long.MIN_VALUE);
         assertEquals(JSONType.String, any.jsonType());
         assertEquals(JSONType.String, any.copy().jsonType());
-        assertEquals(JSONType.String, new Any(any).jsonType());
+        assertEquals(JSONType.String, copy.jsonType());
     }
 
     @Test
@@ -357,5 +360,20 @@ public class AnyTest {
         assertEquals(1.0, any.getDouble(), 0.0);
         assertEquals(1.0, any.getDoubleUnsafe(), 0.0);
         standardChecks(any, AnyType.Double, JSONType.Number);
+    }
+
+    @Test
+    public void testType() {
+        assertEquals(AnyType.String, Any.type("x"));
+        assertEquals(AnyType.BooleanArray, Any.type(new boolean[0]));
+        assertEquals(AnyType.ByteArray, Any.type(new byte[0]));
+        assertEquals(AnyType.CharArray, Any.type(new char[0]));
+        assertEquals(AnyType.ShortArray, Any.type(new short[0]));
+        assertEquals(AnyType.IntArray, Any.type(new int[0]));
+        assertEquals(AnyType.FloatArray, Any.type(new float[0]));
+        assertEquals(AnyType.LongArray, Any.type(new long[0]));
+        assertEquals(AnyType.DoubleArray, Any.type(new double[0]));
+        assertEquals(AnyType.StringArray, Any.type(new String[0]));
+        assertEquals(AnyType.ObjectArray, Any.type(new Integer[0]));
     }
 }

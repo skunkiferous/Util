@@ -40,7 +40,7 @@ public class ConverterRegistry {
     private static final ConverterRegistry GLOBAL = new ConverterRegistry();
 
     static {
-        for (final Converter<?> c : Converter.DEFAULTS.values()) {
+        for (final Converter<?, ?> c : Converter.DEFAULTS.values()) {
             GLOBAL.registry.register(c.type(), c, true);
         }
     }
@@ -72,8 +72,8 @@ public class ConverterRegistry {
      * conversion would not usually return the correct type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> find(final Class<E> type) {
-        return (Converter<E>) registry.find(type);
+    public <E> Converter<?, E> find(final Class<E> type) {
+        return (Converter<?, E>) registry.find(type);
     }
 
     /**
@@ -81,9 +81,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final BooleanConverter<?, E> converter,
+    public <E> Converter<?, E> register(final BooleanConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -91,9 +91,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final ByteConverter<?, E> converter,
+    public <E> Converter<?, E> register(final ByteConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -101,9 +101,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final CharConverter<?, E> converter,
+    public <E> Converter<?, E> register(final CharConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -111,9 +111,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final ShortConverter<?, E> converter,
+    public <E> Converter<?, E> register(final ShortConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -121,9 +121,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final IntConverter<?, E> converter,
+    public <E> Converter<?, E> register(final IntConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -131,9 +131,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final LongConverter<?, E> converter,
+    public <E> Converter<?, E> register(final LongConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -141,9 +141,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final FloatConverter<?, E> converter,
+    public <E> Converter<?, E> register(final FloatConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -151,9 +151,9 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final DoubleConverter<?, E> converter,
+    public <E> Converter<?, E> register(final DoubleConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 
     /**
@@ -161,8 +161,8 @@ public class ConverterRegistry {
      * The result is untyped, because the previous converter might have been to another type.
      */
     @SuppressWarnings("unchecked")
-    public <E> Converter<E> register(final StringConverter<?, E> converter,
+    public <E> Converter<?, E> register(final StringConverter<?, E> converter,
             final Class<E> type) {
-        return (Converter<E>) registry.register(type, converter, true);
+        return (Converter<?, E>) registry.register(type, converter, true);
     }
 }

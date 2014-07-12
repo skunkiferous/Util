@@ -34,7 +34,7 @@ public class AnyArrayTest {
         assertTrue(array.equals(index, copy));
 
         boolean failed = false;
-        if (type != AnyType.Object) {
+        if (!type.object) {
             try {
                 array.getObject(index);
             } catch (final RuntimeException e) {
@@ -478,16 +478,16 @@ public class AnyArrayTest {
     }
 
     private void checkObject(final AnyArray array, final int index) {
-        array.setObject(index, "");
+        array.setObject(index, Object.class);
         assertEquals(AnyType.Object, array.type(index));
-        assertEquals("", array.getObject(index));
-        assertEquals("", array.getObjectUnsafe(index));
+        assertEquals(Object.class, array.getObject(index));
+        assertEquals(Object.class, array.getObjectUnsafe(index));
         array.clear(index);
         array.setObject(index, "x");
-        assertEquals(AnyType.Object, array.type(index));
+        assertEquals(AnyType.String, array.type(index));
         assertEquals("x", array.getObject(index));
         assertEquals("x", array.getObjectUnsafe(index));
-        standardChecks(array, index, AnyType.Object, JSONType.String);
+        standardChecks(array, index, AnyType.String, JSONType.String);
 
         // Class maps to String
         array.setObject(index, Integer.class);
