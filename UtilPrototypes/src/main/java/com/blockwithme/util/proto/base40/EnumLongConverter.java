@@ -19,8 +19,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.blockwithme.util.shared.converters.ClassConfiguredConverter;
-import com.blockwithme.util.shared.converters.LongConverter;
+import com.blockwithme.util.base.SystemUtils;
+import com.blockwithme.util.shared.converters.ConfiguredConverter;
+import com.blockwithme.util.shared.converters.LongConverterBase;
 
 /**
  * <code>EnumLongConverter</code> implements a LongConverter for some enum type.
@@ -31,8 +32,7 @@ import com.blockwithme.util.shared.converters.LongConverter;
  * @param <E>
  */
 public class EnumLongConverter<E extends Enum<E>> extends
-        ClassConfiguredConverter<Object, E, E> implements
-        LongConverter<Object, E> {
+        LongConverterBase<Object, E> implements ConfiguredConverter<Object, E> {
 
     /** The Long to Enum map. */
     private final Map<Long, E> mapLongToEnum = new HashMap<>();
@@ -71,9 +71,9 @@ public class EnumLongConverter<E extends Enum<E>> extends
     }
 
     /** Constructor takes the enum type name. */
+    @SuppressWarnings("unchecked")
     public EnumLongConverter(final String theEnumType) {
-        super(theEnumType);
-        init();
+        this((Class<E>) SystemUtils.forName(theEnumType));
     }
 
     /** Constructor takes the enum type. */
@@ -96,11 +96,9 @@ public class EnumLongConverter<E extends Enum<E>> extends
         return mapLongToEnum.get(value);
     }
 
-    /* (non-Javadoc)
-     * @see com.blockwithme.prim.Converter#bits()
-     */
+    /** {@inheritDoc} */
     @Override
-    public int bits() {
-        return 64;
+    public String getConfiguration() {
+        return type.getName();
     }
 }

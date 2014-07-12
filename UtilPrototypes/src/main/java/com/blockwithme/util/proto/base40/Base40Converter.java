@@ -17,13 +17,13 @@ package com.blockwithme.util.proto.base40;
 
 import com.blockwithme.util.shared.ConverterRegistry;
 import com.blockwithme.util.shared.converters.ConfiguredConverter;
-import com.blockwithme.util.shared.converters.LongConverter;
+import com.blockwithme.util.shared.converters.LongConverterBase;
 
 /**
  * <code>Base40Converter</code> converts Base40 to and from Java long.
  */
-public class Base40Converter implements LongConverter<Object, Base40>,
-        ConfiguredConverter<Object, Base40> {
+public class Base40Converter extends LongConverterBase<Object, Base40>
+        implements ConfiguredConverter<Object, Base40> {
 
     /** Marker character for lower-case character set. */
     private static final char LOWER = 'l';
@@ -53,6 +53,7 @@ public class Base40Converter implements LongConverter<Object, Base40>,
 
     /** Creates a Base40Converter with the given Base40 CharacterSet. */
     public Base40Converter(final CharacterSet theCharacterSet) {
+        super(Base40.class);
         characterSet = theCharacterSet;
     }
 
@@ -62,6 +63,7 @@ public class Base40Converter implements LongConverter<Object, Base40>,
      * as returned by getConfiguration().
      */
     public Base40Converter(final String theCharacterSet) {
+        super(Base40.class);
         characterSet = toCharSet(theCharacterSet);
     }
 
@@ -84,20 +86,6 @@ public class Base40Converter implements LongConverter<Object, Base40>,
     @Override
     public Base40 toObject(final Object context, final long value) {
         return new Base40(characterSet, value);
-    }
-
-    /** {@inheritDoc} */
-    @Override
-    public Class<Base40> type() {
-        return Base40.class;
-    }
-
-    /* (non-Javadoc)
-     * @see com.blockwithme.prim.Converter#bits()
-     */
-    @Override
-    public int bits() {
-        return 64;
     }
 
     /* (non-Javadoc)
