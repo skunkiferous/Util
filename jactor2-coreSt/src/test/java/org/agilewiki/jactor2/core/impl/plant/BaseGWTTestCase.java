@@ -165,11 +165,27 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
     }
 
     protected <RESPONSE_TYPE> void call(final Request<RESPONSE_TYPE> request,
-            final CheckResult checker, final int wait) throws Exception {
+                                        final CheckResult checker, final int wait) throws Exception {
         final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
                 : checker;
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
                 request.asRequestImpl());
+        runner.signal();
+        new com.google.gwt.user.client.Timer() {
+            @Override
+            public void run() {
+                checker2.checkResult(runner.getResult());
+                finishTest();
+            }
+        }.schedule(wait);
+    }
+
+    protected <RESPONSE_TYPE> void call(final AOp<RESPONSE_TYPE> aOp,
+                                        final CheckResult checker, final int wait) throws Exception {
+        final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
+                : checker;
+        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
+                PlantImpl.getSingleton().createAsyncRequestImpl(aOp, aOp.targetReactor));
         runner.signal();
         new com.google.gwt.user.client.Timer() {
             @Override
