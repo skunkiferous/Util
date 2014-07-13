@@ -43,7 +43,7 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
         final ImmutableReference<String> m = new ImmutableReference<String>(
                 "fun");
         System.out.println(m.getImmutable()); // fun
-        call(addGood.applyAReq(m), new DefaultCheckResult() {
+        call(addGood.applyAOp(m), new DefaultCheckResult() {
             @Override
             public void onRealResult(final Object result) {
                 System.out.println(m.getImmutable()); // good fun
@@ -67,7 +67,7 @@ public class GwtTestAsyncTest extends BaseGWTTestCase {
                 }
                 System.out.println(m2.getImmutable()); // grapes
                 try {
-                    call(addMoreGood.applyAReq(m2), new DefaultCheckResult() {
+                    call(addMoreGood.applyAOp(m2), new DefaultCheckResult() {
                         @Override
                         public void checkResult(final Object result) {
                             System.out.println(m2.getImmutable()); // more good grapes
