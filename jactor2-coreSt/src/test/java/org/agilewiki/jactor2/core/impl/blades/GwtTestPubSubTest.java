@@ -3,7 +3,7 @@ package org.agilewiki.jactor2.core.impl.blades;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.agilewiki.jactor2.core.blades.pubSub.RequestBus;
-import org.agilewiki.jactor2.core.blades.pubSub.SubscribeAReq;
+import org.agilewiki.jactor2.core.blades.pubSub.SubscribeAOp;
 import org.agilewiki.jactor2.core.blades.pubSub.Subscription;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.impl.plant.BaseGWTTestCase;
@@ -22,7 +22,7 @@ public class GwtTestPubSubTest extends BaseGWTTestCase {
             final NonBlockingReactor reactor = new NonBlockingReactor();
             final RequestBus<Void> requestBus = new RequestBus<Void>(reactor);
             call(requestBus.signalsContentSOp(null));
-            final Subscription<Void> s1 = call(new SubscribeAReq<Void>(
+            final Subscription<Void> s1 = call(new SubscribeAOp<Void>(
                     requestBus, reactor) {
                 @Override
                 protected void processContent(final Void _content,
@@ -51,7 +51,7 @@ public class GwtTestPubSubTest extends BaseGWTTestCase {
             final RequestBus<Void> requestBus = new RequestBus<Void>(busReactor);
             call(requestBus.sendsContentAOp(null));
             assertEquals(counter.get(), 0);
-            call(new SubscribeAReq<Void>(requestBus, subscriberReactor) {
+            call(new SubscribeAOp<Void>(requestBus, subscriberReactor) {
                 @Override
                 protected void processContent(final Void _content,
                                               AsyncRequestImpl _asyncRequestImpl,
