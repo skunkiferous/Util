@@ -47,11 +47,11 @@ public class AnyArray implements Serializable, Iterable<Any> {
     private static final Object[] NO_OBJ = new Object[0];
 
     /** The size. */
-    private int size;
+    protected int size;
     /** The primitive data. */
-    private double[] primitive = NO_PRIMITIVE;
+    protected double[] primitive = NO_PRIMITIVE;
     /** The object data. */
-    private Object[] object = NO_OBJ;
+    protected Object[] object = NO_OBJ;
 
     /** Fail if the index is out of bounds. */
     private int checkIndex(final int index) {
