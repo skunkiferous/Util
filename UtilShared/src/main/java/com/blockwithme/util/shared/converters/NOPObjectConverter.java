@@ -16,30 +16,42 @@
 package com.blockwithme.util.shared.converters;
 
 /**
- * Base class for StringConverter.
+ * <code>NOPObjectConverter</code> is a "Converter" that does nothing;
+ * it just returns what it received, without any changes.
  *
  * @author monster
  */
-public abstract class StringConverterBase<CONTEXT, E> extends
-        ObjectConverterBase<CONTEXT, E, String> implements
-        StringConverter<CONTEXT, E> {
+public final class NOPObjectConverter<CONTEXT, E> extends
+        ObjectConverterBase<CONTEXT, E, E> {
 
     /**
-     * Creates a StringConverterBase.
+     * Creates a NOPObjectConverter.
      *
      * @param theType
      */
-    protected StringConverterBase(final Class<E> theType) {
+    public NOPObjectConverter(final Class<E> theType) {
         super(theType);
     }
 
     /**
-     * Creates a StringConverterBase.
+     * Creates a NOPObjectConverter.
      *
      * @param theType
      * @param theBits
      */
-    protected StringConverterBase(final Class<E> theType, final int theBits) {
+    public NOPObjectConverter(final Class<E> theType, final int theBits) {
         super(theType, theBits);
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public E fromObject(final CONTEXT context, final E obj) {
+        return obj;
+    }
+
+    /** {@inheritDoc} */
+    @Override
+    public E toObject(final CONTEXT context, final E value) {
+        return value;
     }
 }

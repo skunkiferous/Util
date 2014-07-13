@@ -25,8 +25,9 @@ import com.blockwithme.util.base.SystemUtils;
  *
  * @param <E>
  */
-public class EnumByteConverter<E extends Enum<E>> extends
-        ByteConverterBase<Object, E> implements ConfiguredConverter<Object, E> {
+public class EnumByteConverter<CONTEXT, E extends Enum<E>> extends
+        ByteConverterBase<CONTEXT, E> implements
+        ConfiguredConverter<CONTEXT, E> {
 
     /** The Enum constants. */
     private final E[] constants;
@@ -57,12 +58,12 @@ public class EnumByteConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public byte fromObject(final Object context, final E obj) {
+    public byte fromObject(final CONTEXT context, final E obj) {
         return (byte) obj.ordinal();
     }
 
     @Override
-    public E toObject(final Object context, final byte value) {
+    public E toObject(final CONTEXT context, final byte value) {
         final int ordinal = value & 0xFF;
         return constants[ordinal];
     }

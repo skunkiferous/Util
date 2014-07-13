@@ -23,7 +23,8 @@ package com.blockwithme.util.shared.converters;
  * OK, String is not a primitive type, but it's still one that is normally
  * supported in most serialization APIs.
  */
-public interface StringConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
+public interface StringConverter<CONTEXT, E> extends
+        ObjectConverter<CONTEXT, E, String> {
     /** The default bits. */
     int DEFAULT_BITS = -1;
 
@@ -40,15 +41,4 @@ public interface StringConverter<CONTEXT, E> extends Converter<CONTEXT, E> {
             return value;
         }
     };
-
-    /**
-     * Converts from object instance.
-     *
-     * The expected behavior when receiving null is left on purpose unspecified,
-     * as it depends on your application needs.
-     */
-    String fromObject(CONTEXT context, final E obj);
-
-    /** Converts to an object instance. */
-    E toObject(CONTEXT context, final String value);
 }

@@ -24,9 +24,9 @@ import com.blockwithme.util.base.SystemUtils;
  *
  * @param <E>
  */
-public class EnumStringConverter<E extends Enum<E>> extends
-        StringConverterBase<Object, E> implements
-        ConfiguredConverter<Object, E> {
+public class EnumStringConverter<CONTEXT, E extends Enum<E>> extends
+        StringConverterBase<CONTEXT, E> implements
+        ConfiguredConverter<CONTEXT, E> {
 
     /** Constructor takes the enum type. */
     public EnumStringConverter(final Class<E> theEnumType) {
@@ -43,12 +43,12 @@ public class EnumStringConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public String fromObject(final Object context, final E obj) {
+    public String fromObject(final CONTEXT context, final E obj) {
         return obj.name();
     }
 
     @Override
-    public E toObject(final Object context, final String value) {
+    public E toObject(final CONTEXT context, final String value) {
         return Enum.valueOf(type, value);
     }
 

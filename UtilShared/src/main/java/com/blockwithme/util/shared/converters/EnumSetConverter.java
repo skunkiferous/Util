@@ -27,9 +27,9 @@ import com.blockwithme.util.base.SystemUtils;
  *
  * @param <E>
  */
-public class EnumSetConverter<E extends Enum<E>> extends
-        LongConverterBase<Object, EnumSet<E>> implements
-        ConfiguredConverter<Object, EnumSet<E>> {
+public class EnumSetConverter<CONTEXT, E extends Enum<E>> extends
+        LongConverterBase<CONTEXT, EnumSet<E>> implements
+        ConfiguredConverter<CONTEXT, EnumSet<E>> {
 
     /** Real enum type. */
     private final Class<E> enumType;
@@ -56,7 +56,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public long fromObject(final Object context, final EnumSet<E> theSet) {
+    public long fromObject(final CONTEXT context, final EnumSet<E> theSet) {
         long result = 0;
         if ((theSet != null) && !theSet.isEmpty()) {
             boolean check = true;
@@ -77,7 +77,7 @@ public class EnumSetConverter<E extends Enum<E>> extends
     }
 
     @Override
-    public final EnumSet<E> toObject(final Object context, final long theValue) {
+    public final EnumSet<E> toObject(final CONTEXT context, final long theValue) {
         final EnumSet<E> result = EnumSet.noneOf(enumType);
         for (int i = 0; i < constants.length; i++) {
             if ((theValue & 1L << i) != 0) {
