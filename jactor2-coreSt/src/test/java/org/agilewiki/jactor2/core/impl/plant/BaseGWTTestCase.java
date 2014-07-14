@@ -15,7 +15,6 @@
  */
 package org.agilewiki.jactor2.core.impl.plant;
 
-import org.agilewiki.jactor2.core.blades.NonBlockingBlade;
 import org.agilewiki.jactor2.core.impl.JActorStTestInjector;
 import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
 import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
@@ -129,19 +128,6 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         return "org.agilewiki.jactor2.core.JActor2CoreSt";
     }
 
-    @SuppressWarnings("unchecked")
-    protected <RESPONSE_TYPE> RESPONSE_TYPE call(
-            final Request<RESPONSE_TYPE> request) throws Exception {
-        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
-                request.asRequestImpl());
-        runner.signal();
-        final Object result = runner.getResult();
-        if (result instanceof Exception) {
-            throw (Exception) result;
-        }
-        return (RESPONSE_TYPE) result;
-    }
-
     protected <RESPONSE_TYPE> RESPONSE_TYPE call(final SOp<RESPONSE_TYPE> sOp) throws Exception {
         final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
                 PlantImpl.getSingleton().createSyncRequestImpl(sOp, sOp.targetReactor));
@@ -162,22 +148,6 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
             throw (Exception) result;
         }
         return (RESPONSE_TYPE) result;
-    }
-
-    protected <RESPONSE_TYPE> void call(final Request<RESPONSE_TYPE> request,
-                                        final CheckResult checker, final int wait) throws Exception {
-        final CheckResult checker2 = (checker == null) ? DEFAULT_CHECKER
-                : checker;
-        final TestRunner<RESPONSE_TYPE> runner = new TestRunner<RESPONSE_TYPE>(
-                request.asRequestImpl());
-        runner.signal();
-        new com.google.gwt.user.client.Timer() {
-            @Override
-            public void run() {
-                checker2.checkResult(runner.getResult());
-                finishTest();
-            }
-        }.schedule(wait);
     }
 
     protected <RESPONSE_TYPE> void call(final AOp<RESPONSE_TYPE> aOp,
