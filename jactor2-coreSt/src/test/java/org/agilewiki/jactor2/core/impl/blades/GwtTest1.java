@@ -16,7 +16,7 @@ public class GwtTest1 extends BaseGWTTestCase {
         final Reactor reactor = new IsolationReactor();
         final BladeA bladeA = new BladeA(reactor);
         try {
-            call(bladeA.throwRequest);
+            call(bladeA.throwAOp);
         } catch (final IOException se) {
             Plant.close();
             return;
