@@ -208,4 +208,116 @@ public final class MurmurHash {
             final int length) {
         return hash64(text.substring(from, from + length));
     }
+
+    /**
+     * Generates 32 bit hash from a 32 bit int value.
+     *
+     * @param value The 32 bit int value
+     * @return 32 bit hash of the value
+     */
+    public static int hash32(int value) {
+        value ^= value >>> 16;
+        value *= 0x85ebca6b;
+        value ^= value >>> 13;
+        value *= 0xc2b2ae35;
+        value ^= value >>> 16;
+        return value;
+    }
+
+    /**
+     * Generates 64 bit hash from a 64 bit long value.
+     *
+     * @param value The 64 bit long value
+     * @return 64 bit hash of the value
+     */
+    public static long hash64(long values) {
+        values ^= values >>> 33;
+        values *= 0xff51afd7ed558ccdL;
+        values ^= values >>> 33;
+        values *= 0xc4ceb9fe1a85ec53L;
+        values ^= values >>> 33;
+
+        return values;
+    }
+
+    /**
+     * Generates 32 bit hash from an Object value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final Object v) {
+        return v == null ? 0 : hash32(v.hashCode());
+    }
+
+    /**
+     * Generates 32 bit hash from an byte value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final byte v) {
+        return hash32(v);
+    }
+
+    /**
+     * Generates 32 bit hash from an short value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final short v) {
+        return hash32(v);
+    }
+
+    /**
+     * Generates 32 bit hash from an int value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final int v) {
+        return hash32(v);
+    }
+
+    /**
+     * Generates 32 bit hash from an long value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final long v) {
+        final long h = hash64(v);
+        return (int) (h ^ (h >>> 32));
+    }
+
+    /**
+     * Generates 32 bit hash from an char value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final char v) {
+        return hash32(v);
+    }
+
+    /**
+     * Generates 32 bit hash from an float value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final float v) {
+        return hash32(Float.floatToIntBits(v));
+    }
+
+    /**
+     * Generates 32 bit hash from an double value.
+     *
+     * @param v The value
+     * @return 32 bit hash of the value
+     */
+    public static int rehash(final double v) {
+        return rehash(Double.doubleToLongBits(v));
+    }
 }

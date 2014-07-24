@@ -15,6 +15,10 @@
  */
 package com.blockwithme.util.xtend;
 
+import java.util.Objects;
+
+import com.blockwithme.util.shared.RandomEventSource;
+
 /**
  * Xtend Extension related to numbers and mathematics values.
  *
@@ -22,4 +26,60 @@ package com.blockwithme.util.xtend;
  */
 public class MathExtension extends BooleanExtension {
     // TODO
+
+    /** Wraps an existing RandomEventSource, to produce normally distributed "random event". */
+    private static final class NextGaussianRandomEventSource implements
+            RandomEventSource {
+        private final RandomEventSource source;
+
+        /** Constructor */
+        public NextGaussianRandomEventSource(final RandomEventSource theSource) {
+            source = Objects.requireNonNull(theSource);
+        }
+
+        /* (non-Javadoc)
+         * @see com.blockwithme.util.shared.RandomEventSource#nextDouble()
+         */
+        @Override
+        public double nextDouble() {
+            return nextGaussian(source);
+        }
+    }
+
+    /** Something like the biggest number less then 1 in the double format. */
+    public static final double BEFORE_ONE = 1.0 - 2.2204460492503130808472633361816E-16;
+
+    /**
+     * Generates a normally distributed "random event".
+     * @return a normally distributed "random event", where the range is between 0 inclusive and 1 exclusive.
+     */
+    public static double nextGaussian(final RandomEventSource source) {
+        double v1, v2, s;
+        do {
+            // Generates two independent random variables U1, U2
+            v1 = 2 * source.nextDouble() - 1;
+            v2 = 2 * source.nextDouble() - 1;
+            s = v1 * v1 + v2 * v2;
+        } while (s >= 1 || s == 0);
+        final double norm = Math.sqrt(-2 * Math.log(s) / s);
+        final double result = v1 * norm;
+        // On 1,000,000 calls, this would usually yield about -5 minimum value,
+        // and +5 maximum value. So we pretend the range is [-5.5,5.5] and normalize
+        // it to [0,1], clamping if needed.
+        final double normalized = (result + 5.5) / 11.0;
+        return (normalized < 0) ? 0 : (normalized > BEFORE_ONE ? BEFORE_ONE
+                : normalized);
+    }
+
+    /**
+     * Generates a normally distributed "random event".
+     * @return a normally distributed "random event", where the range is between 0 inclusive and 1 exclusive.
+     */
+    public static RandomEventSource nextGaussianWrapper(
+            final RandomEventSource source) {
+        if (source instanceof NextGaussianRandomEventSource) {
+            return source;
+        }
+        return new NextGaussianRandomEventSource(source);
+    }
 }
