@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+import com.blockwithme.util.base.SystemUtils;
+
 /**
  * A generic implementation of Domain.
  *
@@ -98,7 +100,7 @@ public final class GenericLazyDomain<E> implements Domain<E> {
         }
         final Class<?> valueType = value.getClass();
         if (!type.equals(valueType)) {
-            if (exactType || !type.isAssignableFrom(valueType)) {
+            if (exactType || !SystemUtils.isAssignableFrom(type, valueType)) {
                 throw new IllegalArgumentException("Expecting " + type
                         + " but got " + valueType);
             }
