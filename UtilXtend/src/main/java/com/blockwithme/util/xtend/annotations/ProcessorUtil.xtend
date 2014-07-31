@@ -945,7 +945,18 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	}
 
 	final def Type findTypeGlobally(String typeName) {
-		compilationUnit.typeLookup.findTypeGlobally(typeName)
+	    switch (typeName) {
+	      case "boolean": findTypeGlobally(Boolean.TYPE)
+	      case "byte": findTypeGlobally(Byte.TYPE)
+	      case "char": findTypeGlobally(Character.TYPE)
+	      case "short": findTypeGlobally(Short.TYPE)
+	      case "int": findTypeGlobally(Integer.TYPE)
+	      case "float": findTypeGlobally(Float.TYPE)
+	      case "long": findTypeGlobally(Long.TYPE)
+	      case "double": findTypeGlobally(Double.TYPE)
+	      case "void": findTypeGlobally(Void.TYPE)
+	      default: compilationUnit.typeLookup.findTypeGlobally(typeName)
+	    }
 	}
 
 	/** Utility method that finds an interface in the global context, returns null if not found */
@@ -1102,7 +1113,21 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	}
 
 	override newTypeReference(String typeName, TypeReference... typeArguments) {
-		Objects.requireNonNull(compilationUnit.typeReferenceProvider.newTypeReference(typeName, typeArguments), "newTypeReference("+typeName+")")
+		if ((typeArguments === null) || (typeArguments.length == 0)) {
+		    return switch (typeName) {
+		      case "void": compilationUnit.typeReferenceProvider.primitiveVoid
+		      case "boolean": compilationUnit.typeReferenceProvider.primitiveBoolean
+		      case "byte": compilationUnit.typeReferenceProvider.primitiveByte
+		      case "char": compilationUnit.typeReferenceProvider.primitiveChar
+		      case "short": compilationUnit.typeReferenceProvider.primitiveShort
+		      case "int": compilationUnit.typeReferenceProvider.primitiveInt
+		      case "float": compilationUnit.typeReferenceProvider.primitiveFloat
+		      case "long": compilationUnit.typeReferenceProvider.primitiveLong
+		      case "double": compilationUnit.typeReferenceProvider.primitiveDouble
+		      default: Objects.requireNonNull(compilationUnit.typeReferenceProvider.newTypeReference(typeName, typeArguments), "newTypeReference("+typeName+")")
+		    }
+		}
+		Objects.requireNonNull(compilationUnit.typeReferenceProvider.newTypeReference(typeName, typeArguments), "newTypeReference("+typeName+","+newArrayList(typeArguments)+")")
 	}
 
 	override newTypeReference(Type typeDeclaration, TypeReference... typeArguments) {

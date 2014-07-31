@@ -12,18 +12,22 @@ import org.agilewiki.jactor2.core.impl.stCloseable.CloseableStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.IsolationReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.NonBlockingReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stRequests.AsyncRequestStImpl;
+import org.agilewiki.jactor2.core.impl.stRequests.AsyncRequestStImplWithData;
 import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImpl;
-import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
+import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImplWithData;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
+import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.reactors.Facility;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.AsyncOperation;
+import org.agilewiki.jactor2.core.requests.AsyncRequestImplWithData;
 import org.agilewiki.jactor2.core.requests.SyncOperation;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
+import org.agilewiki.jactor2.core.requests.impl.RequestImplWithData;
 
 public class PlantStImpl extends PlantImpl {
 
@@ -126,6 +130,22 @@ public class PlantStImpl extends PlantImpl {
             final AsyncOperation<RESPONSE_TYPE> _asyncOperation,
             final Reactor _targetReactor) {
         return new AsyncRequestStImpl<RESPONSE_TYPE>(_asyncOperation,
+                _targetReactor);
+    }
+
+    @Override
+    public <RESPONSE_TYPE> RequestImplWithData<RESPONSE_TYPE> createSyncRequestImplWithData(
+            final SyncOperation<RESPONSE_TYPE> _syncOperation,
+            final Reactor _targetReactor) {
+        return new SyncRequestStImplWithData<RESPONSE_TYPE>(_syncOperation,
+                _targetReactor);
+    }
+
+    @Override
+    public <RESPONSE_TYPE> AsyncRequestImplWithData<RESPONSE_TYPE> createAsyncRequestImplWithData(
+            final AsyncOperation<RESPONSE_TYPE> _asyncOperation,
+            final Reactor _targetReactor) {
+        return new AsyncRequestStImplWithData<RESPONSE_TYPE>(_asyncOperation,
                 _targetReactor);
     }
 
