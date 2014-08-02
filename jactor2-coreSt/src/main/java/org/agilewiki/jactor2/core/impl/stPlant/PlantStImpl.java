@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.agilewiki.jactor2.core.blades.transactions.ISMap;
+import org.agilewiki.jactor2.core.blades.ismTransactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.impl.CloseableImpl;
 import org.agilewiki.jactor2.core.impl.DefaultPlantConfiguration;
