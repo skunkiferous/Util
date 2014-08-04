@@ -15,8 +15,8 @@
  */
 package com.blockwithme.util.proto.base40;
 
-import com.blockwithme.util.shared.ConverterRegistry;
 import com.blockwithme.util.shared.converters.ConfiguredConverter;
+import com.blockwithme.util.shared.converters.ConverterRegistry;
 import com.blockwithme.util.shared.converters.LongConverterBase;
 
 /**
