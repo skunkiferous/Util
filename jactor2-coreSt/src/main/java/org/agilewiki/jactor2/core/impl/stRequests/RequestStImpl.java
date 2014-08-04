@@ -476,5 +476,12 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     public Timer getTimer() {
         return Timer.DEFAULT;
     }
+
+    @Override
+    public int compareTo(RequestImpl _requestImpl) {
+        Integer me = hashCode();
+        Integer h = _requestImpl.hashCode();
+        return me.compareTo(h);
+    }
 }
 
