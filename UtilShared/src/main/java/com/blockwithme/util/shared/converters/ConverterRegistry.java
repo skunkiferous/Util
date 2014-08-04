@@ -14,18 +14,9 @@
  * limitations under the License.
  */
 
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.converters;
 
-import com.blockwithme.util.shared.converters.BooleanConverter;
-import com.blockwithme.util.shared.converters.ByteConverter;
-import com.blockwithme.util.shared.converters.CharConverter;
-import com.blockwithme.util.shared.converters.Converter;
-import com.blockwithme.util.shared.converters.DoubleConverter;
-import com.blockwithme.util.shared.converters.FloatConverter;
-import com.blockwithme.util.shared.converters.IntConverter;
-import com.blockwithme.util.shared.converters.LongConverter;
-import com.blockwithme.util.shared.converters.ShortConverter;
-import com.blockwithme.util.shared.converters.StringConverter;
+import com.blockwithme.util.shared.RegistryImpl;
 
 /**
  * <code>ConverterRegistry</code> is a registry for primitive converters.

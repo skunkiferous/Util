@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Characters.
+ * A Domain implementation for Integers.
  *
  * @author monster
  */
-public final class CharacterDomain implements Domain<Character> {
-    private static final Character[] CACHE = new Character[Domains.CACHE_SIZE];
+public final class IntegerDomain implements Domain<Integer> {
+    private static final Integer[] CACHE = new Integer[Domains.CACHE_SIZE];
     static {
         for (int i = 0; i < Domains.CACHE_SIZE; i++) {
-            CACHE[i] = (char) i;
+            CACHE[i] = i;
         }
     }
 
     /**
-     * Creates the CharDomain.
+     * Creates the IntDomain.
      */
-    CharacterDomain() {
+    IntegerDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Character> getType() {
-        return Character.class;
+    public Class<Integer> getType() {
+        return Integer.class;
     }
 
     /* (non-Javadoc)
@@ -55,17 +55,15 @@ public final class CharacterDomain implements Domain<Character> {
      */
     @Override
     public boolean supportsNull() {
-        return true;
+        return false;
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Character value) {
-        if (value == null) {
-            return Integer.MAX_VALUE;
-        }
+    public int getID(final Integer value) {
+        // Intentional NullPointerException
         return value;
     }
 
@@ -73,17 +71,10 @@ public final class CharacterDomain implements Domain<Character> {
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Character getValue(final int id) {
-        if (id == Integer.MAX_VALUE) {
-            return null;
-        }
-        if (id < Domains.CACHE_SIZE) {
-            // Intentional ArrayIndexOutOfBoundsException
+    public Integer getValue(final int id) {
+        if ((id >= 0) && (id < Domains.CACHE_SIZE)) {
             return CACHE[id];
         }
-        if (id <= Character.MAX_VALUE) {
-            return (char) id;
-        }
-        throw new IllegalArgumentException(String.valueOf(id));
+        return id;
     }
 }

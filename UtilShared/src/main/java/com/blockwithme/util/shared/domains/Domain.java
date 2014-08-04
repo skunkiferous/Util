@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
  * Represents a finite, but normally lazy, set of values, each with an integer

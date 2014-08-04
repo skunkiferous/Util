@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Integers.
+ * A Domain implementation for Shorts.
  *
  * @author monster
  */
-public final class IntegerDomain implements Domain<Integer> {
-    private static final Integer[] CACHE = new Integer[Domains.CACHE_SIZE];
+public final class ShortDomain implements Domain<Short> {
+    private static final Short[] CACHE = new Short[Domains.CACHE_SIZE];
     static {
         for (int i = 0; i < Domains.CACHE_SIZE; i++) {
-            CACHE[i] = i;
+            CACHE[i] = (short) i;
         }
     }
 
     /**
-     * Creates the IntDomain.
+     * Creates the ShortDomain.
      */
-    IntegerDomain() {
+    ShortDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Integer> getType() {
-        return Integer.class;
+    public Class<Short> getType() {
+        return Short.class;
     }
 
     /* (non-Javadoc)
@@ -55,15 +55,17 @@ public final class IntegerDomain implements Domain<Integer> {
      */
     @Override
     public boolean supportsNull() {
-        return false;
+        return true;
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Integer value) {
-        // Intentional NullPointerException
+    public int getID(final Short value) {
+        if (value == null) {
+            return Integer.MAX_VALUE;
+        }
         return value;
     }
 
@@ -71,10 +73,16 @@ public final class IntegerDomain implements Domain<Integer> {
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Integer getValue(final int id) {
+    public Short getValue(final int id) {
+        if (id == Integer.MAX_VALUE) {
+            return null;
+        }
         if ((id >= 0) && (id < Domains.CACHE_SIZE)) {
             return CACHE[id];
         }
-        return id;
+        if ((id >= Short.MIN_VALUE) && (id <= Short.MIN_VALUE)) {
+            return (short) id;
+        }
+        throw new IllegalArgumentException(String.valueOf(id));
     }
 }

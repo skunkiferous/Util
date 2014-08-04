@@ -13,33 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Shorts.
+ * A Domain implementation for Booleans.
  *
  * @author monster
  */
-public final class ShortDomain implements Domain<Short> {
-    private static final Short[] CACHE = new Short[Domains.CACHE_SIZE];
-    static {
-        for (int i = 0; i < Domains.CACHE_SIZE; i++) {
-            CACHE[i] = (short) i;
-        }
-    }
-
+public final class BooleanDomain implements Domain<Boolean> {
     /**
-     * Creates the ShortDomain.
+     * Creates the BooleanDomain.
      */
-    ShortDomain() {
+    BooleanDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Short> getType() {
-        return Short.class;
+    public Class<Boolean> getType() {
+        return Boolean.class;
     }
 
     /* (non-Javadoc)
@@ -62,26 +55,26 @@ public final class ShortDomain implements Domain<Short> {
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Short value) {
+    public int getID(final Boolean value) {
         if (value == null) {
             return Integer.MAX_VALUE;
         }
-        return value;
+        return value ? 1 : 0;
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Short getValue(final int id) {
+    public Boolean getValue(final int id) {
         if (id == Integer.MAX_VALUE) {
             return null;
         }
-        if ((id >= 0) && (id < Domains.CACHE_SIZE)) {
-            return CACHE[id];
+        if (id == 0) {
+            return Boolean.FALSE;
         }
-        if ((id >= Short.MIN_VALUE) && (id <= Short.MIN_VALUE)) {
-            return (short) id;
+        if (id == 1) {
+            return Boolean.TRUE;
         }
         throw new IllegalArgumentException(String.valueOf(id));
     }

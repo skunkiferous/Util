@@ -13,26 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Bytes.
+ * A Domain implementation for Characters.
  *
  * @author monster
  */
-public final class ByteDomain implements Domain<Byte> {
+public final class CharacterDomain implements Domain<Character> {
+    private static final Character[] CACHE = new Character[Domains.CACHE_SIZE];
+    static {
+        for (int i = 0; i < Domains.CACHE_SIZE; i++) {
+            CACHE[i] = (char) i;
+        }
+    }
+
     /**
-     * Creates the ByteDomain.
+     * Creates the CharDomain.
      */
-    ByteDomain() {
+    CharacterDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Byte> getType() {
-        return Byte.class;
+    public Class<Character> getType() {
+        return Character.class;
     }
 
     /* (non-Javadoc)
@@ -55,7 +62,7 @@ public final class ByteDomain implements Domain<Byte> {
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Byte value) {
+    public int getID(final Character value) {
         if (value == null) {
             return Integer.MAX_VALUE;
         }
@@ -66,13 +73,16 @@ public final class ByteDomain implements Domain<Byte> {
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Byte getValue(final int id) {
+    public Character getValue(final int id) {
         if (id == Integer.MAX_VALUE) {
             return null;
         }
-        if ((id >= Byte.MIN_VALUE) && (id <= Byte.MAX_VALUE)) {
-            // All Byte instances are cached, so this is OK.
-            return (byte) id;
+        if (id < Domains.CACHE_SIZE) {
+            // Intentional ArrayIndexOutOfBoundsException
+            return CACHE[id];
+        }
+        if (id <= Character.MAX_VALUE) {
+            return (char) id;
         }
         throw new IllegalArgumentException(String.valueOf(id));
     }

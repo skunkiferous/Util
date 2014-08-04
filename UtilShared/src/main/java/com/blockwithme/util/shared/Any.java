@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.shared.converters.BooleanConverter;
 import com.blockwithme.util.shared.converters.Converter;
+import com.blockwithme.util.shared.converters.ConverterRegistry;
 import com.blockwithme.util.shared.converters.LongConverter;
 import com.blockwithme.util.shared.converters.StringConverter;
 

@@ -13,26 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Booleans.
+ * A Domain implementation for Floats.
  *
  * @author monster
  */
-public final class BooleanDomain implements Domain<Boolean> {
+public final class FloatDomain implements Domain<Float> {
     /**
-     * Creates the BooleanDomain.
+     * If we want to use Float.intBitsToFloat() and Float.floatToIntBits(),
+     * 0 is the only cacheable value.
      */
-    BooleanDomain() {
+    private static final Float ZERO = 0f;
+
+    /**
+     * Creates the ShortDomain.
+     */
+    FloatDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Boolean> getType() {
-        return Boolean.class;
+    public Class<Float> getType() {
+        return Float.class;
     }
 
     /* (non-Javadoc)
@@ -55,27 +61,28 @@ public final class BooleanDomain implements Domain<Boolean> {
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Boolean value) {
+    public int getID(final Float value) {
         if (value == null) {
+            // Integer.MAX_VALUE actually does happen to be an "invalid"
+            // bit-pattern for a float.
             return Integer.MAX_VALUE;
         }
-        return value ? 1 : 0;
+        return Float.floatToIntBits(value);
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Boolean getValue(final int id) {
+    public Float getValue(final int id) {
+        if (id == 0f) {
+            return ZERO;
+        }
+        // Integer.MAX_VALUE actually does happen to be an "invalid"
+        // bit-pattern for a float.
         if (id == Integer.MAX_VALUE) {
             return null;
         }
-        if (id == 0) {
-            return Boolean.FALSE;
-        }
-        if (id == 1) {
-            return Boolean.TRUE;
-        }
-        throw new IllegalArgumentException(String.valueOf(id));
+        return Float.intBitsToFloat(id);
     }
 }

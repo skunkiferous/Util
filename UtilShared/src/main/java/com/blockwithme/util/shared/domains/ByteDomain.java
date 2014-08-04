@@ -13,32 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.blockwithme.util.shared;
+package com.blockwithme.util.shared.domains;
 
 /**
- * A Domain implementation for Floats.
+ * A Domain implementation for Bytes.
  *
  * @author monster
  */
-public final class FloatDomain implements Domain<Float> {
+public final class ByteDomain implements Domain<Byte> {
     /**
-     * If we want to use Float.intBitsToFloat() and Float.floatToIntBits(),
-     * 0 is the only cacheable value.
+     * Creates the ByteDomain.
      */
-    private static final Float ZERO = 0f;
-
-    /**
-     * Creates the ShortDomain.
-     */
-    FloatDomain() {
+    ByteDomain() {
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getType()
      */
     @Override
-    public Class<Float> getType() {
-        return Float.class;
+    public Class<Byte> getType() {
+        return Byte.class;
     }
 
     /* (non-Javadoc)
@@ -61,28 +55,25 @@ public final class FloatDomain implements Domain<Float> {
      * @see com.blockwithme.util.shared.Domain#getID(java.lang.Object)
      */
     @Override
-    public int getID(final Float value) {
+    public int getID(final Byte value) {
         if (value == null) {
-            // Integer.MAX_VALUE actually does happen to be an "invalid"
-            // bit-pattern for a float.
             return Integer.MAX_VALUE;
         }
-        return Float.floatToIntBits(value);
+        return value;
     }
 
     /* (non-Javadoc)
      * @see com.blockwithme.util.shared.Domain#getValue(int)
      */
     @Override
-    public Float getValue(final int id) {
-        if (id == 0f) {
-            return ZERO;
-        }
-        // Integer.MAX_VALUE actually does happen to be an "invalid"
-        // bit-pattern for a float.
+    public Byte getValue(final int id) {
         if (id == Integer.MAX_VALUE) {
             return null;
         }
-        return Float.intBitsToFloat(id);
+        if ((id >= Byte.MIN_VALUE) && (id <= Byte.MAX_VALUE)) {
+            // All Byte instances are cached, so this is OK.
+            return (byte) id;
+        }
+        throw new IllegalArgumentException(String.valueOf(id));
     }
 }
