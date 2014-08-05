@@ -468,7 +468,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
             throws Exception {
         ReactorStImpl reactorMtImpl = (ReactorStImpl) _syncNativeRequest.getTargetReactor();
         reactorMtImpl.directCheck(getTargetReactor());
-        return _syncNativeRequest.processSyncOperation(this);
+        return _syncNativeRequest.doSync(this);
     }
 
     /** Returns the default Timer. */
