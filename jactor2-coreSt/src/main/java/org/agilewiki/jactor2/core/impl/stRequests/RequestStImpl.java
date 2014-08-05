@@ -459,15 +459,18 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
 
     public <RT> RT syncDirect(final SOp<RT> _sOp)
             throws Exception {
-        _sOp.targetReactor.directCheck(getTargetReactor());
-        return _sOp.processSyncOperation(this);
+        if (getTargetReactor() != getSourceReactor())
+            throw new UnsupportedOperationException(
+                    "Not thread safe: source reactor is not the same");
+        return _sOp.doSync(this);
     }
 
     @Override
     public <RT> RT syncDirect(final SyncNativeRequest<RT> _syncNativeRequest)
             throws Exception {
-        ReactorStImpl reactorMtImpl = (ReactorStImpl) _syncNativeRequest.getTargetReactor();
-        reactorMtImpl.directCheck(getTargetReactor());
+        if (getTargetReactor() != getSourceReactor())
+            throw new UnsupportedOperationException(
+                    "Not thread safe: source reactor is not the same");
         return _syncNativeRequest.doSync(this);
     }
 
