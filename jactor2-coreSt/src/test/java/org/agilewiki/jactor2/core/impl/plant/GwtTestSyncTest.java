@@ -27,7 +27,7 @@ class Sync1 extends NonBlockingBladeBase {
     SOp<Void> startSOp() {
         return new SOp<Void>("start", getReactor()) {
             @Override
-            public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
+            protected Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
                 System.out.println("Hi");
                 return null;
             }

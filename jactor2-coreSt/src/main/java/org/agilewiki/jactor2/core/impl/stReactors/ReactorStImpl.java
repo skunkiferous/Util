@@ -436,7 +436,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
     public SOp<Void> nullSOp() {
         return new SOp<Void>("null", getReactor()) {
             @Override
-            public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
+            protected Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
                 return null;
             }
         };

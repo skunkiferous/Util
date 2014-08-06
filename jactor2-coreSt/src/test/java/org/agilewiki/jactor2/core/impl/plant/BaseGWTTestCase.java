@@ -75,7 +75,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
         }
 
         @Override
-        public Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
+        protected Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
             _requestImpl.getTargetReactor().asReactorImpl().setExceptionHandler(
                     new ExceptionHandler<RESPONSE_TYPE>() {
                         @Override
