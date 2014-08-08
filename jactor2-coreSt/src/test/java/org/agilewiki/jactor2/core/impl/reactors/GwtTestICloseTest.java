@@ -29,7 +29,7 @@ class IHang extends NonBlockingBladeBase {
     AOp<Void> goAOp() {
         return new AOp<Void>("go", getReactor()) {
             @Override
-            public void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
+            protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
                                               final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 IHung iHung = new IHung();
@@ -55,7 +55,7 @@ class IHung extends IsolationBladeBase {
     AOp<Void> noRspAOp() {
         return new AOp<Void>("noRsp", getReactor()) {
             @Override
-            public void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
+            protected void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
                                               AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 _asyncRequestImpl.setNoHungRequestCheck();
