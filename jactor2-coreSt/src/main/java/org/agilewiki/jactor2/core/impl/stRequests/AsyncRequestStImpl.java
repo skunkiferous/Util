@@ -333,8 +333,10 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     public <RT> void asyncDirect(final AOp<RT> _aOp,
                                  final AsyncResponseProcessor<RT> _asyncResponseProcessor)
             throws Exception {
+        if (getTargetReactor() != _aOp.targetReactor)
+            throw new UnsupportedOperationException(
+                    "Not thread safe: source reactor is not the same");
         final ExceptionHandler<RESPONSE_TYPE> oldExceptionHandler = getExceptionHandler();
-        _aOp.targetReactor.directCheck(getTargetReactor());
         _aOp.doAsync(this, new AsyncResponseProcessor<RT>() {
             @Override
             public void processAsyncResponse(RT _response) throws Exception {
@@ -349,9 +351,10 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     public <RT> void asyncDirect(final AsyncNativeRequest<RT> _asyncNativeRequest,
                                  final AsyncResponseProcessor<RT> _asyncResponseProcessor)
             throws Exception {
+        if (getTargetReactor() != _asyncNativeRequest.getTargetReactor())
+            throw new UnsupportedOperationException(
+                    "Not thread safe: source reactor is not the same");
         final ExceptionHandler<RESPONSE_TYPE> oldExceptionHandler = getExceptionHandler();
-        ReactorStImpl reactorMtImpl = (ReactorStImpl) _asyncNativeRequest.getTargetReactor();
-        reactorMtImpl.directCheck(getTargetReactor());
         _asyncNativeRequest.doAsync(this, new AsyncResponseProcessor<RT>() {
             @Override
             public void processAsyncResponse(RT _response) throws Exception {
@@ -416,7 +419,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
      * @param _asyncRequestImpl       The request context--may be of a different RESPONSE_TYPE.
      * @param _asyncResponseProcessor Handles the response.
      */
-    public void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
+    protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
                                       final AsyncResponseProcessor<RESPONSE_TYPE> _asyncResponseProcessor)
             throws Exception {
         throw new IllegalStateException();

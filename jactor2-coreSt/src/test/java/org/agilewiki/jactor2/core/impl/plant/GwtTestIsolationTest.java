@@ -31,7 +31,7 @@ class Iso1 extends NonBlockingBladeBase {
     AOp<Void> startAOp() {
         return new AOp<Void>("start", getReactor()) {
             @Override
-            public void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
+            protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
                                               final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 AsyncResponseProcessor<Void> doResponseProcessor = new AsyncResponseProcessor<Void>() {
@@ -61,7 +61,7 @@ class Iso2 extends BladeBase {
     AOp<Void> fooAOp() {
         return new AOp<Void>("foo", getReactor()) {
             @Override
-            public void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
+            protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
                                               final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 final Iso3 iso3 = new Iso3();
@@ -87,7 +87,7 @@ class Iso3 extends NonBlockingBladeBase {
     AOp<Void> barAOp() {
         return new AOp<Void>("bar", getReactor()) {
             @Override
-            public void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
+            protected void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
                                               AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 _asyncResponseProcessor.processAsyncResponse(null);
