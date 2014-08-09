@@ -74,6 +74,9 @@ import org.eclipse.xtend.core.macro.declaration.JvmTypeDeclarationImpl
 import org.eclipse.xtend.lib.macro.services.AnnotationReferenceProvider
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1
 import org.eclipse.xtend.lib.macro.services.AnnotationReferenceBuildContext
+import java.util.TreeSet
+import java.util.ArrayList
+import java.util.TreeMap
 
 /**
  * Helper methods for active annotation processing.
@@ -603,6 +606,11 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 		'''«simpleName»(«parameters.map[p|p.type].join(",")[name]»)'''
 	}
 
+	/** Returns the signature of a method/constructor as a string */
+	final def String signatureWithoutGenerics(ExecutableDeclaration it) {
+		'''«simpleName»(«parameters.map[p|if(findTypeGlobally(p.type.name) == null) object else p.type].join(",")[removeGeneric(name)]»)'''
+	}
+
 	/** Tries to find and return the qualifiedName of the given element. */
 	def static dispatch String qualifiedName(Void element) {
 		null
@@ -1026,6 +1034,53 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	final def MutableMethodDeclaration findMethod(MutableClassDeclaration clazz,
 		String name, TypeReference ... parameterTypes) {
 		findMethod(clazz as TypeDeclaration, name, parameterTypes) as MutableMethodDeclaration
+	}
+
+	private def boolean implementsOrOverrides(MethodDeclaration a, MethodDeclaration b) {
+		val aType = a.declaringType
+		val bType = b.declaringType
+		for (p : aType.findParents()) {
+			if (p == bType) {
+				return true
+			}
+		}
+		false
+	}
+
+	/** Searches for the method with the given name and parameters. */
+	final def Iterable<MethodDeclaration> findAllMethods(TypeDeclaration clazz) {
+		// TODO We should keep the "top" methods, but this is far from perfect...
+		val methods = new TreeMap<String,List<MethodDeclaration>>
+		for (p : findParents(clazz)) {
+			for (m : p.declaredMethods) {
+				val sig = signatureWithoutGenerics(m)
+				var list = methods.get(sig)
+				if (list === null) {
+					list = new ArrayList
+					methods.put(sig, list)
+					list.add(m)
+				} else {
+					var keep = true
+					val iter = list.iterator
+					while (keep && iter.hasNext) {
+						val n = iter.next
+						if (implementsOrOverrides(m, n)) {
+							iter.remove
+						} else if (implementsOrOverrides(n, m)) {
+							keep = false
+						}
+					}
+					if (keep) {
+						list.add(m)
+					}
+				}
+			}
+		}
+		val result = new ArrayList<MethodDeclaration>
+		for (list : methods.values) {
+			result.addAll(list)
+		}
+		result
 	}
 
 	/** The List TypeReference */
