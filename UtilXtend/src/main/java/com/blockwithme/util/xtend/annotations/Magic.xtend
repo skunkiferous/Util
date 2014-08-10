@@ -230,6 +230,9 @@ CodeGenerationParticipant<NamedElement>, TransformationParticipant<MutableNamedE
 			if (PROCESSORS.length === 0) {
 				processorUtil.error(magicClass, "getProcessors", null,
 					"No processor defined.")
+			} else {
+				processorUtil.warn(magicClass, "getProcessors", null,
+					"Active processors: "+list.map[class.name])
 			}
 		}
 		PROCESSORS
