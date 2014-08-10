@@ -23,10 +23,10 @@ import java.util.TimerTask;
 import java.util.logging.Logger;
 
 import com.blockwithme.util.base.Application;
-import com.blockwithme.util.shared.DefaultApplication;
-import com.blockwithme.util.shared.DefaultTimeSource;
 import com.blockwithme.util.base.SystemUtils;
 import com.blockwithme.util.base.TimeSource;
+import com.blockwithme.util.shared.DefaultApplication;
+import com.blockwithme.util.shared.DefaultTimeSource;
 import com.google.inject.AbstractModule;
 
 /**
@@ -62,6 +62,8 @@ public class UtilServerModule extends AbstractModule {
 
         setupApplicationLoop(app, timer);
         setupTimeUpdater();
+
+        requestStaticInjection(SystemUtils.class);
     }
 
     /** Creates the Application. */
@@ -107,7 +109,7 @@ public class UtilServerModule extends AbstractModule {
                 // Wait until TimeSource is installed...
                 while (SystemUtils.getTimeSource() == null) {
                     try {
-                        sleep((long) CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
+                        sleep(CURRENT_TIME_MILLIS_UPDATE_INTERVAL);
                     } catch (final InterruptedException e) {
                         LOG.warning("Time Updater interrupted; stopping");
                         return;
