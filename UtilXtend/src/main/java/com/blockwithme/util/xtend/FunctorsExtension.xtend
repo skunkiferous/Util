@@ -25,6 +25,8 @@ import com.blockwithme.fn1.BooleanFuncLong
 import com.blockwithme.fn1.BooleanFuncObject
 import com.blockwithme.fn1.BooleanFuncShort
 import com.blockwithme.fn1.IntFuncObject
+import com.google.common.base.Predicate
+import com.google.common.collect.Iterables
 import java.util.Collection
 import java.util.Dictionary
 import java.util.Map
@@ -295,4 +297,21 @@ class FunctorsExtension extends SafeCallExtension {
 	/** Functor returns the ordinal of the value (0 if null). */
 	public static val IntFuncObject<Enum<?>> ORDINAL = [if (it === null) 0 else it.ordinal]
 
+  /**
+   * Removes, from an iterable, every element that satisfies the provided
+   * predicate.
+   *
+   * @param removeFrom the iterable to (potentially) remove elements from
+   * @param predicate a predicate that determines whether an element should
+   *     be removed
+   * @return {@code true} if any elements were removed from the iterable
+   *
+   * @throws UnsupportedOperationException if the iterable does not support
+   *     {@code remove()}.
+   * @since 2.0
+   */
+  static def <T> boolean removeIf(
+      Iterable<T> removeFrom, Predicate<? super T> predicate) {
+    return Iterables.removeIf(removeFrom, predicate);
+  }
 }

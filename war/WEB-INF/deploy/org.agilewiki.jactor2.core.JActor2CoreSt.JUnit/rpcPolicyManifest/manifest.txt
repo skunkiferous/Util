@@ -1,2 +1,0 @@
-# Module org.agilewiki.jactor2.core.JActor2CoreSt.JUnit
-# RPC service class, partial path of RPC policy file
