@@ -473,4 +473,12 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
             throws Exception {
         throw new IllegalStateException();
     }
+
+    /* (non-Javadoc)
+     * @see org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl#setExpectedPendingResponses(int)
+     */
+    @Override
+    public void setExpectedPendingResponses(final int responses) {
+        // NOP (We don't care in JavaScript)
+    }
 }

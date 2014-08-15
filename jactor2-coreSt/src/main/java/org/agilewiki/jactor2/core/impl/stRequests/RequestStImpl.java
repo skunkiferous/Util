@@ -1,7 +1,5 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
-import java.util.concurrent.atomic.AtomicReference;
-
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
@@ -22,9 +20,8 @@ import org.agilewiki.jactor2.core.util.Timer;
  *
  * @param <RESPONSE_TYPE>
  */
-public abstract class RequestStImpl<RESPONSE_TYPE> extends
-        AtomicReference<Object> implements RequestImpl<RESPONSE_TYPE>,
-        Operation<RESPONSE_TYPE> {
+public abstract class RequestStImpl<RESPONSE_TYPE> implements
+        RequestImpl<RESPONSE_TYPE>, Operation<RESPONSE_TYPE> {
 
     /**
      * Assigned to current time when Facility.DEBUG.
