@@ -73,13 +73,13 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     /**
-     * Returns a count of the number of subordinate requests which have not yet responded.
+     * Returns true if no subordinate requests have not yet responded.
      *
-     * @return A count of the number of subordinate requests which have not yet responded.
+     * @return true if no subordinate requests have not yet responded.
      */
     @Override
-    public final int getPendingResponseCount() {
-        return pendingRequests.size();
+    public final boolean hasNoPendingResponses() {
+        return pendingRequests.isEmpty();
     }
 
     /**
@@ -139,7 +139,7 @@ public class AsyncRequestStImpl<RESPONSE_TYPE> extends
     }
 
     private void pendingCheck() throws Exception {
-        if (incomplete && !isCanceled() && (getPendingResponseCount() == 0)
+        if (incomplete && !isCanceled() && hasNoPendingResponses()
                 && !noHungRequestCheck) {
             targetReactor.asReactorImpl().error("hung request:\n" + toString());
             close();

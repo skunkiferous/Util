@@ -31,14 +31,15 @@ class Iso1 extends NonBlockingBladeBase {
     AOp<Void> startAOp() {
         return new AOp<Void>("start", getReactor()) {
             @Override
-            protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
-                                              final AsyncResponseProcessor<Void> _asyncResponseProcessor)
+            protected void processAsyncOperation(
+                    final AsyncRequestImpl _asyncRequestImpl,
+                    final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
-                AsyncResponseProcessor<Void> doResponseProcessor = new AsyncResponseProcessor<Void>() {
+                final AsyncResponseProcessor<Void> doResponseProcessor = new AsyncResponseProcessor<Void>() {
                     @Override
                     public void processAsyncResponse(final Void _response)
                             throws Exception {
-                        if (_asyncRequestImpl.getPendingResponseCount() == 0) {
+                        if (_asyncRequestImpl.hasNoPendingResponses()) {
                             _asyncResponseProcessor.processAsyncResponse(null);
                         }
                     }
@@ -61,19 +62,22 @@ class Iso2 extends BladeBase {
     AOp<Void> fooAOp() {
         return new AOp<Void>("foo", getReactor()) {
             @Override
-            protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
-                                              final AsyncResponseProcessor<Void> _asyncResponseProcessor)
+            protected void processAsyncOperation(
+                    final AsyncRequestImpl _asyncRequestImpl,
+                    final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 final Iso3 iso3 = new Iso3();
                 System.out.println("begin");
-                _asyncRequestImpl.send(iso3.barAOp(), new AsyncResponseProcessor<Void>() {
-                    @Override
-                    public void processAsyncResponse(final Void _response)
-                            throws Exception {
-                        System.out.println("end");
-                        _asyncResponseProcessor.processAsyncResponse(null);
-                    }
-                });
+                _asyncRequestImpl.send(iso3.barAOp(),
+                        new AsyncResponseProcessor<Void>() {
+                            @Override
+                            public void processAsyncResponse(
+                                    final Void _response) throws Exception {
+                                System.out.println("end");
+                                _asyncResponseProcessor
+                                        .processAsyncResponse(null);
+                            }
+                        });
             }
         };
     }
@@ -87,8 +91,9 @@ class Iso3 extends NonBlockingBladeBase {
     AOp<Void> barAOp() {
         return new AOp<Void>("bar", getReactor()) {
             @Override
-            protected void processAsyncOperation(AsyncRequestImpl _asyncRequestImpl,
-                                              AsyncResponseProcessor<Void> _asyncResponseProcessor)
+            protected void processAsyncOperation(
+                    final AsyncRequestImpl _asyncRequestImpl,
+                    final AsyncResponseProcessor<Void> _asyncResponseProcessor)
                     throws Exception {
                 _asyncResponseProcessor.processAsyncResponse(null);
             }

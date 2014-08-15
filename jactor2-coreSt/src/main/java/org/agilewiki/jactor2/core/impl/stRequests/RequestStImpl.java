@@ -1,12 +1,18 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
-import org.agilewiki.jactor2.core.requests.*;
+import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
+import org.agilewiki.jactor2.core.requests.ExceptionHandler;
+import org.agilewiki.jactor2.core.requests.Operation;
+import org.agilewiki.jactor2.core.requests.SOp;
+import org.agilewiki.jactor2.core.requests.SyncNativeRequest;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 import org.agilewiki.jactor2.core.util.GwtIncompatible;
 import org.agilewiki.jactor2.core.util.Timer;
@@ -16,8 +22,9 @@ import org.agilewiki.jactor2.core.util.Timer;
  *
  * @param <RESPONSE_TYPE>
  */
-public abstract class RequestStImpl<RESPONSE_TYPE> implements
-        RequestImpl<RESPONSE_TYPE>, Operation<RESPONSE_TYPE> {
+public abstract class RequestStImpl<RESPONSE_TYPE> extends
+        AtomicReference<Object> implements RequestImpl<RESPONSE_TYPE>,
+        Operation<RESPONSE_TYPE> {
 
     /**
      * Assigned to current time when Facility.DEBUG.
@@ -452,12 +459,13 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
                 + ", isOneWay=" + isOneWay() + ", source="
                 + (requestSource == null ? "null" : requestSource)
                 + ", target=" + getTargetReactor().asReactorImpl() + ", this="
-                + super.toString()
+                + getClass().toString() + "#"
+                + Integer.toHexString(super.hashCode())
                 + (oldMessage == null ? "" : "\n" + oldMessage.toString());
     }
 
-    public <RT> RT syncDirect(final SOp<RT> _sOp)
-            throws Exception {
+    @Override
+    public <RT> RT syncDirect(final SOp<RT> _sOp) throws Exception {
         if (getTargetReactor() != getSourceReactor())
             throw new UnsupportedOperationException(
                     "Not thread safe: source reactor is not the same");
@@ -480,10 +488,9 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     }
 
     @Override
-    public int compareTo(RequestImpl _requestImpl) {
-        Integer me = hashCode();
-        Integer h = _requestImpl.hashCode();
+    public int compareTo(final RequestImpl _requestImpl) {
+        final Integer me = hashCode();
+        final Integer h = _requestImpl.hashCode();
         return me.compareTo(h);
     }
 }
-
