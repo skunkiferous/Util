@@ -182,9 +182,10 @@ public class Preconditions {
         if (obj == null) {
             throw new NullPointerException(String.valueOf(name));
         }
-        for (final T o : obj) {
+        for (int i = 0; i < obj.length; i++) {
+            final T o = obj[i];
             if (o == null) {
-                final String msg = name + "[?]";
+                final String msg = name + "[" + i + "]";
                 throw new NullPointerException(msg);
             }
         }
