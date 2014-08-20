@@ -60,7 +60,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
             Plant.close();
         }
     }
-/*
+
     public void test5() throws Exception {
         System.err.println("\ntest 5");
         new Plant();
@@ -74,7 +74,19 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
             Plant.close();
         }
     }
-*/
+
+    public void test6() throws Exception {
+        System.err.println("\ntest 6");
+        new Plant();
+        try {
+            IsolationReactor reactor = new IsolationReactor();
+            Foot foot = new Foot(reactor);
+            Head head = new Head(foot.dAOp(), reactor);
+            assertFalse(call(head.dAOp()));
+        } finally {
+            Plant.close();
+        }
+    }
 }
 
 interface IsIt {
