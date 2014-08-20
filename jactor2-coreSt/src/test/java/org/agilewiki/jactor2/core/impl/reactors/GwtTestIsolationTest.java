@@ -144,8 +144,8 @@ class Foot extends IsolationBladeBase implements IsIt {
                     final AsyncRequestImpl _asyncRequestImpl,
                     final AsyncResponseProcessor<Boolean> _asyncResponseProcessor)
                     throws Exception {
-                System.out.println("dFoot isIsolated: "
-                        + ((RequestStImpl) _asyncRequestImpl).isIsolated());
+                System.out.println("dFoot IsolationReactor: "
+                        + ((RequestStImpl) _asyncRequestImpl).getIsolationReactor());
                 _asyncResponseProcessor.processAsyncResponse(true);
             }
         };
@@ -167,8 +167,8 @@ class Via extends NonBlockingBladeBase implements IsIt {
                     final AsyncRequestImpl _asyncRequestImpl,
                     final AsyncResponseProcessor<Boolean> _asyncResponseProcessor)
                     throws Exception {
-                System.out.println("dVia isIsolated: "
-                        + ((RequestStImpl) _asyncRequestImpl).isIsolated());
+                System.out.println("dVia isolationReactor: "
+                        + ((RequestStImpl) _asyncRequestImpl).getIsolationReactor());
                 _asyncRequestImpl.send(d, _asyncResponseProcessor);
             }
         };

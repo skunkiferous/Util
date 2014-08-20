@@ -3,6 +3,7 @@ package org.agilewiki.jactor2.core.impl.stRequests;
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
+import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
@@ -81,7 +82,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     /**
      * True when the request is, directly or indirectly, from an IsolationReactor that awaits a response.
      */
-    private boolean isolated;
+    private IsolationReactor isolationReactor;
 
     /**
      * The response created when this request impl is evaluated.
@@ -216,16 +217,16 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
                     "A valid source sourceReactor can not be idle");
         }
         oldMessage = source.getCurrentRequest();
-        if ((oldMessage != null) && oldMessage.isIsolated()) {
-            isolated = true;
+        if ((oldMessage != null) && oldMessage.getIsolationReactor() != null) {
+            isolationReactor = oldMessage.getIsolationReactor();
         } else
-            isolated = !source.isCommonReactor();
+            isolationReactor = source.isCommonReactor() ? null : (IsolationReactor) source.asReactor();
         if (!(targetReactor instanceof CommonReactor)) {
-            if (isolated && (_responseProcessor != null)) {
+            if (isolationReactor != null && (_responseProcessor != null)) {
                 throw new UnsupportedOperationException(
                         "Isolated requests can not be nested, even indirectly.");
             }
-            isolated = true;
+            isolationReactor = (IsolationReactor) targetReactor;
         }
         sourceExceptionHandler = (ExceptionHandler<RESPONSE_TYPE>) source
                 .getExceptionHandler();
@@ -305,8 +306,8 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         return !incomplete;
     }
 
-    public boolean isIsolated() {
-        return isolated;
+    public IsolationReactor getIsolationReactor() {
+        return isolationReactor;
     }
 
     @Override
