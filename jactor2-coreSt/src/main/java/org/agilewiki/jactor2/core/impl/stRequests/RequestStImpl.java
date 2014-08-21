@@ -108,6 +108,10 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         targetReactorImpl = (ReactorStImpl) targetReactor.asReactorImpl();
     }
 
+    public RequestStImpl<?> getOldRequest() {
+        return oldMessage;
+    }
+
     /**
      * Returns true when the target reactor is not the request source.
      *
@@ -222,7 +226,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         } else
             isolationReactor = source.isCommonReactor() ? null : (IsolationReactor) source.asReactor();
         if (!(targetReactor instanceof CommonReactor)) {
-            if (isolationReactor != null && (_responseProcessor != null)) {
+            if (isolationReactor != null && isolationReactor != targetReactor && (_responseProcessor != null)) {
                 throw new UnsupportedOperationException(
                         "Isolated requests can not be nested, even indirectly.");
             }

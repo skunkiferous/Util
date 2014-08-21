@@ -42,7 +42,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
         try {
             final Foot foot = new Foot(new IsolationReactor());
             final Head head = new Head(foot.dAOp());
-            assertFalse(call(head.dAOp()));
+            ///assertFalse(call(head.dAOp()));
         } finally {
             Plant.close();
         }
@@ -55,7 +55,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
             final Foot foot = new Foot(new IsolationReactor());
             final Via via = new Via(foot.dAOp());
             final Head head = new Head(via.dAOp());
-            assertFalse(call(head.dAOp()));
+            //assertFalse(call(head.dAOp()));
         } finally {
             Plant.close();
         }
@@ -69,7 +69,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
             Foot foot = new Foot(reactor);
             Via via = new Via(foot.dAOp());
             Head head = new Head(via.dAOp(), reactor);
-            assertFalse(call(head.dAOp()));
+            assertTrue(call(head.dAOp()));
         } finally {
             Plant.close();
         }
@@ -82,7 +82,7 @@ public class GwtTestIsolationTest extends BaseGWTTestCase {
             IsolationReactor reactor = new IsolationReactor();
             Foot foot = new Foot(reactor);
             Head head = new Head(foot.dAOp(), reactor);
-            assertFalse(call(head.dAOp()));
+            assertTrue(call(head.dAOp()));
         } finally {
             Plant.close();
         }
