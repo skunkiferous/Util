@@ -13,9 +13,9 @@ import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
 public class IsolationInbox extends Inbox {
 
     /**
-     * True when processing a request and the response has not yet been assigned.
+     * The request being processed to completion.
      */
-    private boolean processingRequest;
+    private RequestStImpl<?> processingRequest;
 
     /**
      * Local response-pending (requests) queue for same-thread exchanges.
@@ -38,11 +38,20 @@ public class IsolationInbox extends Inbox {
 
     @Override
     protected void offerLocal(final RequestStImpl<?> msg) {
-        if (!msg.isComplete() && !msg.isSignal()) {
-            localResponsePendingQueue.offer(msg);
-        } else {
+        if (msg.isComplete() || msg.isSignal()) {
             localNoResponsePendingQueue.offer(msg);
+            return;
         }
+        if (msg.getSourceReactor() != null && msg.getSourceReactor() == msg.getTargetReactor()) {
+            localNoResponsePendingQueue.offer(msg);
+            return;
+        }
+        RequestStImpl<?> oldMsg = msg.getOldRequest();
+        if (oldMsg != null && oldMsg.getIsolationReactor() != null) {
+            localNoResponsePendingQueue.offer(msg);
+            return;
+        }
+        localResponsePendingQueue.offer(msg);
     }
 
     @Override
@@ -53,13 +62,13 @@ public class IsolationInbox extends Inbox {
 
     @Override
     public boolean isIdle() {
-        return !processingRequest && isEmpty();
+        return null == processingRequest && isEmpty();
     }
 
     @Override
     public boolean hasWork() {
         if (localNoResponsePendingQueue.isEmpty()
-                && (processingRequest || localResponsePendingQueue.isEmpty())) {
+                && (processingRequest != null || localResponsePendingQueue.isEmpty())) {
             return false;
         }
         return true;
@@ -83,20 +92,22 @@ public class IsolationInbox extends Inbox {
         if (_requestImpl.isSignal()) {
             return;
         }
-        if (processingRequest) {
-            throw new IllegalStateException("already processing a request");
+        if (processingRequest != null) {
+            return;
         }
-        processingRequest = true;
+        processingRequest = _requestImpl;
     }
 
     @Override
-    public void requestEnd(final RequestStImpl<?> _message) {
-        if (_message.isSignal()) {
+    public void requestEnd(final RequestStImpl<?> _requestImpl) {
+        if (_requestImpl.isSignal()) {
             return;
         }
-        if (!processingRequest) {
-            throw new IllegalStateException("not processing a request");
+        if (processingRequest == null) {
+            throw new IllegalStateException("not processing request:\n" + _requestImpl.toString());
         }
-        processingRequest = false;
+        if (processingRequest != _requestImpl)
+            return;
+        processingRequest = null;
     }
 }
