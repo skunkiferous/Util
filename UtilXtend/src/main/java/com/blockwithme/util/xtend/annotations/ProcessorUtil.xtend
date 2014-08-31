@@ -78,6 +78,8 @@ import java.util.TreeSet
 import java.util.ArrayList
 import java.util.TreeMap
 
+import static com.blockwithme.util.shared.Preconditions.*
+
 /**
  * Helper methods for active annotation processing.
  *
@@ -146,6 +148,9 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 
 	/** The identityCache of the compilationUnit */
 	var Map<EObject, Object> identityCache = null
+
+	/** The "added methods" cache: TypeDeclaration.qualifiedName => methods */
+	val addedMethods = new HashMap<String,HashMap<String,MethodDeclaration>>
 
 	/** Remembers what type should be an interface */
 	static val SHOULD_BE_INTERFACE = new HashSet<String>
@@ -1027,6 +1032,11 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 				return m
 			}
 		}
+		for (m : findAllMethods(clazz)) {
+			if ((m.simpleName == name) && (m.parameters.toList == tmp)) {
+				return m
+			}
+		}
 		null
 	}
 
@@ -1037,14 +1047,45 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	}
 
 	private def boolean implementsOrOverrides(MethodDeclaration a, MethodDeclaration b) {
-		val aType = a.declaringType
 		val bType = b.declaringType
-		for (p : aType.findParents()) {
-			if (p == bType) {
-				return true
+		a.declaringType.findParents().exists[equals(bType)]
+	}
+
+	/** Specifies that a method was added to a type, so that we find it, even if Xtend does not return it yet */
+	final def void onMethodAdded(MethodDeclaration md) {
+		val sig = signatureWithoutGenerics(md)
+		val type = md.declaringType.qualifiedName
+		var map = addedMethods.get(type)
+		if (map === null) {
+			map = new HashMap<String,MethodDeclaration>
+			addedMethods.put(type, map)
+		}
+		map.put(sig, md)
+	}
+
+	/** Add method to result if appropriate */
+	private def void addMethodToFindResult(TreeMap<String,List<MethodDeclaration>> methods,
+		String sig, MethodDeclaration m) {
+		var list = methods.get(sig)
+		if (list === null) {
+			list = new ArrayList
+			methods.put(sig, list)
+			list.add(m)
+		} else {
+			var keep = true
+			val iter = list.iterator
+			while (keep && iter.hasNext) {
+				val n = iter.next
+				if (implementsOrOverrides(m, n)) {
+					iter.remove
+				} else if (implementsOrOverrides(n, m)) {
+					keep = false
+				}
+			}
+			if (keep) {
+				list.add(m)
 			}
 		}
-		false
 	}
 
 	/** Searches for the method with the given name and parameters. */
@@ -1053,26 +1094,14 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 		val methods = new TreeMap<String,List<MethodDeclaration>>
 		for (p : findParents(clazz)) {
 			for (m : p.declaredMethods) {
-				val sig = signatureWithoutGenerics(m)
-				var list = methods.get(sig)
-				if (list === null) {
-					list = new ArrayList
-					methods.put(sig, list)
-					list.add(m)
-				} else {
-					var keep = true
-					val iter = list.iterator
-					while (keep && iter.hasNext) {
-						val n = iter.next
-						if (implementsOrOverrides(m, n)) {
-							iter.remove
-						} else if (implementsOrOverrides(n, m)) {
-							keep = false
-						}
-					}
-					if (keep) {
-						list.add(m)
-					}
+				addMethodToFindResult(methods, signatureWithoutGenerics(m), m)
+			}
+			val added = addedMethods.get(p.qualifiedName)
+			if (added !== null) {
+				for (e : added.entrySet) {
+					val sig = e.key
+					val m = e.value
+					addMethodToFindResult(methods, sig, m)
 				}
 			}
 		}
@@ -1252,5 +1281,4 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	override newAnnotationReference(AnnotationReference annotationReference, Procedure1<AnnotationReferenceBuildContext> initializer) {
 		Objects.requireNonNull(compilationUnit.annotationReferenceProvider.newAnnotationReference(annotationReference, initializer))
 	}
-
 }
