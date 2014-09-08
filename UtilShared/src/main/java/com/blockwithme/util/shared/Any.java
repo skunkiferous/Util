@@ -31,7 +31,7 @@ import com.blockwithme.util.shared.converters.StringConverter;
 
 /**
  * Smallest possible mutable class that could contain anything,
- * without requiring "boxing" of primitive values (except long!).
+ * without requiring "boxing" of primitive values (except large long!).
  *
  * Note that it also supports the AnyType.Empty, which allows us to represent
  * "no data", for example, when querying the value of a non-existent property.

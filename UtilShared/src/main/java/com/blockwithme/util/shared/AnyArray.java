@@ -23,10 +23,12 @@ import com.blockwithme.util.base.SystemUtils;
 
 /**
  * Smallest possible mutable class that could contain a bunch of anything,
- * without requiring "boxing" of primitive values (except long!).
+ * without requiring "boxing" of primitive values (except large long!).
  *
  * Note that it also supports the AnyType.Empty, which allows us to represent
  * "no data", for example, when querying the value of a non-existent property.
+ *
+ * TODO Define an AnyList, AnySet and AnyMap interface, and have AnyArray implement them all.
  *
  * @author monster
  */

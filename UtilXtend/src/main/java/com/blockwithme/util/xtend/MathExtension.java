@@ -22,6 +22,8 @@ import com.blockwithme.util.shared.RandomEventSource;
 /**
  * Xtend Extension related to numbers and mathematics values.
  *
+ * TODO Add missing "operators" to "double" (compared to long)
+ *
  * @author monster
  */
 public class MathExtension extends BooleanExtension {
