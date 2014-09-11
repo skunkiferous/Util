@@ -968,7 +968,14 @@ class ProcessorUtil implements TypeReferenceProvider, AnnotationReferenceProvide
 	      case "long": findTypeGlobally(Long.TYPE)
 	      case "double": findTypeGlobally(Double.TYPE)
 	      case "void": findTypeGlobally(Void.TYPE)
-	      default: compilationUnit.typeLookup.findTypeGlobally(typeName)
+	      default: {
+	      	var name = typeName
+	      	val index = name.indexOf('<')
+	      	if (index > 0) {
+	      		name = name.substring(0,index)
+	      	}
+	      	compilationUnit.typeLookup.findTypeGlobally(name)
+	      }
 	    }
 	}
 
