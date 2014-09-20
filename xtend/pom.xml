@@ -2,11 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.blockwithme</groupId>
-	<artifactId>UtilXtend</artifactId>
+	<artifactId>xtend</artifactId>
 	<packaging>bundle</packaging>
 	<inceptionYear>2014</inceptionYear>
-	<name>UtilXtend</name>
+	<name>Util-Xtend</name>
 	<description>The Xtend part of the Util project.</description>
 	<organization>
 		<name>Sebastien Diot</name>
@@ -37,8 +36,8 @@
 	</licenses>
 
 	<parent>
-		<groupId>com.blockwithme</groupId>
-		<artifactId>UtilParent</artifactId>
+		<groupId>com.blockwithme.util</groupId>
+		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
 		<relativePath>../parent</relativePath>
 	</parent>
@@ -50,49 +49,49 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
+			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
+			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
+			<artifactId>shared</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>shared</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+		</dependency>
+		<dependency>
+			<groupId>com.blockwithme</groupId>
 			<artifactId>PrimitiveFuncUtil</artifactId>
 			<version>${func-generated}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>com.blockwithme</groupId>
 			<artifactId>PrimitiveFuncUtil</artifactId>
 			<version>${func-generated}</version>
 			<classifier>sources</classifier>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>com.blockwithme</groupId>
 			<artifactId>FuncGenerated012</artifactId>
 			<version>${func-generated}</version>
 		</dependency>
 		<dependency>
-			<groupId>${project.groupId}</groupId>
+			<groupId>com.blockwithme</groupId>
 			<artifactId>FuncGenerated012</artifactId>
 			<version>${func-generated}</version>
 			<classifier>sources</classifier>
 		</dependency>
-				<dependency>
+		<dependency>
 			<groupId>org.eclipse.xtend</groupId>
 			<artifactId>org.eclipse.xtend.lib</artifactId>
 		</dependency>

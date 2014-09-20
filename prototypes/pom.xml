@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>UtilPrototypes</artifactId>
+	<artifactId>prototypes</artifactId>
 	<packaging>bundle</packaging>
 	<inceptionYear>2014</inceptionYear>
-	<name>UtilPrototypes</name>
+	<name>Util-Prototypes</name>
 	<description>Contains some non-GWT-client "prototypes", which were too small to justify independent projects.</description>
 	<organization>
 		<name>Sebastien Diot</name>
@@ -36,8 +36,8 @@
 	</licenses>
 
 	<parent>
-		<groupId>com.blockwithme</groupId>
-		<artifactId>UtilParent</artifactId>
+		<groupId>com.blockwithme.util</groupId>
+		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
 		<relativePath>../parent</relativePath>
 	</parent>
@@ -66,17 +66,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
+			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	    <dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
+			<artifactId>shared</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilServer</artifactId>
+			<artifactId>server</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

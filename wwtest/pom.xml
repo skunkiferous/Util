@@ -1,10 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>UtilWWTest</artifactId>
+	<artifactId>wwtest</artifactId>
 	<packaging>war</packaging>
 	<inceptionYear>2014</inceptionYear>
-	<name>UtilWWTest</name>
+	<name>Util-WWTest</name>
 	<description>GWT WebWorker Linker Example App.</description>
 	<organization>
 		<name>Sebastien Diot</name>
@@ -35,8 +35,8 @@
 	</licenses>
 
 	<parent>
-		<groupId>com.blockwithme</groupId>
-		<artifactId>UtilParent</artifactId>
+		<groupId>com.blockwithme.util</groupId>
+		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
 		<relativePath>../parent</relativePath>
 	</parent>
@@ -44,39 +44,39 @@
     <dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
+			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
-			<version>${project.version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
-			<version>${project.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
+			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilClient</artifactId>
+			<artifactId>shared</artifactId>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>UtilClient</artifactId>
+			<artifactId>shared</artifactId>
+			<version>${project.version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>client</artifactId>
+			<version>${project.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>client</artifactId>
 			<version>${project.version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>

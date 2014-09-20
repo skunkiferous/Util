@@ -10,8 +10,8 @@
     <packaging>jar</packaging>
 
 	<parent>
-		<groupId>com.blockwithme</groupId>
-		<artifactId>UtilParent</artifactId>
+		<groupId>com.blockwithme.util</groupId>
+		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
 		<relativePath>../parent</relativePath>
 	</parent>
@@ -19,7 +19,7 @@
 	<properties>
 		<gwt.genParam>false</gwt.genParam>
 		<runTarget>http://localhost:8080/</runTarget>
-		<util-groupId>com.blockwithme</util-groupId>
+		<util-groupId>com.blockwithme.util</util-groupId>
 		<util-version>0.6.0</util-version>
 	</properties>
 
@@ -39,39 +39,39 @@
         </dependency>
 		<dependency>
 			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
+			<artifactId>base</artifactId>
 			<version>${util-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilBase</artifactId>
-			<version>${util-version}</version>
-			<classifier>sources</classifier>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
-			<version>${util-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilShared</artifactId>
+			<artifactId>base</artifactId>
 			<version>${util-version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilClient</artifactId>
+			<artifactId>shared</artifactId>
 			<version>${util-version}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${util-groupId}</groupId>
-			<artifactId>UtilClient</artifactId>
+			<artifactId>shared</artifactId>
+			<version>${util-version}</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${util-groupId}</groupId>
+			<artifactId>client</artifactId>
+			<version>${util-version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${util-groupId}</groupId>
+			<artifactId>client</artifactId>
 			<version>${util-version}</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>

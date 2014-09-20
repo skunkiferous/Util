@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.blockwithme</groupId>
-	<artifactId>UtilParent</artifactId>
+	<groupId>com.blockwithme.util</groupId>
+	<artifactId>parent</artifactId>
 	<version>0.6.0</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2014</inceptionYear>
-	<name>UtilParent</name>
+	<name>Util-Parent</name>
 	<description>This project contains "utility" code; common functionality, shared by most BlockWithMe projects.</description>
 	<organization>
 		<name>Sebastien Diot</name>
