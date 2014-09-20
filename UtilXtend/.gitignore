@@ -1,8 +1,0 @@
-/target
-
-/xtend-gen/
-.settings
-.classpath
-.project
-*.iml
-MANIFEST.MF

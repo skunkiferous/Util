@@ -1,0 +1,13 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+/target
+.settings
+.classpath
+.project
+*.iml
+MANIFEST.MF
+gwt-unitCache
