@@ -137,12 +137,7 @@ public class Any implements Serializable {
      */
     @Override
     public String toString() {
-        final long l = (long) primitive;
-        if (l == primitive) {
-            // primitive is an integral value, so don't show decimals.
-            return "Any [primitive=" + l + ", object=" + object + "]";
-        }
-        return "Any [primitive=" + primitive + ", object=" + object + "]";
+        return toString(primitive, object);
     }
 
     /* (non-Javadoc)
@@ -150,12 +145,7 @@ public class Any implements Serializable {
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((object == null) ? 0 : object.hashCode());
-        final long l = Double.doubleToLongBits(primitive);
-        result = prime * result + (int) (l ^ (l >>> 32));
-        return result;
+        return hashCode(primitive, object);
     }
 
     /* (non-Javadoc)
@@ -561,5 +551,29 @@ public class Any implements Serializable {
         }
         // Unknown; assume Object
         return JSONType.Object;
+    }
+
+    /**
+     * Implements hashCode() for Any
+     */
+    public static int hashCode(final double primitive, final Object object) {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((object == null) ? 0 : object.hashCode());
+        final long l = Double.doubleToLongBits(primitive);
+        result = prime * result + (int) (l ^ (l >>> 32));
+        return result;
+    }
+
+    /**
+     * Implements toString() for Any
+     */
+    public static String toString(final double primitive, final Object object) {
+        final long l = (long) primitive;
+        if (l == primitive) {
+            // primitive is an integral value, so don't show decimals.
+            return "Any [primitive=" + l + ", object=" + object + "]";
+        }
+        return "Any [primitive=" + primitive + ", object=" + object + "]";
     }
 }
