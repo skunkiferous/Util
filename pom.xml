@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.blockwithme.util</groupId>
-	<artifactId>parent</artifactId>
+	<artifactId>util</artifactId>
 	<version>0.6.0</version>
 	<packaging>pom</packaging>
 	<inceptionYear>2014</inceptionYear>

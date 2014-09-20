@@ -36,7 +36,7 @@
 
 	<parent>
 		<groupId>com.blockwithme.util</groupId>
-		<artifactId>parent</artifactId>
+		<artifactId>util</artifactId>
 		<version>0.6.0</version>
 		<relativePath>..</relativePath>
 	</parent>
