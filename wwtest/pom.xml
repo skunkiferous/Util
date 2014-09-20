@@ -1,5 +1,5 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>wwtest</artifactId>
 	<packaging>war</packaging>
@@ -38,10 +38,10 @@
 		<groupId>com.blockwithme.util</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
-		<relativePath>../parent</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 
-    <dependencies>
+	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>base</artifactId>
@@ -92,27 +92,27 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
 			<classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>
@@ -161,39 +161,39 @@
 			<artifactId>gwt-slf4j</artifactId>
 			<classifier>sources</classifier>
 		</dependency>
-	    <dependency>
-        	<groupId>com.codahale.metrics</groupId>
-	        <artifactId>metrics-core</artifactId>
-	    </dependency>
-	    <dependency>
-        	<groupId>com.codahale.metrics</groupId>
-	        <artifactId>metrics-core</artifactId>
-        	<classifier>sources</classifier>
-	    </dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
 
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>gwt-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>gwt-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-	              <modules>
-					<module>com.blockwithme.Webapp</module>
-					<module>com.blockwithme.SampleWorker</module>
-	              </modules>
+					<modules>
+						<module>com.blockwithme.Webapp</module>
+						<module>com.blockwithme.SampleWorker</module>
+					</modules>
 					<strict>true</strict>
 					<draftCompile>true</draftCompile>
 					<optimizationLevel>0</optimizationLevel>
@@ -202,33 +202,33 @@
 					<mode>htmlunit</mode>
 					<productionMode>true</productionMode>
 					<enableClosureCompiler>false</enableClosureCompiler>
-				    <systemProperties>
-				      <java.awt.headless>true</java.awt.headless>
-				    </systemProperties>
+					<systemProperties>
+						<java.awt.headless>true</java.awt.headless>
+					</systemProperties>
 					<style>${gwt.style}</style>
 				</configuration>
-                </plugin>
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-            </plugin>
+			</plugin>
+			<plugin>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-			        <configuration>
-			        	<instructions>
-			        		<Export-Package>*</Export-Package>
-			        	</instructions>
-			        </configuration>
+				<configuration>
+					<instructions>
+						<Export-Package>*</Export-Package>
+					</instructions>
+				</configuration>
 			</plugin>
 
 			<plugin>
-			  <groupId>org.eclipse.jetty</groupId>
-			  <artifactId>jetty-maven-plugin</artifactId>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
 			</plugin>
-        </plugins>
-    </build>
+		</plugins>
+	</build>
 </project>

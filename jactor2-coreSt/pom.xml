@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>org.agilewiki.jactor2</groupId>
-    <artifactId>jactor2-coreSt</artifactId>
-    <name>JActor2-CoreSt</name>
-    <version>0.11.0</version>
-    <packaging>jar</packaging>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.agilewiki.jactor2</groupId>
+	<artifactId>jactor2-coreSt</artifactId>
+	<name>JActor2-CoreSt</name>
+	<version>0.11.0</version>
+	<packaging>jar</packaging>
 
 	<parent>
 		<groupId>com.blockwithme.util</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
-		<relativePath>../parent</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<properties>
@@ -23,20 +23,20 @@
 		<util-version>0.6.0</util-version>
 	</properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jactor2-core</artifactId>
-            <version>0.11.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>jactor2-core</artifactId>
-            <version>0.11.0</version>
-            <classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jactor2-core</artifactId>
+			<version>0.11.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>jactor2-core</artifactId>
+			<version>0.11.0</version>
+			<classifier>sources</classifier>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>${util-groupId}</groupId>
 			<artifactId>base</artifactId>
@@ -88,27 +88,27 @@
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-elemental</artifactId>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
 			<classifier>sources</classifier>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.gwt</groupId>
-            <artifactId>gwt-dev</artifactId>
-            <classifier>sources</classifier>
-        </dependency>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
 		<dependency>
 			<groupId>com.badlogicgames.gdx</groupId>
 			<artifactId>gdx</artifactId>
@@ -147,30 +147,30 @@
 			<groupId>org.junit</groupId>
 			<artifactId>com.springsource.org.junit</artifactId>
 		</dependency>
-	    <dependency>
-        	<groupId>com.codahale.metrics</groupId>
-	        <artifactId>metrics-core</artifactId>
-	    </dependency>
-	    <dependency>
-        	<groupId>com.codahale.metrics</groupId>
-	        <artifactId>metrics-core</artifactId>
-        	<classifier>sources</classifier>
-	    </dependency>
-    </dependencies>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.codahale.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<classifier>sources</classifier>
+		</dependency>
+	</dependencies>
 
-    <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
 
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-		    <systemProperties>
-		      <java.awt.headless>true</java.awt.headless>
-		    </systemProperties>
-                </configuration>
-            </plugin>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<systemProperties>
+						<java.awt.headless>true</java.awt.headless>
+					</systemProperties>
+				</configuration>
+			</plugin>
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
 			</plugin>
@@ -209,11 +209,11 @@
 			<plugin>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>maven-bundle-plugin</artifactId>
-			        <configuration>
-			        	<instructions>
-			        		<Export-Package>*</Export-Package>
-			        	</instructions>
-			        </configuration>
+				<configuration>
+					<instructions>
+						<Export-Package>*</Export-Package>
+					</instructions>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -226,7 +226,7 @@
 					</excludes>
 				</configuration>
 			</plugin>
-        </plugins>
+		</plugins>
 
 		<resources>
 			<resource>
@@ -239,48 +239,48 @@
 			</resource>
 		</resources>
 
-        <pluginManagement>
-        	<plugins>
+		<pluginManagement>
+			<plugins>
         		<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
-        		<plugin>
-        			<groupId>org.eclipse.m2e</groupId>
-        			<artifactId>lifecycle-mapping</artifactId>
-        			<version>1.0.0</version>
-        			<configuration>
-        				<lifecycleMappingMetadata>
-        					<pluginExecutions>
-        						<pluginExecution>
-        							<pluginExecutionFilter>
-        								<groupId>
-        									org.codehaus.mojo
-        								</groupId>
-        								<artifactId>
-        									gwt-maven-plugin
-        								</artifactId>
-        								<versionRange>
-        									[2.6.0,)
-        								</versionRange>
-        								<goals>
-        									<goal>resources</goal>
-        								</goals>
-        							</pluginExecutionFilter>
-        							<action>
-        								<ignore></ignore>
-        							</action>
-        						</pluginExecution>
-        					</pluginExecutions>
-        				</lifecycleMappingMetadata>
-        			</configuration>
-        		</plugin>
-        	</plugins>
-        </pluginManagement>
-    </build>
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											gwt-maven-plugin
+										</artifactId>
+										<versionRange>
+											[2.6.0,)
+										</versionRange>
+										<goals>
+											<goal>resources</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 
-    <repositories>
-        <repository>
-            <id>blockwithme-mvn-repo</id>
-            <url>https://raw.github.com/skunkiferous/Maven/master</url>
-        </repository>
+	<repositories>
+		<repository>
+			<id>blockwithme-mvn-repo</id>
+			<url>https://raw.github.com/skunkiferous/Maven/master</url>
+		</repository>
 		<repository>
 			<id>com.springsource.repository.bundles.release</id>
 			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle
@@ -292,5 +292,5 @@
 			<name>SpringSource Enterprise Bundle Repository - External Bundle Releases</name>
 			<url>http://repository.springsource.com/maven/bundles/external</url>
 		</repository>
-    </repositories>
+	</repositories>
 </project>

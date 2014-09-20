@@ -10,7 +10,7 @@ only GWT).
 
 It is divided in several parts, to make it GWT-compatible.
 
-1) parent: Just a parent POM for the rest.
+1) The parent POM for the rest.
 
 2) base: The base/bootstrap part of the code. Just enough to allow binding
    the platform-specific part, without making the shared code dependent on them.
@@ -52,7 +52,7 @@ It is divided in several parts, to make it GWT-compatible.
    implementation of the JActor2 project. SInce it depends on Util, it made
    most sense to keep it here.
 
-To build everything, go in parent and run "mvn install" (I'm paranoid
-about reproducibility, so I personally always run "mvn clean install").
+To build everything, run "mvn install" (I'm paranoid about reproducibility,
+so I personally always run "mvn clean install").
 
 All projects are under the Apache License.

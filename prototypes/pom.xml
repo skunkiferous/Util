@@ -39,7 +39,7 @@
 		<groupId>com.blockwithme.util</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
-		<relativePath>../parent</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<build>
@@ -69,7 +69,7 @@
 			<artifactId>base</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>shared</artifactId>
 			<version>${project.version}</version>

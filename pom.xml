@@ -70,14 +70,14 @@
 		</pluginManagement>
 	</build>
 	<modules>
-		<module>../base</module>
-		<module>../shared</module>
-		<module>../xtend</module>
-		<module>../server</module>
-		<module>../prototypes</module>
-		<module>../client</module>
-		<module>../jactor2-coreSt</module>
-		<module>../wwtest</module>
+		<module>base</module>
+		<module>shared</module>
+		<module>xtend</module>
+		<module>server</module>
+		<module>prototypes</module>
+		<module>client</module>
+		<module>jactor2-coreSt</module>
+		<module>wwtest</module>
 	</modules>
 
 	<repositories>

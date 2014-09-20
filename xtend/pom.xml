@@ -39,7 +39,7 @@
 		<groupId>com.blockwithme.util</groupId>
 		<artifactId>parent</artifactId>
 		<version>0.6.0</version>
-		<relativePath>../parent</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 
 	<properties>
