@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1407954254659
+Build-Jdk: 1.7.0_65
+Built-By: Bill
+Bundle-Description: The non-GWT-client part. It is not in any way "serve
+ r code", but just normal Java code, which is not GWT compatible.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: UtilServer
+Bundle-SymbolicName: com.blockwithme.UtilServer
+Bundle-Vendor: Sebastien Diot
+Bundle-Version: 0.5.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.blockwithme.util.server;uses:="com.blockwithme.util.
+ base,com.google.inject,javax.inject";version="0.5.0"
+FuncGenerated012-dependency-version: 1.2.0
+Import-Package: com.blockwithme.util.base;version="[0.5,1)",com.blockwit
+ hme.util.shared;version="[0.5,1)",com.google.inject;version="[1.3,2)",c
+ om.google.inject.binder;version="[1.3,2)",javax.inject;version="[0.5,1)
+ "
+Tool: Bnd-2.1.0.20130426-122213

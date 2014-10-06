@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.agilewiki.jactor2.core.blades.ismTransactions.ISMap;
 import org.agilewiki.jactor2.core.closeable.Closeable;
 import org.agilewiki.jactor2.core.closeable.impl.CloseableImpl;
 import org.agilewiki.jactor2.core.impl.DefaultPlantConfiguration;
@@ -255,20 +254,5 @@ public class PlantStImpl extends PlantImpl {
                 currentReactorImpl = null;
             }
         }
-    }
-
-    @Override
-    public <V> ISMap<V> createISMap() {
-        return ISMapImpl.empty();
-    }
-
-    @Override
-    public <V> ISMap<V> createISMap(final String key, final V value) {
-        return ISMapImpl.singleton(key, value);
-    }
-
-    @Override
-    public <V> ISMap<V> createISMap(final Map<String, V> m) {
-        return ISMapImpl.from(m);
     }
 }

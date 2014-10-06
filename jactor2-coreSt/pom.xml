@@ -27,13 +27,13 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jactor2-core</artifactId>
-			<version>0.11.0</version>
+			<version>0.12.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>jactor2-core</artifactId>
-			<version>0.11.0</version>
+			<version>0.12.0</version>
 			<classifier>sources</classifier>
 			<scope>provided</scope>
 		</dependency>

@@ -1,0 +1,46 @@
+-------------------------------------------------------------------------------
+Test set: All the Util GWT tests
+-------------------------------------------------------------------------------
+Tests run: 42, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.976 sec
+testRandom(com.blockwithme.util.client.test.GwtTestRandomTest)  Time elapsed: 11.152 sec
+testProperties(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.028 sec
+testErr(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.028 sec
+testOut(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.025 sec
+testGc(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.024 sec
+testArraycopy(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.028 sec
+testCurrentTimeMillis(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.438 sec
+testIdentityHashCode(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.035 sec
+testLineSeparator(com.blockwithme.util.client.test.GwtTestSystemTest)  Time elapsed: 0.025 sec
+testReflection(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.022 sec
+testGetTimeSource(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.028 sec
+testLocalUTC(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.078 sec
+testGetTimer(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.013 sec
+testGWT(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.013 sec
+testRND(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.014 sec
+testCurrentTimeMillis(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.014 sec
+testReportUncaughtException(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.014 sec
+testPowerOfTwo(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.013 sec
+testLowHighLong(com.blockwithme.util.client.test.GwtTestSystemUtilsTest)  Time elapsed: 0.014 sec
+testActiveCount(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.013 sec
+testRun(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.05 sec
+testGetId(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.029 sec
+testSleep(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.04 sec
+testYield(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.023 sec
+testGetName(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.03 sec
+testCurrentThread(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.02 sec
+testIsDaemon(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.021 sec
+testPetPriority(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.028 sec
+testIsAlive(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.021 sec
+testInterrupted(com.blockwithme.util.client.test.GwtTestThreadTest)  Time elapsed: 0.022 sec
+testScheduleDate(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.03 sec
+testScheduleLong(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.092 sec
+testScheduleDateLong(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.201 sec
+testScheduleAtFixedRateDateLong(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.02 sec
+testScheduleLongLong(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.197 sec
+testScheduleAtFixedRateLongLong(com.blockwithme.util.client.test.GwtTestTimerTest)  Time elapsed: 0.016 sec
+testObjects(com.blockwithme.util.client.test.GwtTestScriptEngineManagerTest)  Time elapsed: 0.018 sec
+testCreateObjects(com.blockwithme.util.client.test.GwtTestScriptEngineManagerTest)  Time elapsed: 0.012 sec
+testExport(com.blockwithme.util.client.test.GwtTestScriptEngineManagerTest)  Time elapsed: 0.011 sec
+testNumbers(com.blockwithme.util.client.test.GwtTestScriptEngineManagerTest)  Time elapsed: 0.013 sec
+testStrings(com.blockwithme.util.client.test.GwtTestScriptEngineManagerTest)  Time elapsed: 0.027 sec
+test(com.blockwithme.util.client.test.GwtTestWeakKeyMapTest)  Time elapsed: 0.028 sec

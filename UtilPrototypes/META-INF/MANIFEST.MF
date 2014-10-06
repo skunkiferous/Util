@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1407954257470
+Build-Jdk: 1.7.0_65
+Built-By: Bill
+Bundle-Description: Contains some non-GWT-client "prototypes", which wer
+ e too small to justify independent projects.
+Bundle-License: http://www.apache.org/licenses/LICENSE-2.0.txt
+Bundle-ManifestVersion: 2
+Bundle-Name: UtilPrototypes
+Bundle-SymbolicName: com.blockwithme.UtilPrototypes
+Bundle-Vendor: Sebastien Diot
+Bundle-Version: 0.5.0
+Created-By: Apache Maven Bundle Plugin
+Export-Package: com.blockwithme.util.proto.base40;uses:="com.blockwithme
+ .util.shared,com.blockwithme.util.shared.converters";version="0.5.0",co
+ m.blockwithme.util.proto;uses:="com.blockwithme.util.shared.annotations
+ ,javax.inject";version="0.5.0",com.blockwithme.util.proto.properties;us
+ es:="com.blockwithme.util.proto.properties.meta";version="0.5.0",com.bl
+ ockwithme.util.proto.properties.meta;uses:="com.blockwithme.util.proto.
+ properties";version="0.5.0",com.blockwithme.util.proto.stringnum;versio
+ n="0.5.0"
+FuncGenerated012-dependency-version: 1.2.0
+Import-Package: com.blockwithme.util.base;version="[0.5,1)",com.blockwit
+ hme.util.proto.properties,com.blockwithme.util.proto.properties.meta,co
+ m.blockwithme.util.shared;version="[0.5,1)",com.blockwithme.util.shared
+ .annotations;version="[0.5,1)",com.blockwithme.util.shared.converters;v
+ ersion="[0.5,1)",groovy.lang;version="[2.1,3)",javax.inject;version="[0
+ .5,1)"
+Tool: Bnd-2.1.0.20130426-122213
