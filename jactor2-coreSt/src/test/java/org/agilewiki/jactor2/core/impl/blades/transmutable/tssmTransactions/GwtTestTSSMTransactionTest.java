@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.SortedMap;
 
-public class TSSMTransactionTest extends BaseGWTTestCase {
+public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
     public void testI() throws Exception {
         new Plant();
         try {

@@ -6,7 +6,7 @@
 	<groupId>org.agilewiki.jactor2</groupId>
 	<artifactId>jactor2-coreSt</artifactId>
 	<name>JActor2-CoreSt</name>
-	<version>0.11.0</version>
+	<version>0.12.0</version>
 	<packaging>jar</packaging>
 
 	<parent>

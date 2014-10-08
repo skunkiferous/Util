@@ -38,7 +38,7 @@ public class GwtTestCoreStSuite extends GWTTestSuite {
         suite.addTestSuite(GwtTestLogTest.class);
         suite.addTestSuite(GwtTestPlantTest.class);
         suite.addTestSuite(GwtTestSyncTest.class);
-        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transmutable.tssmTransactions.TSSMTransactionTest.class);
+        suite.addTestSuite(org.agilewiki.jactor2.core.impl.blades.transmutable.tssmTransactions.GwtTestTSSMTransactionTest.class);
         suite.addTestSuite(GwtTestPubSubTest.class);
         suite.addTestSuite(GwtTest1.class);
         suite.addTestSuite(GwtTest3.class);
