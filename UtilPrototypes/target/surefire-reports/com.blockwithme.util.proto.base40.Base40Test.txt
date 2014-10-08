@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.blockwithme.util.proto.base40.Base40Test
--------------------------------------------------------------------------------
-Tests run: 0, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in com.blockwithme.util.proto.base40.Base40Test

@@ -1,3 +1,0 @@
-# Module com.blockwithme.util.UtilClient.JUnit
-# RPC service class, partial path of RPC policy file
-com.google.gwt.junit.client.impl.JUnitHost, 72BA4B9FE3B0FB4E8F33CF840AD7E220.gwt.rpc
