@@ -4,6 +4,7 @@ import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
 import org.agilewiki.jactor2.core.impl.JActorStTestPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
+import org.agilewiki.jactor2.core.requests.AIOp;
 import org.agilewiki.jactor2.core.requests.AOp;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
@@ -25,8 +26,8 @@ class Async1 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    AOp<Void> startAOp() {
-        return new AOp<Void>("start", getReactor()) {
+    AIOp<Void> startAOp() {
+        return new AIOp<Void>("start", getReactor()) {
             @Override
             protected void processAsyncOperation(final AsyncRequestImpl _asyncRequestImpl,
                                               final AsyncResponseProcessor<Void> _asyncResponseProcessor)

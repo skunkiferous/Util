@@ -60,7 +60,7 @@ public abstract class BaseGWTTestCase extends GWTTestCase {
 
     private static final CheckResult DEFAULT_CHECKER = new DefaultCheckResult();
 
-    private static class TestRunner<RESPONSE_TYPE> extends SOp<Void> {
+    private static class TestRunner<RESPONSE_TYPE> extends SIOp<Void> {
         private final RequestStImpl<RESPONSE_TYPE> request;
         private volatile Object result;
 

@@ -13,6 +13,7 @@ import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.List;
 import java.util.SortedMap;
 
 public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
@@ -29,9 +30,8 @@ public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
                 protected void processContent(
                         final TSSMChanges<String> _content)
                         throws Exception {
-                    final SortedMap<String, TSSMChange<String>> readOnlyChanges = _content.unmodifiableChanges;
-                    final Iterator<TSSMChange<String>> it = readOnlyChanges
-                            .values().iterator();
+                    final List<TSSMChange<String>> readOnlyChanges = _content.unmodifiableChanges;
+                    final Iterator<TSSMChange<String>> it = readOnlyChanges.iterator();
                     while (it.hasNext()) {
                         final TSSMChange<String> propertyChange = it
                                 .next();
@@ -48,10 +48,9 @@ public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
                 protected void processContent(
                         final TSSMChanges<String> _content)
                         throws Exception {
-                    final SortedMap<String, TSSMChange<String>> readOnlyChanges = _content.unmodifiableChanges;
+                    final List<TSSMChange<String>> readOnlyChanges = _content.unmodifiableChanges;
                     System.out.println("\nchanges: " + readOnlyChanges.size());
-                    final Iterator<TSSMChange<String>> it = readOnlyChanges
-                            .values().iterator();
+                    final Iterator<TSSMChange<String>> it = readOnlyChanges.iterator();
                     while (it.hasNext()) {
                         final TSSMChange<String> propertyChange = it
                                 .next();
@@ -65,22 +64,19 @@ public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
             SortedMap<String, String> immutableState = propertiesReference.getUnmodifiable();
             assertEquals(0, immutableState.size());
 
-            call(new TSSMUpdateTransaction<String>("1", "first")
-                    .applyAOp(propertiesReference));
+            call(propertiesReference.applyAOp(new TSSMUpdateTransaction<String>("1", "first")));
             assertEquals(0, immutableState.size());
             immutableState = propertiesReference.getUnmodifiable();
             assertEquals(1, immutableState.size());
 
-            call(new TSSMUpdateTransaction<String>("1", "second")
-                    .applyAOp(propertiesReference));
+            call(propertiesReference.applyAOp(new TSSMUpdateTransaction<String>("1", "second")));
             assertEquals(1, immutableState.size());
             immutableState = propertiesReference.getUnmodifiable();
             assertEquals(1, immutableState.size());
 
             String msg = null;
             try {
-                call(new TSSMUpdateTransaction<String>("fudge", "second")
-                        .applyAOp(propertiesReference));
+                call(propertiesReference.applyAOp(new TSSMUpdateTransaction<String>("fudge", "second")));
             } catch (final IOException e) {
                 msg = e.getMessage();
             }
@@ -90,8 +86,9 @@ public class GwtTestTSSMTransactionTest extends BaseGWTTestCase {
             immutableState = propertiesReference.getUnmodifiable();
             assertEquals(1, immutableState.size());
 
-            call(new TSSMUpdateTransaction<String>("1", (String) null)
-                    .applyAOp(propertiesReference));
+            TSSMUpdateTransaction ut = new TSSMUpdateTransaction<String>("1", (String) null);
+            call(propertiesReference.applyAOp(ut));
+            System.out.println(ut);
             immutableState = propertiesReference.getUnmodifiable();
             assertEquals(0, immutableState.size());
         } finally {

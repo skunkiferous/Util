@@ -4,6 +4,7 @@ import org.agilewiki.jactor2.core.blades.NonBlockingBladeBase;
 import org.agilewiki.jactor2.core.impl.JActorStTestPlantConfiguration;
 import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
+import org.agilewiki.jactor2.core.requests.SIOp;
 import org.agilewiki.jactor2.core.requests.SOp;
 import org.agilewiki.jactor2.core.requests.impl.RequestImpl;
 
@@ -24,8 +25,8 @@ class Sync1 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    SOp<Void> startSOp() {
-        return new SOp<Void>("start", getReactor()) {
+    SIOp<Void> startSOp() {
+        return new SIOp<Void>("start", getReactor()) {
             @Override
             protected Void processSyncOperation(RequestImpl _requestImpl) throws Exception {
                 System.out.println("Hi");

@@ -7,6 +7,7 @@ import org.agilewiki.jactor2.core.impl.Plant;
 import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
+import org.agilewiki.jactor2.core.requests.AIOp;
 import org.agilewiki.jactor2.core.requests.AOp;
 import org.agilewiki.jactor2.core.requests.AsyncResponseProcessor;
 import org.agilewiki.jactor2.core.requests.impl.AsyncRequestImpl;
@@ -28,8 +29,8 @@ class Iso1 extends NonBlockingBladeBase {
         super(new NonBlockingReactor());
     }
 
-    AOp<Void> startAOp() {
-        return new AOp<Void>("start", getReactor()) {
+    AIOp<Void> startAOp() {
+        return new AIOp<Void>("start", getReactor()) {
             @Override
             protected void processAsyncOperation(
                     final AsyncRequestImpl _asyncRequestImpl,
