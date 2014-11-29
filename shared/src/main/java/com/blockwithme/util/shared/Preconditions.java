@@ -15,6 +15,7 @@
  */
 package com.blockwithme.util.shared;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -185,7 +186,8 @@ public class Preconditions {
         for (int i = 0; i < obj.length; i++) {
             final T o = obj[i];
             if (o == null) {
-                final String msg = name + "[" + i + "]";
+                final String msg = name + "[" + i + "] ARRAY: "
+                        + Arrays.asList(obj);
                 throw new NullPointerException(msg);
             }
         }

@@ -1,21 +1,18 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Internal implementation of UnboundReactor.
  */
 public class IsolationReactorStImpl extends PoolThreadReactorStImpl {
 
-    private final Set<IsolationReactorStImpl> resources =
-            Collections.newSetFromMap(new ConcurrentHashMap<IsolationReactorStImpl, Boolean>());
+    private final ConcurrentHashMap<IsolationReactorStImpl, Boolean> resources = new ConcurrentHashMap<IsolationReactorStImpl, Boolean>();
 
     /**
      * Create an IsolationReactorMtImpl.
@@ -37,25 +34,26 @@ public class IsolationReactorStImpl extends PoolThreadReactorStImpl {
     }
 
     @Override
-    public void addResource(ReactorImpl _reactorImpl) {
+    public void addResource(final ReactorImpl _reactorImpl) {
         if (_reactorImpl instanceof IsolationReactorStImpl) {
-            IsolationReactorStImpl isolationReactorMtImpl = (IsolationReactorStImpl) _reactorImpl;
+            final IsolationReactorStImpl isolationReactorMtImpl = (IsolationReactorStImpl) _reactorImpl;
             if (isolationReactorMtImpl.isResource(this)) {
                 throw new IllegalStateException("circular resources");
             }
-            resources.add(isolationReactorMtImpl);
+            resources.put(isolationReactorMtImpl, Boolean.TRUE);
         }
     }
 
     @Override
-    public boolean isResource(ReactorImpl _reactorImpl) {
+    public boolean isResource(final ReactorImpl _reactorImpl) {
         if (this == _reactorImpl)
             return true;
         if (_reactorImpl instanceof IsolationReactorStImpl) {
             if (!resources.contains(_reactorImpl)) {
-                Iterator<IsolationReactorStImpl> it = resources.iterator();
+                final Iterator<IsolationReactorStImpl> it = resources.keySet()
+                        .iterator();
                 while (it.hasNext()) {
-                    IsolationReactorStImpl i = it.next();
+                    final IsolationReactorStImpl i = it.next();
                     if (i.isResource(_reactorImpl))
                         return true;
                 }
