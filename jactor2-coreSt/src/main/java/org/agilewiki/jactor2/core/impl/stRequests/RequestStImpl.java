@@ -80,7 +80,7 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
     protected boolean closed = false;
 
     /**
-     * True when the request is, directly or indirectly, from an IsolationReactor that awaits a response.
+     * Not null when the request is, directly or indirectly, from an IsolationReactor that awaits a response.
      */
     private IsolationReactor isolationReactor;
 
@@ -221,14 +221,18 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
                     "A valid source sourceReactor can not be idle");
         }
         oldMessage = source.getCurrentRequest();
-        if ((oldMessage != null) && oldMessage.getIsolationReactor() != null) {
+        if (!source.isCommonReactor())
+            isolationReactor = (IsolationReactor) source.asReactor();
+        else if ((oldMessage != null)) {
             isolationReactor = oldMessage.getIsolationReactor();
-        } else
-            isolationReactor = source.isCommonReactor() ? null : (IsolationReactor) source.asReactor();
+        }
         if (!(targetReactor instanceof CommonReactor)) {
-            if (isolationReactor != null && isolationReactor != targetReactor && responseProcessor != org.agilewiki.jactor2.core.requests.impl.SignalResponseProcessor.SINGLETON) {
+            if (isolationReactor != null &&
+                    isolationReactor != targetReactor &&
+                    responseProcessor != org.agilewiki.jactor2.core.requests.impl.SignalResponseProcessor.SINGLETON &&
+                    !isolationReactor.isResource(targetReactor)) {
                 throw new UnsupportedOperationException(
-                        "Isolated requests can not be nested, even indirectly.");
+                        "Nested isolation requests must be to resources:\n" + toString());
             }
             isolationReactor = (IsolationReactor) targetReactor;
         }

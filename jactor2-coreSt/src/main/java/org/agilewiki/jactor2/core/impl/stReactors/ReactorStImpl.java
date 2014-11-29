@@ -564,4 +564,13 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
     public void error(final String msg, final Throwable t) {
         plantConfiguration.error(msg, t);
     }
+
+    @Override
+    public void addResource(ReactorImpl _reactorImpl) {
+    }
+
+    @Override
+    public boolean isResource(ReactorImpl _reactorImpl) {
+        return true;
+    }
 }
