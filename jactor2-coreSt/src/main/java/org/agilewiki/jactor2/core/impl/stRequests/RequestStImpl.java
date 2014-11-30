@@ -1,6 +1,7 @@
 package org.agilewiki.jactor2.core.impl.stRequests;
 
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
+import org.agilewiki.jactor2.core.impl.stReactors.IsolationReactorStImpl;
 import org.agilewiki.jactor2.core.impl.stReactors.ReactorStImpl;
 import org.agilewiki.jactor2.core.reactors.CommonReactor;
 import org.agilewiki.jactor2.core.reactors.IsolationReactor;
@@ -229,10 +230,8 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         if (!(targetReactor instanceof CommonReactor)) {
             if (isolationReactor != null &&
                     isolationReactor != targetReactor &&
-                    responseProcessor != org.agilewiki.jactor2.core.requests.impl.SignalResponseProcessor.SINGLETON &&
-                    !isolationReactor.isResource(targetReactor)) {
-                throw new UnsupportedOperationException(
-                        "Nested isolation requests must be to resources:\n" + toString());
+                    responseProcessor != org.agilewiki.jactor2.core.requests.impl.SignalResponseProcessor.SINGLETON) {
+                isolationReactor.addResource(targetReactor);
             }
             isolationReactor = (IsolationReactor) targetReactor;
         }
@@ -350,6 +349,11 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
             targetReactorImpl.setCurrentRequest(this);
             targetReactorImpl.requestBegin(this);
             try {
+                if (isolationReactor != null) {
+                    IsolationReactorStImpl isolationReactorStImpl =
+                            (IsolationReactorStImpl) isolationReactor.asReactorImpl();
+                    isolationReactorStImpl.addResource(targetReactorImpl);
+                }
                 processRequestMessage();
             } catch (final InterruptedException ex) {
                 Thread.currentThread().interrupt();

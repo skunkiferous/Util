@@ -1,6 +1,8 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.agilewiki.jactor2.core.reactors.IsolationReactor;
@@ -35,31 +37,33 @@ public class IsolationReactorStImpl extends PoolThreadReactorStImpl {
 
     @Override
     public void addResource(final ReactorImpl _reactorImpl) {
-        if (_reactorImpl instanceof IsolationReactorStImpl) {
-            final IsolationReactorStImpl isolationReactorMtImpl = (IsolationReactorStImpl) _reactorImpl;
-            if (isolationReactorMtImpl.isResource(this)) {
-                throw new IllegalStateException("circular resources");
-            }
-            resources.put(isolationReactorMtImpl, Boolean.TRUE);
+        if (isResource(_reactorImpl))
+            return;
+        IsolationReactorStImpl isolationReactorMtImpl = (IsolationReactorStImpl) _reactorImpl;
+        if (isolationReactorMtImpl.isResource(this)) {
+            throw new IllegalStateException("circular resources");
         }
+        resources.put(isolationReactorMtImpl, Boolean.TRUE);
     }
 
     @Override
     public boolean isResource(final ReactorImpl _reactorImpl) {
+        if (!(_reactorImpl instanceof IsolationReactorStImpl))
+            return true;
         if (this == _reactorImpl)
             return true;
-        if (_reactorImpl instanceof IsolationReactorStImpl) {
-            if (!resources.contains(_reactorImpl)) {
-                final Iterator<IsolationReactorStImpl> it = resources.keySet()
-                        .iterator();
-                while (it.hasNext()) {
-                    final IsolationReactorStImpl i = it.next();
-                    if (i.isResource(_reactorImpl))
-                        return true;
-                }
-                return false;
+        if (resources.containsKey(_reactorImpl))
+            return true;
+        Set<IsolationReactorStImpl> rs = new HashSet<IsolationReactorStImpl>(resources.size());
+        while (rs.size() > 0) {
+            IsolationReactorStImpl i = rs.iterator().next();
+            if (i.resources.containsKey(_reactorImpl)) {
+                resources.put((IsolationReactorStImpl) _reactorImpl, Boolean.TRUE);
+                return true;
             }
+            rs.addAll(i.resources.keySet());
+            rs.remove(i);
         }
-        return true;
+        return false;
     }
 }
