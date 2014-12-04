@@ -13,10 +13,7 @@ import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
 import org.agilewiki.jactor2.core.impl.stPlant.Recovery;
 import org.agilewiki.jactor2.core.impl.stRequests.RequestStImpl;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
-import org.agilewiki.jactor2.core.reactors.CommonReactor;
-import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
-import org.agilewiki.jactor2.core.reactors.Reactor;
-import org.agilewiki.jactor2.core.reactors.ReactorClosedException;
+import org.agilewiki.jactor2.core.reactors.*;
 import org.agilewiki.jactor2.core.reactors.impl.ReactorImpl;
 import org.agilewiki.jactor2.core.requests.ExceptionHandler;
 import org.agilewiki.jactor2.core.requests.SOp;
@@ -65,7 +62,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
     /**
      * The parent reactor, or null.
      */
-    public final NonBlockingReactor parentReactor;
+    public final IsolationReactor parentReactor;
 
     private String reason;
 
@@ -76,12 +73,12 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      *
      * @param _parentReactor         The parent reactor, or null.
      */
-    public ReactorStImpl(final NonBlockingReactor _parentReactor) {
+    public ReactorStImpl(final IsolationReactor _parentReactor) {
         closeableImpl = new CloseableStImpl(this);
         plantConfiguration = PlantStImpl.getSingleton().getPlantConfiguration();
         @SuppressWarnings("resource")
-        final NonBlockingReactorStImpl parentReactorImpl = _parentReactor == null ? null
-                : (NonBlockingReactorStImpl) _parentReactor.asReactorImpl();
+        final IsolationReactorStImpl parentReactorImpl = _parentReactor == null ? null
+                : (IsolationReactorStImpl) _parentReactor.asReactorImpl();
         recovery = _parentReactor == null ? plantConfiguration.getRecovery()
                 : parentReactorImpl.getRecovery();
         plantScheduler = _parentReactor == null ? plantConfiguration
@@ -125,7 +122,7 @@ abstract public class ReactorStImpl extends BladeBase implements ReactorImpl {
      * @return The parent reactor, or null.
      */
     @Override
-    public NonBlockingReactor getParentReactor() {
+    public IsolationReactor getParentReactor() {
         return parentReactor;
     }
 

@@ -20,7 +20,7 @@ public class IsolationReactorStImpl extends PoolThreadReactorStImpl {
      *
      * @param _parentReactor The parent reactor.
      */
-    public IsolationReactorStImpl(final NonBlockingReactor _parentReactor) {
+    public IsolationReactorStImpl(final IsolationReactor _parentReactor) {
         super(_parentReactor);
     }
 

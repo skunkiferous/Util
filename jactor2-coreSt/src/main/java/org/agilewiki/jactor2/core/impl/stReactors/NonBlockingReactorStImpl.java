@@ -1,5 +1,6 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
+import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 
 /**
@@ -12,7 +13,7 @@ public class NonBlockingReactorStImpl extends PoolThreadReactorStImpl {
      *
      * @param _parentReactor         The parent reactor.
      */
-    public NonBlockingReactorStImpl(final NonBlockingReactor _parentReactor) {
+    public NonBlockingReactorStImpl(final IsolationReactor _parentReactor) {
         super(_parentReactor);
     }
 

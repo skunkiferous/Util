@@ -17,6 +17,7 @@ import org.agilewiki.jactor2.core.impl.stRequests.SyncRequestStImplWithData;
 import org.agilewiki.jactor2.core.plant.PlantScheduler;
 import org.agilewiki.jactor2.core.plant.impl.PlantImpl;
 import org.agilewiki.jactor2.core.reactors.Facility;
+import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.Reactor;
 import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
@@ -82,35 +83,35 @@ public class PlantStImpl extends PlantImpl {
 
     @Override
     public ReactorImpl createNonBlockingReactorImpl(
-            final NonBlockingReactor _parentReactor,
+            final IsolationReactor _parentReactor,
             final int _initialOutboxSize, final int _initialLocalQueueSize) {
         return new NonBlockingReactorStImpl(_parentReactor);
     }
 
     @Override
     public ReactorImpl createBlockingReactorImpl(
-            final NonBlockingReactor _parentReactor,
+            final IsolationReactor _parentReactor,
             final int _initialOutboxSize, final int _initialLocalQueueSize) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public ReactorImpl createIsolationReactorImpl(
-            final NonBlockingReactor _parentReactor,
+            final IsolationReactor _parentReactor,
             final int _initialOutboxSize, final int _initialLocalQueueSize) {
         return new IsolationReactorStImpl(_parentReactor);
     }
 
     @Override
     public ReactorImpl createSwingBoundReactorImpl(
-            final NonBlockingReactor _parentReactor,
+            final IsolationReactor _parentReactor,
             final int _initialOutboxSize, final int _initialLocalQueueSize) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public ReactorImpl createThreadBoundReactorImpl(
-            final NonBlockingReactor _parentReactor,
+            final IsolationReactor _parentReactor,
             final int _initialOutboxSize, final int _initialLocalQueueSize,
             final Runnable _boundProcessor) {
         throw new UnsupportedOperationException();

@@ -1,6 +1,7 @@
 package org.agilewiki.jactor2.core.impl.stReactors;
 
 import org.agilewiki.jactor2.core.impl.stPlant.PlantStImpl;
+import org.agilewiki.jactor2.core.reactors.IsolationReactor;
 import org.agilewiki.jactor2.core.reactors.NonBlockingReactor;
 import org.agilewiki.jactor2.core.reactors.impl.PoolThreadReactorImpl;
 
@@ -13,7 +14,7 @@ abstract public class PoolThreadReactorStImpl extends ReactorStImpl implements
      *
      * @param _parentReactor         The parent reactor.
      */
-    public PoolThreadReactorStImpl(final NonBlockingReactor _parentReactor) {
+    public PoolThreadReactorStImpl(final IsolationReactor _parentReactor) {
         super(_parentReactor);
     }
 
