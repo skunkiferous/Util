@@ -25,6 +25,8 @@ import org.agilewiki.jactor2.core.util.Timer;
 public abstract class RequestStImpl<RESPONSE_TYPE> implements
         RequestImpl<RESPONSE_TYPE>, Operation<RESPONSE_TYPE> {
 
+    private int messageTimeoutMillis = -1;
+
     /**
      * Assigned to current time when Facility.DEBUG.
      */
@@ -502,5 +504,15 @@ public abstract class RequestStImpl<RESPONSE_TYPE> implements
         final Integer me = hashCode();
         final Integer h = _requestImpl.hashCode();
         return me.compareTo(h);
+    }
+
+    @Override
+    public void setMessageTimeoutMillis(final int _timeoutMillis) {
+        messageTimeoutMillis = _timeoutMillis;
+    }
+
+    @Override
+    public int getMessageTimeoutMillis() {
+        return messageTimeoutMillis;
     }
 }
